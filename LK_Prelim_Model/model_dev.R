@@ -19,7 +19,7 @@ library(readxl)
 library(Metrics)
 
 #Set working directory
-setwd("/Users/lkoval/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofNorthCarolinaatChapelHill/Ragerlab_LabNotebooks - Lauren_Koval/LK_Lab_Notebook/Projects/13_Cloud")
+setwd("LK_Lab_Notebook/Projects/13_Cloud")
 
 #Read in  and format mouse tox data
 tox <- read_xlsx("input/ChemistrywTox_MouseMap_042821.xlsx", sheet=3)
