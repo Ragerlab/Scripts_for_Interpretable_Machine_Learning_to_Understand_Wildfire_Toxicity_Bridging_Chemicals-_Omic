@@ -1,5 +1,25 @@
 rm(list=ls())
 
+
+# install.packages('janitor',dependencies=TRUE)
+# install.packages('reshape2',dependencies=TRUE)
+# install.packages('tidyverse',dependencies=TRUE)
+# install.packages('factoextra',dependencies=TRUE)
+# install.packages('scales',dependencies=TRUE)
+# install.packages('gridExtra',dependencies=TRUE)
+# install.packages('randomForest',dependencies=TRUE)
+# install.packages('caret',dependencies=TRUE)
+# install.packages('parsnip',dependencies=TRUE)
+# install.packages('gt',dependencies=TRUE)
+# install.packages('mltools',dependencies=TRUE)
+# install.packages('naniar',dependencies=TRUE)
+# install.packages('MetBrewer',dependencies=TRUE)
+# install.packages('paletteer',dependencies=TRUE)
+# install.packages('viridis',dependencies=TRUE)
+# install.packages('readxl',dependencies=TRUE)
+# install.packages('Metrics',dependencies=TRUE)
+# install.packages('rlang',dependencies=TRUE)
+
 library(janitor)
 library(reshape2)
 library(tidyverse)
@@ -19,15 +39,10 @@ library(readxl)
 library(Metrics)
 
 #Set working directory
-setwd("LK_Lab_Notebook/Projects/13_Cloud")
+# setwd("LK_Prelim_Model/")
 
 #Read in  and format mouse tox data
-tox <- read_xlsx("input/ChemistrywTox_MouseMap_042821.xlsx", sheet=3)
-neutro <- tox %>%
-  rename("Exposure"="Exposure...1") %>%
-  filter(Exposure!="LPS" & Exposure!="Saline") %>%
-  mutate(Link=paste0(Exposure,"_",MouseID)) %>%
-  select(Exposure, Link,  Neutrophil)
+tox <- read_xlsx("ChemistrywTox_MouseMap_042821.xlsx", sheet=3)
 
 #Isolate injury protein marker (outcome var) from tox dataset 
 injury <- tox %>%
@@ -37,7 +52,7 @@ injury <- tox %>%
   select(Exposure, Link, Injury_Protein) 
 
 #Read in  and format burn chemistry data (predictor vars)
-chem <- read_xlsx("input/ChemistrywTox_MouseMap_042821.xlsx", sheet=2)
+chem <- read_xlsx("ChemistrywTox_MouseMap_042821.xlsx", sheet=2)
 exps <- colnames(select(chem, contains("Flaming") | contains("Smoldering")))
 chem <- chem %>%
   select(Chemical, all_of(exps)) %>%
@@ -62,7 +77,10 @@ ctrl <- trainControl(method='LOOCV',
 # Merge injury protein markers with chemistry data so that each out outcome injury marker protein is associated
 # with the chemistry data for the corresponding burn. 
 injury_df <- merge(injury, chem, by="Exposure", all.x=TRUE)
-injury_df <- injury_df %>% column_to_rownames("Link") %>% select(!Exposure) %>% mutate(across(everything(), as.numeric))
+injury_df <- injury_df %>% 
+             column_to_rownames("Link") %>% 
+             select(!Exposure) %>% 
+             mutate(across(everything(), as.numeric))
 
 
 # Set seed and establish train and test sets to use throughout
@@ -71,7 +89,8 @@ tt_indices <- createDataPartition(y=injury_df$Injury_Protein, p=0.6, list=FALSE)
 
 train_x <- injury_df[tt_indices,]
 train_y <- train_x["Injury_Protein"]
-train_x <- train_x %>% select(!Injury_Protein)
+train_x <- train_x %>% 
+            select(!Injury_Protein)
 # write.csv(train_set,"output/training_data.csv")
 
 
@@ -108,7 +127,9 @@ var_imp_rf_injury <- as.data.frame(importance(rf_final_injury))
 #Apply model to test set
 set.seed(17)
 rf_res_injury <- predict(rf_final_injury, test_x)
-rmse(test_y$Injury_Protein, rf_res_injury)
+print(rmse(test_y$Injury_Protein, rf_res_injury))
+rf_res_injury <- predict(rf_final_injury, train_x)
+print(rmse(train_y$Injury_Protein, rf_res_injury))
 
 
 
