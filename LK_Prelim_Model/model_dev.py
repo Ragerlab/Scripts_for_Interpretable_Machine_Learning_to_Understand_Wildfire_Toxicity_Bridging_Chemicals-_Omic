@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 # Read in and format mouse tox data
-tox = pd.read_excel("ChemistrywTox_MouseMap_042821.xlsx", sheet_name=2)
+tox = pd.read_excel("LK_Prelim_Model/ChemistrywTox_MouseMap_042821.xlsx", sheet_name=2)
 neutro = tox.rename(columns={"Exposure...1": "Exposure"})
 neutro = neutro[(neutro["Exposure"] != "LPS") & (neutro["Exposure"] != "Saline")]
 neutro["Link"] = neutro["Exposure"] + "_" + neutro["MouseID"]
@@ -21,7 +21,7 @@ injury["Link"] = injury["Exposure"] + "_" + injury["MouseID"]
 injury = injury[["Exposure", "Link", "Injury_Protein"]]
 
 # Read in and format burn chemistry data (predictor vars)
-chem = pd.read_excel("ChemistrywTox_MouseMap_042821.xlsx", sheet_name=1)
+chem = pd.read_excel("LK_Prelim_Model/ChemistrywTox_MouseMap_042821.xlsx", sheet_name=1)
 exps = [col for col in chem.columns if "Flaming" in col or "Smoldering" in col]
 chem = chem[["Chemical"] + exps]
 chem = chem.set_index("Chemical").T
