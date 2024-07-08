@@ -1,15 +1,19 @@
 import pysr
 import sympy
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import LassoCV
+from sklearn.model_selection import RepeatedKFold
 import matplotlib.pyplot as plt
 
 # Read in and format mouse tox data
 tox = pd.read_excel("LK_Prelim_Model/ChemistrywTox_MouseMap_042821.xlsx", sheet_name=2)
-neutro = tox.rename(columns={"Exposure...1": "Exposure"})
 neutro = neutro[(neutro["Exposure"] != "LPS") & (neutro["Exposure"] != "Saline")]
 neutro["Link"] = neutro["Exposure"] + "_" + neutro["MouseID"]
 neutro = neutro[["Exposure", "Link", "Neutrophil"]]
@@ -35,6 +39,75 @@ injury_df = injury_df.select_dtypes(include=["number"])
 
 # Set seed and establish train and test sets
 train_x, test_x, train_y, test_y = train_test_split(injury_df.drop("Injury_Protein", axis=1), injury_df["Injury_Protein"], test_size=0.4)
+
+# Reduce dimensionality using PCA
+# Subset data and standardize values
+scaler = StandardScaler()
+pca_sub_scaled = scaler.fit_transform(train_x)
+
+# Create PCA object
+pca = PCA(n_components = 10)
+
+# Fit PCA to data excluding protein injury
+pca.fit(pca_sub_scaled)
+
+# Scree plot
+plt.figure(figsize=(10, 6))
+plt.plot(range(1, len(pca.explained_variance_ratio_) + 1), pca.explained_variance_ratio_, marker='o', linestyle='--')
+plt.title('Scree Plot')
+plt.xlabel('Principal Component')
+plt.ylabel('Variance Explained (%)')
+plt.xticks(np.arange(1, len(pca.explained_variance_ratio_) + 1))
+plt.grid(True)
+plt.show()
+
+# Transform data to principal components
+pca_scores = pca.transform(pca_sub_scaled)
+
+# Scores plot 
+plt.figure(figsize=(10, 6))
+plt.scatter(pca_scores[:, 0], pca_scores[:, 1], alpha=0.8)
+# Add labels based on row names in pca_sub_unique
+for i, label in enumerate(train_x.index):
+    plt.annotate(label, (pca_scores[i, 0], pca_scores[i, 1]))
+plt.title('Scores Plot')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.grid(True)
+plt.show()
+
+# Pull out the top 3 components
+pcs_retain = pca_scores[:,0:3]
+train_x_pca = pd.DataFrame(pcs_retain, columns=['PC1', 'PC2', 'PC3']) # Set column names
+
+# Set the row names
+train_x_pca.index = train_x.index
+
+# Reduce dimensionality using Lasso
+# Perform Lasso with cross-validation to select the best alpha (lambda)
+lasso_cv = LassoCV(cv=3, random_state=17, max_iter = 100000).fit(train_x, train_y)
+
+# Best alpha (lambda) value
+best_alpha = lasso_cv.alpha_
+print(f"Best alpha (lambda) value: {best_alpha}")
+
+# Predicting using the best model
+train_y_pred = lasso_cv.predict(train_x)
+
+# Calculate RMSE
+rmse = root_mean_squared_error(train_y, train_y_pred)
+print(f"RMSE for the selected alpha: {rmse}")
+
+# Get chemical coefficients
+results_df = pd.DataFrame({
+    'Variable': train_x.columns,
+    'Coefficient': lasso_cv.coef_
+})
+
+# Subset to nonzero coefficients 
+nonzero_results = results_df[results_df['Coefficient'] != 0]
+train_x_lasso = train_x[nonzero_results['Variable']]
+
 
 # Train model
 rf_model = RandomForestRegressor(n_estimators=500, random_state=17)
