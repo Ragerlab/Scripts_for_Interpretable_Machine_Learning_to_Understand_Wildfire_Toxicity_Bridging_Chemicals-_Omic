@@ -1,0 +1,11 @@
+Equation
+"add(add(add(div(X6, X4), div(X2, X7)), add(div(X2, X7), add(X4, X4))), div(X2, sub(div(X2, X7), X5)))"
+"add(add(add(-0.728, X4), div(add(add(add(X4, X4), add(add(X4, X4), add(add(X4, div(add(X7, X0), add(add(div(X3, X4), div(X3, X4)), X4))), X4))), X6), mul(0.234, X7))), X4)"
+"add(add(div(add(X4, X6), mul(0.234, X7)), add(div(X2, add(X4, X4)), add(X4, 0.679))), X4)"
+"add(add(div(X6, X4), add(X4, X4)), add(X4, X4))"
+"div(X6, X4)"
+"add(add(add(div(X6, X3), div(X2, add(X4, X4))), add(X4, X4)), add(add(add(div(X6, X4), add(X6, X0)), add(div(X2, X7), add(div(X6, X4), div(X4, X7)))), sub(X2, X5)))"
+"add(add(div(X6, X4), div(X4, 0.517)), div(X2, add(X4, add(div(X2, X7), add(div(X2, X7), div(X6, X4))))))"
+"add(add(add(div(X6, X4), div(X4, X7)), add(X4, X4)), div(X2, X7))"
+"add(add(add(div(X6, X4), div(X2, add(X4, X4))), add(X4, X4)), div(X2, X7))"
+"div(X6, add(X4, X4))"

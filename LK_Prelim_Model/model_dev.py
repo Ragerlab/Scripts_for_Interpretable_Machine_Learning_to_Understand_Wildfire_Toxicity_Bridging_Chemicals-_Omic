@@ -19,6 +19,8 @@ import graphviz
 import feyn
 from feyn.plots import plot_regression
 from feyn.plots import plot_residuals
+from feyn.filters import ContainsFunctions
+import pickle
 
 os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
@@ -64,29 +66,29 @@ pca = PCA(n_components = 10)
 pca.fit(pca_sub_scaled)
 
 # Scree plot
-plt.figure(figsize=(10, 6))
-plt.plot(range(1, len(pca.explained_variance_ratio_) + 1), pca.explained_variance_ratio_, marker='o', linestyle='--')
-plt.title('Scree Plot')
-plt.xlabel('Principal Component')
-plt.ylabel('Variance Explained (%)')
-plt.xticks(np.arange(1, len(pca.explained_variance_ratio_) + 1))
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.plot(range(1, len(pca.explained_variance_ratio_) + 1), pca.explained_variance_ratio_, marker='o', linestyle='--')
+# plt.title('Scree Plot')
+# plt.xlabel('Principal Component')
+# plt.ylabel('Variance Explained (%)')
+# plt.xticks(np.arange(1, len(pca.explained_variance_ratio_) + 1))
+# plt.grid(True)
+# plt.show()
 
 # Transform data to principal components
 pca_scores = pca.transform(pca_sub_scaled)
 
 # Scores plot 
-plt.figure(figsize=(10, 6))
-plt.scatter(pca_scores[:, 0], pca_scores[:, 1], alpha=0.8)
-# Add labels based on row names in pca_sub_unique
-for i, label in enumerate(train_x.index):
-    plt.annotate(label, (pca_scores[i, 0], pca_scores[i, 1]))
-plt.title('Scores Plot')
-plt.xlabel('Principal Component 1')
-plt.ylabel('Principal Component 2')
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.scatter(pca_scores[:, 0], pca_scores[:, 1], alpha=0.8)
+# # Add labels based on row names in pca_sub_unique
+# for i, label in enumerate(train_x.index):
+#     plt.annotate(label, (pca_scores[i, 0], pca_scores[i, 1]))
+# plt.title('Scores Plot')
+# plt.xlabel('Principal Component 1')
+# plt.ylabel('Principal Component 2')
+# plt.grid(True)
+# plt.show()
 
 # Pull out the top 4 components
 pcs_retain = pca_scores[:,0:4]
@@ -187,23 +189,24 @@ results_rf_df
 
 # Run SRA using pysr
 # Define function to clean up names for pysr
-def clean_expression(expr):
-    # Remove unwanted characters and spaces
-    expr = re.sub(r'\s+', '', expr)
-    
-    # Replace multiple adjacent operators
-    expr = re.sub(r'\++', '+', expr)
-    expr = re.sub(r'--', '+', expr)
-    expr = re.sub(r'-\+', '-', expr)
-    expr = re.sub(r'\+-', '-', expr)
-    
-    # Ensure all variables and numbers are correctly formatted
-    expr = re.sub(r'([a-zA-Z])(\d)', r'\1_\2', expr)
-    expr = re.sub(r'(\d)([a-zA-Z])', r'\1_\2', expr)
-    
-    return expr
+def clean_column_names(df):
+    new_columns = []
+    for col in df.columns:
+        if col == 'S':
+            new_columns.append('Sulphur')
+        elif col == 'Si':
+            new_columns.append('Silicon')
+        else:
+            cleaned_col = re.sub(r'\W+', '', col)
+            cleaned_col = re.sub(r'([a-zA-Z])(\d)', r'\1_\2', cleaned_col)
+            cleaned_col = re.sub(r'(\d)([a-zA-Z])', r'\1_\2', cleaned_col)
+            if cleaned_col[0].isdigit():
+                cleaned_col = 'var' + cleaned_col
+            new_columns.append(cleaned_col)
+    df.columns = new_columns
+    return df
 
-# Clean names 
+# Clean names
 train_x = clean_column_names(train_x)
 train_x_pca = clean_column_names(train_x_pca)
 train_x_lasso = clean_column_names(train_x_lasso)
@@ -260,9 +263,20 @@ for i in range(len(train_input_dict)):
     end_time = time.time()
     time_taken = end_time - start_time
 
-    # Save model
+    # Get top 10 models
+    equations = discovered_model.equations_
+    df_equations = pd.DataFrame(equations) # Convert the equations to a DataFrame
+
+    # Save the DataFrame to a CSV file
+    file_name = f'Models/pysr/pysr_HOF_{keys[i]}.csv'
+    df_equations.to_csv(file_name, index=False)
     print(discovered_model)
     
+    # Save the model to a file
+    file_name = f'Models/pysr/pysr_model_{keys[i]}.pkl'
+    with open(file_name, 'wb') as model_file:
+        pickle.dump(discovered_model, model_file)
+
     # Pysr Train RMSE 
     y_train = discovered_model.predict(df_train.values)
     train_pysr_rmse = root_mean_squared_error(train_y, y_train)
@@ -291,6 +305,7 @@ for i in range(len(train_input_dict)):
 
     # Store results in DataFrame
     results_pysr_df.loc[key] = [train_pysr_rmse, test_pysr_rmse, time_taken]
+# Print final results  
 results_pysr_df
 
 
@@ -304,6 +319,10 @@ for i in range(len(train_input_dict)):
     key = keys[i]
     df_train = train_input_dict[key]
     df_test = test_input_dict[key]
+
+    # Note column names to later fix gplearn output
+    column_names = df_train.columns.tolist()
+    column_mapping = {f'X{i}': name for i, name in enumerate(column_names)}
 
     # Set model parameters - https://gplearn.readthedocs.io/en/stable/reference.html#symbolic-regressor
     est_gp = SymbolicRegressor(population_size=5000,
@@ -324,13 +343,39 @@ for i in range(len(train_input_dict)):
     # Print final equation 
     print(est_gp._program)
 
+    # Extract the top 10 equations from the last generation
+    top_10_equations = est_gp._programs[-1][:10]
+
+    # Convert equations to sympy readable format and store in a list
+    sympy_equations = []
+    for program in top_10_equations:
+            equation = str(program)
+            for placeholder, actual_name in column_mapping.items():
+                equation = equation.replace(placeholder, actual_name)
+            sympy_equations.append(equation)
+
+    sympy_equations = []
+    for program in top_10_equations:
+        sympy_equations.append(str(program))
+
+    # Convert the equations to a DataFrame
+    df_equations = pd.DataFrame(sympy_equations, columns=['Equation'])
+
+    # Save the DataFrame to a CSV file
+    file_name = f'Models/gplearn/gplearn_HOF_{key}.csv'
+    df_equations.to_csv(file_name, index=False)
+
+      # Save the model to a file
+    file_name = f'Models/gplearn/gplearn_model_{keys[i]}.pkl'
+    with open(file_name, 'wb') as model_file:
+        pickle.dump(est_gp, model_file)
 
     # Plot final tree dot_data = est_gp._program.export_graphviz()
-    dot_data = est_gp._program.export_graphviz()
-    graph = graphviz.Source(dot_data)
-    file_name = f'gplearn/images/ex1_child_{keys[i]}'
-    graph.render(file_name, format='png', cleanup=True)
-    graph
+    # dot_data = est_gp._program.export_graphviz()
+    # graph = graphviz.Source(dot_data)
+    # file_name = f'gplearn/images/ex1_child_{keys[i]}'
+    # graph.render(file_name, format='png', cleanup=True)
+    # graph
 
     # gplearn Train RMSE 
     y_train = est_gp.predict(df_train.values)
@@ -383,16 +428,30 @@ for i in range(len(train_input_dict)):
                             output_name='Injury_Protein',
                             kind = 'regression',
                             n_epochs = 10,
-                            stypes={"operators": '* / + -'}, 
-                            # loss_function = 'rmse' # Need to fix this 
+                            loss_function = 'absolute_error'
                             )
     end_time = time.time()
     time_taken = end_time - start_time
+    
+    # Extract the top 10 models
+    top_10_models = models[:10]
 
-    # Select the best Model
+    # Convert models to sympy readable format and store in a list
+    sympy_models = []
+    for model in top_10_models:
+        sympy_model = model.sympify(signif=3)
+        sympy_models.append(str(sympy_model.as_expr()))
+    
+    # Save the equations to a DataFrame
+    df_equations = pd.DataFrame(sympy_models, columns=['Equation'])
+    file_name = f'Models/feyn/feyn_HOF_{key}.csv'
+    df_equations.to_csv(file_name, index=False)
+
+    # Save the model to a file
     best = models[0]
-    sympy_model = best.sympify(signif=3)
-    sympy_model.as_expr()
+    file_name = f'Models/feyn/feyn_model_{keys[i]}.pkl'
+    with open(file_name, 'wb') as model_file:
+        pickle.dump(best, model_file)
 
     # gplearn Train RMSE 
     y_train = best.predict(df_train)
@@ -422,4 +481,4 @@ for i in range(len(train_input_dict)):
 
     # Store results in DataFrame
     results_feyn_df.loc[key] = [train_gp_rmse, test_gp_rmse, time_taken]
-results_feyn_df
+results_feyn_df    

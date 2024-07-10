@@ -1,0 +1,11 @@
+Equation
+"add(add(mul(X77, X27), add(add(X74, X82), mul(X77, X27))), div(add(X73, X28), add(X84, X21)))"
+"add(add(mul(X77, X77), X27), div(add(X73, X28), add(X84, X21)))"
+"add(div(sub(X73, X28), add(X84, X21)), add(X85, X13))"
+"add(div(X54, X46), add(X84, X21))"
+"div(X54, X46)"
+"add(add(mul(X77, X27), div(X34, X83)), div(add(X73, X28), add(X84, X57)))"
+"add(div(add(X73, X28), add(X84, X21)), add(mul(X77, X27), div(X54, X46)))"
+"add(add(add(mul(X77, X27), sub(X34, X83)), add(X76, X8)), div(add(X73, X28), add(X84, X21)))"
+"add(div(X54, X46), add(mul(X77, X27), X28))"
+"div(X54, X46)"
