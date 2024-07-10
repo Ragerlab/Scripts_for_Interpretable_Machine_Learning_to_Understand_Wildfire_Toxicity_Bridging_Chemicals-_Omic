@@ -1,0 +1,11 @@
+Equation
+"sub(div(-0.592, -0.015), sub(sub(X1, X1), add(add(sub(X2, sub(X0, X3)), sub(div(X0, -0.389), add(0.350, 0.728))), div(X2, 0.279))))"
+"add(add(div(-0.592, -0.015), sub(div(add(X3, X2), div(-0.592, -0.015)), sub(X3, X3))), add(add(div(-0.592, -0.015), sub(X2, sub(X0, X3))), X2))"
+"add(add(sub(div(X0, -0.389), sub(X2, X2)), X2), add(div(-0.592, -0.015), div(X1, X2)))"
+"add(add(X2, X2), add(div(-0.592, -0.015), sub(add(add(div(-0.592, -0.015), X2), sub(X0, X3)), mul(div(X2, X1), -0.592))))"
+"sub(div(X0, -0.389), sub(X3, X3))"
+"add(add(add(div(-0.592, 0.243), X2), X2), add(add(div(-0.592, -0.015), sub(div(X0, -0.389), sub(X3, X3))), X2))"
+"sub(add(div(-0.592, -0.015), sub(X2, sub(X0, X3))), sub(div(X1, X2), add(div(-0.592, -0.015), div(add(add(div(-0.592, -0.015), sub(div(X0, -0.389), sub(X3, X3))), div(X2, 0.279)), 0.279))))"
+"add(add(div(-0.592, -0.015), sub(div(sub(X2, -0.257), div(X2, X2)), sub(X3, X3))), add(add(div(-0.592, -0.015), sub(X2, sub(X0, X3))), X2))"
+"add(div(-0.592, -0.015), add(add(div(-0.592, -0.015), sub(X2, X0)), div(X2, 0.279)))"
+"div(-0.592, -0.015)"
