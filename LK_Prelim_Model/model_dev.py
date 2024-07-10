@@ -11,9 +11,12 @@ from sklearn.linear_model import Lasso
 from sklearn.linear_model import LassoCV
 from sklearn.model_selection import RepeatedKFold
 import matplotlib.pyplot as plt
+import time
+
 
 # Read in and format mouse tox data
 tox = pd.read_excel("LK_Prelim_Model/ChemistrywTox_MouseMap_042821.xlsx", sheet_name=2)
+neutro = tox.rename(columns={"Exposure...1": "Exposure"})
 neutro = neutro[(neutro["Exposure"] != "LPS") & (neutro["Exposure"] != "Saline")]
 neutro["Link"] = neutro["Exposure"] + "_" + neutro["MouseID"]
 neutro = neutro[["Exposure", "Link", "Neutrophil"]]
@@ -83,6 +86,19 @@ train_x_pca = pd.DataFrame(pcs_retain, columns=['PC1', 'PC2', 'PC3']) # Set colu
 # Set the row names
 train_x_pca.index = train_x.index
 
+# Standardize the test data using the same scaler fitted on the training data
+test_x_scaled = scaler.transform(test_x)
+
+# Transform test data to principal components using the same PCA model
+test_pca_scores = pca.transform(test_x_scaled)
+
+# Pull out the top 3 components for test data
+pcs_retain_test = test_pca_scores[:, 0:3]
+test_x_pca = pd.DataFrame(pcs_retain_test, columns=['PC1', 'PC2', 'PC3'])
+
+# Set the row names for test data
+test_x_pca.index = test_x.index
+
 # Reduce dimensionality using Lasso
 # Perform Lasso with cross-validation to select the best alpha (lambda)
 lasso_cv = LassoCV(cv=3, random_state=17, max_iter = 100000).fit(train_x, train_y)
@@ -107,34 +123,57 @@ results_df = pd.DataFrame({
 # Subset to nonzero coefficients 
 nonzero_results = results_df[results_df['Coefficient'] != 0]
 train_x_lasso = train_x[nonzero_results['Variable']]
+test_x_lasso = test_x[nonzero_results['Variable']]
 
+# Create dictionary containing full input, PCA-reduced input, and Lasso-reduced input
+train_input_dict = {'Full': train_x, 'PCA': train_x_pca, 'Lasso': train_x_lasso}
+test_input_dict = {'Full': test_x, 'PCA': test_x_pca, 'Lasso': test_x_lasso}
 
-# Train model
-rf_model = RandomForestRegressor(n_estimators=500, random_state=17)
-rf_model.fit(train_x, train_y)
+# Convert dictionary keys to a list
+keys = list(train_input_dict.keys())
 
-# Extract variable importance
-importances = rf_model.feature_importances_
-var_imp_rf_injury = pd.DataFrame({"Feature": train_x.columns, "Importance": importances})
-var_imp_rf_injury = var_imp_rf_injury.sort_values("Importance", ascending=False)
+# Initialize a DataFrame to store results
+results_df = pd.DataFrame(columns=["Training RMSE", "Test RMSE", "Time Taken"])
 
-# Get training data RMSE 
-train_pred = rf_model.predict(train_x)
-rmse = root_mean_squared_error(train_y, train_pred)
-print(f"Train RMSE: {rmse:.2f}")
+# Iterate through inputs and run random forest model
+for i in range(len(train_input_dict)):
+    # Subset to relevant input
+    key = keys[i]
+    df_train = train_input_dict[key]
+    df_test = test_input_dict[key]
 
-# Apply model to test set
-test_pred = rf_model.predict(test_x)
-rmse = root_mean_squared_error(test_y, test_pred)
-print(f"Test RMSE: {rmse:.2f}")
+    # Model parameters
+    rf_model = RandomForestRegressor(n_estimators=500, random_state=17)
 
-# Plot variable importance
-# plt.figure(figsize=(10, 6))
-# var_imp_rf_injury.plot(kind="bar", x="Feature", y="Importance")
-# plt.title("Variable Importance Plot")
-# plt.xlabel("Feature")
-# plt.ylabel("Importance")
-# plt.show()
+    # Run and time model
+    start_time = time.time()
+    rf_model.fit(df_train, train_y)
+    end_time = time.time()
+    time_taken = end_time - start_time
+
+    # Extract variable importance
+    importances = rf_model.feature_importances_
+    var_imp_rf_injury = pd.DataFrame({"Feature": df_train.columns, "Importance": importances})
+    var_imp_rf_injury = var_imp_rf_injury.sort_values("Importance", ascending=False)
+
+    # Get training data RMSE 
+    train_pred = rf_model.predict(df_train)
+    train_rmse = root_mean_squared_error(train_y, train_pred)
+
+    # Apply model to test set
+    test_pred = rf_model.predict(df_test)
+    test_rmse = root_mean_squared_error(test_y, test_pred)
+
+    # Plot variable importance
+    plt.figure(figsize=(10, 6))
+    var_imp_rf_injury.plot(kind="bar", x="Feature", y="Importance")
+    plt.title("Variable Importance Plot")
+    plt.xlabel("Feature")
+    plt.ylabel("Importance")
+    plt.show()
+
+    # Store results in DataFrame
+    results_df.loc[key] = [train_rmse, test_rmse, time_taken]
 
 default_pysr_params = dict(
     populations = 10,
