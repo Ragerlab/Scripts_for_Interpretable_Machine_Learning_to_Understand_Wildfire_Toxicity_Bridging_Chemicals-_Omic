@@ -1,11 +1,11 @@
 Equation
-72.3*(1.54 - 0.00048*Na)*(-0.535*Cr - 1.24)*(0.00402*Dibenzofuran + exp(-0.398*(1 - 0.00532*Levoglucosan)**2 - 0.176*(-0.00385*Silicon - 1)**2) + 0.372) + 198.0
-154.0 - 245.0*exp(-2.0*(-0.000197*Levoglucosan + (0.0106*Coniferylaldehyde - 1.58)*exp(-0.49*(0.121*PO4 - 1)**2 - 1.32*(Retene - 0.539)**2) + 0.197)**2 - 1.05*exp(-6.68*Chrysene))
-169.0*exp(-0.958*(1 - 0.638*Hexacosane)**2 - 157.0*(1 - 0.247*Pb)**2*(0.644*var35Dimethoxyphenol - 1)**2*(0.747*Benzoghiperylene + Squalane - 0.241)**2) + 45.6
-92.6*exp(-1.76*(1 - 0.059*Ethylguaiacol)**2*(0.0936*PO4 - 1)**2 - 679.0*(1 - 0.00126*Levoglucosan)**2*(NO3 - 0.302*var2Methylnaphthalene - 0.0437)**2) + 45.5
--58.9*(0.399*Phenanthrene - 2.07)*exp(-0.946*(0.00221*Sulphur - 1)**2*(0.558*Dibenzofuran + 0.158 + exp(-0.00647*Na))**2 - 56.1*(var26Dimethylnaphthalene + 0.00736)**2) + 45.7
-49.3*tanh(6.7*Cd + 0.003*Levoglucosan - exp(-0.0545*(1 - 0.178*Fe)**2 - 0.0115*(Ni + 0.378)**2) - 0.818) + 87.5
-219.0*tanh(exp(-31.4*(Benzokfluoranthene - 0.144)**2 - 131.0*(-0.407*Cd + 0.183*Nonadecane - var1Methylnaphthalene + 0.208)**2)) + 45.9
-97.8*tanh(1.09*Cd - 0.945*var1Methylnaphthalene - exp(-11000.0*(0.0194 - NO3)**2 - 0.549*(0.749 - Mn)**2) + 0.0276) + 98.0
-147.0 - 104.0*exp(-3.96*(Anthracene - 0.0106*Ethylguaiacol - 0.249)**2 - 2.64*(-0.000685*Levoglucosan + 0.87*(0.0033*P + 1.32)*(0.00033*Silicon + 0.893) - 1)**2)
-102.0*(0.00326*Zn - 0.293)*(-2.67*Naphthalene + 0.0627*Retene - 0.141) + 102.0*exp(-1.2*(1 - 0.0496*Ba)**2 - 127.0*(Tridecane - 0.0876)**2) + 44.4
+598.0*(Anthracene - 0.277)**2 + 47.0
+671.0*(Anthracene - 0.0175*Ti - 0.249)**2 + 42.6
+13.7*Acenaphthylene + 19.6*Ti + 50.8
+30.7*Acenaphthylene + 0.0267*Si + 49.9
+11.0*Fluorene + 710.0*(Anthracene - 0.288)**2 + 36.7
+914.0*(-Anthracene + 0.209*Benz(a)anthracene + 0.242)**2 + 38.3
+-61.0*Cl + 36.1*Ti + 51.0
+1.15*Ni + 543.0*(Anthracene - 0.267)**2 + 46.2
+-228.0*NH4 + 25.6*Ti + 52.4
+-0.123*Zn + 35.5*tanh(0.126*P - 1.73) + 82.3

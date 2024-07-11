@@ -22,7 +22,7 @@ from feyn.plots import plot_residuals
 from feyn.filters import ContainsFunctions
 import pickle
 
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Read in and format mouse tox data
 tox = pd.read_excel("LK_Prelim_Model/ChemistrywTox_MouseMap_042821.xlsx", sheet_name=2)
