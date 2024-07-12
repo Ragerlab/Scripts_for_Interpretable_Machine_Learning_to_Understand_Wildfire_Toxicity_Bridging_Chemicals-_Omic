@@ -1,11 +1,1 @@
 Equation
-598.0*(Anthracene - 0.277)**2 + 47.0
-671.0*(Anthracene - 0.0175*Ti - 0.249)**2 + 42.6
-13.7*Acenaphthylene + 19.6*Ti + 50.8
-30.7*Acenaphthylene + 0.0267*Si + 49.9
-11.0*Fluorene + 710.0*(Anthracene - 0.288)**2 + 36.7
-914.0*(-Anthracene + 0.209*Benz(a)anthracene + 0.242)**2 + 38.3
--61.0*Cl + 36.1*Ti + 51.0
-1.15*Ni + 543.0*(Anthracene - 0.267)**2 + 46.2
--228.0*NH4 + 25.6*Ti + 52.4
--0.123*Zn + 35.5*tanh(0.126*P - 1.73) + 82.3

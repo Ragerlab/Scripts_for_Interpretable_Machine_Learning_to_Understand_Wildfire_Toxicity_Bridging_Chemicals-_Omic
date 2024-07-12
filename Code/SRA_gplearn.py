@@ -35,7 +35,7 @@ for i in range(len(train_input_dict)):
 
     # Set model parameters - https://gplearn.readthedocs.io/en/stable/reference.html#symbolic-regressor
     est_gp = SymbolicRegressor(population_size=1000,
-                            generations=20, 
+                            generations=10000, 
                             p_crossover=0.9, 
                             metric = 'rmse', 
                             function_set = ('add', 'sub', 'mul', 'div'))
@@ -112,3 +112,7 @@ for i in range(len(train_input_dict)):
     # Store results in DataFrame
     results_gp_df.loc[key] = [train_gp_rmse, test_gp_rmse, time_taken]
 results_gp_df
+
+# Save model comparisons to csv
+file_name = f'Models/gplearn/gplearn_model_comparison.csv'
+results_gp_df.to_csv(file_name, index=False)
