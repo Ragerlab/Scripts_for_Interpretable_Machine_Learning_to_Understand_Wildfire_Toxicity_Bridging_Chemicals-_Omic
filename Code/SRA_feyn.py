@@ -6,6 +6,10 @@ from sklearn.metrics import root_mean_squared_error
 from feyn.plots import plot_regression
 from feyn.plots import plot_residuals
 import feyn
+from feyn.filters import ExcludeFunctions
+from feyn.filters import ContainsFunctions
+
+
 
 # Load in input dictionaries and response variables
 with open('Data_inputs/train_input_dict.pkl', 'rb') as f:
@@ -29,21 +33,57 @@ for i in range(len(train_input_dict)):
     df_train['Injury_Protein'] = train_y
     df_test = test_input_dict[key]
 
-    # Set up QLattice 
-    ql = feyn.QLattice(random_seed = 17)
-
-    # Run and time model 
+    # Start timer
     start_time = time.time()
-    models = ql.auto_run(data=df_train,
-                            output_name='Injury_Protein',
-                            kind = 'regression',
-                            n_epochs = 10,
-                            loss_function = 'absolute_error'
-                            )
+
+    # Instantiate a QLattice
+    ql = feyn.QLattice()
+
+    # Initate an empty list of models
+    models = []
+
+    # Define how many epochs to run the simulation for
+    n_epochs = 10
+
+    # Compute prior probability of inputs based on mutual information
+    priors = feyn.tools.estimate_priors(df_train, 'Injury_Protein')
+
+    # Update the QLattice with priors
+    ql.update_priors(priors)
+
+    for epoch in range(n_epochs):
+        # Sample models from the QLattice, and add them to the list
+        models += ql.sample_models(df_train, 'Injury_Protein', 'regression')
+
+        # Filter to models that only contain: +, =, *, /
+        f = ContainsFunctions(["add", "multiply", "inverse"])
+        models = list(filter(f, models))
+
+        # Fit the list of models. Returns a list of models sorted by absolute error 
+        models = feyn.fit_models(models, df_train, 'absolute_error')
+
+        # Display the best model in the current epoch
+        feyn.show_model(models[0], label=f"Epoch: {epoch}", update_display=True)
+
+        # Update QLattice with the fitted list of models (sorted by loss)
+        ql.update(models)
+
+    # Stop timer 
     end_time = time.time()
     time_taken = end_time - start_time
-    
-    # Extract the top 10 models
+
+    # Run and time model 
+    # start_time = time.time()
+    # models = ql.auto_run(data=df_train,
+    #                         output_name='Injury_Protein',
+    #                         kind = 'regression',
+    #                         n_epochs = 10,
+    #                         loss_function = 'absolute_error'
+    #                         )
+    # end_time = time.time()
+    # time_taken = end_time - start_time
+
+    # Pull out the top 10 models
     top_10_models = models[:10]
 
     # Convert models to sympy readable format and store in a list
@@ -92,3 +132,7 @@ for i in range(len(train_input_dict)):
     # Store results in DataFrame
     results_feyn_df.loc[key] = [train_gp_rmse, test_gp_rmse, time_taken]
 results_feyn_df    
+
+# Save model comparisons to csv
+file_name = f'Models/feyn/feyn_model_comparison.csv'
+results_feyn_df.to_csv(file_name, index=False)

@@ -75,7 +75,7 @@ for i in range(len(train_clean)):
     """
     # Set up model 
     discovered_model = pysr.PySRRegressor(
-        niterations=50,
+        niterations=10000,
         # unary_operators=['exp','log'],
         binary_operators=["-", "+", "*", "/"],
         # binary_operators=["-", "+", "*", "/", "^"],
@@ -137,3 +137,7 @@ for i in range(len(train_clean)):
     
 # Print final results  
 results_pysr_df
+
+# Save model comparisons to csv
+file_name = f'Models/pysr/pysr_model_comparison.csv'
+results_pysr_df.to_csv(file_name, index=False)
