@@ -8,6 +8,14 @@ from sklearn.metrics import root_mean_squared_error
 import re
 from feyn.plots import plot_regression
 from feyn.plots import plot_residuals
+import matplotlib.pyplot as plt
+import os
+
+# Set working directory
+os.chdir("/nas/longleaf/home/jrchapp3/NIH_Cloud_NOSI")
+
+# Set seed
+np.random.seed(17)
 
 # Load in input dictionaries and response variables
 with open('Data_inputs/train_input_dict.pkl', 'rb') as f:
@@ -36,6 +44,43 @@ def clean_column_names(df):
             new_columns.append(cleaned_col)
     df.columns = new_columns
     return df
+
+
+# Function to extract column names from a lambda_format equation
+def extract_variables(equation):
+    # Define the pattern to match variable names, including underscores
+    pattern = r'\b[A-Za-z_][A-Za-z0-9_]*\b'
+    
+    # Find all matches of the pattern in the equation
+    matches = re.findall(pattern, equation)
+    
+    # Filter out common keywords that are not variable names
+    keywords = {'X', 'PySRFunction', 'X=>'}
+    
+    # Remove duplicates and filter keywords
+    variables = list({match for match in matches if match not in keywords})
+    
+    return variables
+
+# Function to evaluate lambda_format equation
+def evaluate_equation(equation, df):
+    # Remove the prefix 'PySRFunction(X=>'
+    formula = equation.replace('PySRFunction(X=>', '').rstrip(')')
+    
+    # Check for and correct missing parentheses
+    open_parentheses = formula.count('(')
+    close_parentheses = formula.count(')')
+    if open_parentheses > close_parentheses:
+        formula += ')' * (open_parentheses - close_parentheses)
+    
+    # Evaluate the formula using the subset DataFrame
+    y_pred = df.eval(formula)
+
+    # Create exception for when only a constant returned
+    if isinstance(y_pred, (int, float)):  # Check if y_pred is a single number
+            y_pred = pd.Series([y_pred] * len(df), index=df.index)
+    
+    return y_pred
 
 # Clean names
 train_clean = {key: clean_column_names(df) for key, df in train_input_dict.items()}
@@ -75,23 +120,95 @@ for i in range(len(train_clean)):
     """
     # Set up model 
     discovered_model = pysr.PySRRegressor(
-        niterations=10000,
+        niterations=1,
         # unary_operators=['exp','log'],
         binary_operators=["-", "+", "*", "/"],
         # binary_operators=["-", "+", "*", "/", "^"],
         loss_function=loss_function,
         **default_pysr_params,
-        temp_equation_file=True
+        temp_equation_file=True, 
+        warm_start= True
     )
 
-    # Run and time model 
+    # - https://github.com/MilesCranmer/PySR/discussions/439#discussioncomment-7330778
+    # Initialize a DataFrame to store results
+    results_rmse = pd.DataFrame(columns=["Iteration", "RMSE", "Complexity", "Equation"])
+
+    # Start timer 
     start_time = time.time()
-    discovered_model.fit(df_train.values, 
+
+    # Iterate through generations
+    for j in range(1000):
+
+        # Fit model
+        discovered_model.fit(df_train.values, 
                         train_y.values,
                         variable_names=df_train.columns.tolist()
-                        )    
+                        ) 
+        
+        # Extract equations
+        equations = discovered_model.equations_
+    
+        # Evaluate RMSE for each equation
+        for k in range(len(equations)):
+            # Filter to the kth equation
+            cur_eq = equations.iloc[k]['lambda_format']
+
+            # Note complexity
+            comp = equations.iloc[k]['complexity']
+            
+            # Subset training data to only retain the variables in the kth equation 
+            cur_eq_str = str(cur_eq)
+            cols = extract_variables(cur_eq_str)
+            df_subset = df_train[cols]
+
+            # Predict the outcome
+            y_pred = evaluate_equation(cur_eq_str, df_subset)
+
+            # Calculate RMSE
+            rmse = root_mean_squared_error(y_pred, train_y)
+
+            # Update results
+            results_rmse = results_rmse._append({
+                "Iteration": j + 1,
+                "RMSE": rmse,
+                "Complexity": comp,
+                "Equation": cur_eq_str
+            }, ignore_index=True)
+
+    # Plot results every 100 iterations
+        # if (j + 1) % 100 == 0:
+        #     plt.figure()
+        #     for comp in results_rmse['Complexity'].unique():
+        #         subset = results_rmse[results_rmse['Complexity'] == comp]
+        #         plt.plot(subset['Iteration'], subset['RMSE'], marker='.', linestyle='', label=f'Complexity {comp}')
+
+        #     plt.xlabel('Iteration')
+        #     plt.ylabel('RMSE')
+        #     plt.title(f'{key} - Iteration {j + 1}')
+        #     plt.legend()
+        #     plt.show()
+
+    # Save the complete plot with all iterations
+    results_rmse['RMSE'] = np.log(results_rmse['RMSE'])
+    plt.figure()
+    for comp in results_rmse['Complexity'].unique():
+        subset = results_rmse[results_rmse['Complexity'] == comp]
+        plt.plot(subset['Iteration'], subset['RMSE'], marker='.', linestyle='', label=f'Complexity {comp}')
+
+    plt.xlabel('Iteration')
+    plt.ylabel('log(RMSE)')
+    plt.title(f'{key} - RMSE Sensitivity')
+    plt.legend()
+    plt.savefig(f'images/pysr/pysr_rmse_sensitivity_{key}_complete.png')
+
+    # End timer and calculate time taken 
     end_time = time.time()
     time_taken = end_time - start_time
+
+    # Save RMSE results to csv
+    file_name = f'Models/pysr/pysr_RMSE_sensitivity_{key}.csv'
+    results_rmse.to_csv(file_name, index=False)
 
     # Get top 10 models
     equations = discovered_model.equations_

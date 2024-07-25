@@ -5,7 +5,6 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
-
 # Read in data
 train_x = pd.read_pickle("Data_inputs/train_x")
 test_x = pd.read_pickle("Data_inputs/test_x")
