@@ -6,6 +6,8 @@ from sklearn.linear_model import LassoCV
 from sklearn.model_selection import RepeatedKFold
 from sklearn.metrics import root_mean_squared_error
 
+# Set seed
+np.random.seed(17)
 
 # Read in data
 train_x = pd.read_pickle("Data_inputs/train_x")

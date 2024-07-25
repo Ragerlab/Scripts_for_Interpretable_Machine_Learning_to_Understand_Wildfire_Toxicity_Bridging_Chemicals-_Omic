@@ -6,6 +6,9 @@ import time
 from sklearn.metrics import root_mean_squared_error
 import os
 
+# Set seed
+np.random.seed(17)
+
 # Read in all inputs
 # Full input
 train_x = pd.read_pickle("Data_inputs/train_x")
@@ -76,4 +79,10 @@ for i in range(len(train_input_dict)):
 
     # Store results in DataFrame
     results_rf_df .loc[key] = [train_rmse, test_rmse, time_taken]
+
+# Print final results
 results_rf_df 
+
+# Save model comparisons to csv
+file_name = f'Models/rf/rf_model_comparison.csv'
+results_rf_df.to_csv(file_name, index=False)

@@ -4,9 +4,8 @@ import os
 from sklearn.model_selection import train_test_split
 import pickle
 
-
 # Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Read in and format mouse tox data
 tox = pd.read_excel("LK_Prelim_Model/ChemistrywTox_MouseMap_042821.xlsx", sheet_name=2)
@@ -29,6 +28,14 @@ chem = chem.rename(columns={"index": "Exposure"})
 injury_df = pd.merge(injury, chem, on="Exposure", how="left")
 injury_df = injury_df.set_index("Link")
 injury_df = injury_df.select_dtypes(include=["number"])
+
+# Check for outliers
+injury = injury_df["Injury_Protein"]
+inj_mean = injury.mean()
+inj_std = injury.std()
+low_thresh = inj_mean - 3 * inj_std
+up_thresh = inj_mean + 3 * inj_std
+injury_df = injury_df[(injury_df["Injury_Protein"] >= low_thresh) & (injury_df["Injury_Protein"] <= up_thresh)]
 
 # Set seed and establish train and test sets
 np.random.seed(17)

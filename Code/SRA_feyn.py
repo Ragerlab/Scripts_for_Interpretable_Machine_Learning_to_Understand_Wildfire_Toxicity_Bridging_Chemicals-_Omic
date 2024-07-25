@@ -9,8 +9,6 @@ import feyn
 from feyn.filters import ExcludeFunctions
 from feyn.filters import ContainsFunctions
 
-
-
 # Load in input dictionaries and response variables
 with open('Data_inputs/train_input_dict.pkl', 'rb') as f:
     train_input_dict = pickle.load(f)    
@@ -42,22 +40,19 @@ for i in range(len(train_input_dict)):
     # Initate an empty list of models
     models = []
 
-    # Define how many epochs to run the simulation for
-    n_epochs = 10
-
     # Compute prior probability of inputs based on mutual information
     priors = feyn.tools.estimate_priors(df_train, 'Injury_Protein')
 
     # Update the QLattice with priors
     ql.update_priors(priors)
 
-    for epoch in range(n_epochs):
+    for epoch in range(1000):
         # Sample models from the QLattice, and add them to the list
         models += ql.sample_models(df_train, 'Injury_Protein', 'regression')
 
         # Filter to models that only contain: +, =, *, /
-        f = ContainsFunctions(["add", "multiply", "inverse"])
-        models = list(filter(f, models))
+        # f = ContainsFunctions(["add", "multiply", "inverse"])
+        # models = list(filter(f, models))
 
         # Fit the list of models. Returns a list of models sorted by absolute error 
         models = feyn.fit_models(models, df_train, 'absolute_error')
