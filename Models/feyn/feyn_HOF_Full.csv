@@ -1,1 +1,11 @@
 Equation
+75.2*exp(-9.45*(1 - 0.0489*Acetosyringone)**2*exp(-97.3*(Cd - 0.0586)**2 - 0.764*(Ti - 0.46)**2) - 2.0*tanh(exp(-0.0803*(0.0125*S + 1)**2))**2) + 52.2
+182.0*exp(-0.000122*(1 - 0.0048*Docosane)**2 - 2.0*(-0.0551*Pentacosane + exp(-3.58*(Fluoranthene - 0.673)**2 - 0.144*(0.00157*Si + 1)**2) + 0.778)**2) + 47.8
+75.9*exp(-0.427*(1 - 0.259*Docosane)**2 - 5.63*(0.103*Pentacosane - 1)**2*exp(-6.76*(Fluoranthene - 0.618)**2 - 0.0225*(0.00618*Si - 1)**2)) + 50.5
+111.0 - 64.7*exp(-4.61*(0.894 - Fluorene)**2*(-0.1*Ni + exp(-3.45*(1 - 0.00201*Ca)**2 - 5.41*(0.0536*P - 1)**2) + 0.4)**2 - 26.9*(Benz(a)anthracene - 0.096)**2)
+71.0*exp(-0.366*(1 - 0.278*Docosane)**2 - 6.41*(1 - 0.111*Pentacosane)**2*exp(-7.17*(0.617 - Fluoranthene)**2 - 0.00994*(1 - 0.00911*Si)**2)) + 51.1
+8.2*Tetradecane + 88.1*exp(-1.94*(1 - 0.55*Mn)**2 - 12.8*(0.111*Ni - 1)**2*exp(-15.0*(Acenaphthylene - 0.243)**2 - 0.668*(0.013*Syringealdehyde - 1)**2)) + 50.3
+37.0*exp(-2.61*(0.203 - SO4)**2 - 9.02*(1-Methylnaphthalene - 0.0145)**2*(0.906*Acenaphthylene - 1)**2) + 38.0 + 37.0*exp(-3770.0*(0.141 - Benzo(e)pyrene)**2*(3-Methylnonadecane - 0.855)**2)
+0.698*Acetosyringone - 55.5*exp(-0.0142*(1 - 0.00727*Si)**2*(0.235*Nonacosane - 1)**2 - 43.8*(Benzo(b)fluoranthene - 0.00719)**2) + 106.0
+-29.8*(0.589 - 1.7*Mn)*(1.69 - 0.117*Ba)*(0.982*Phenanthrene - 1.93) + 29.8*tanh(0.0795*Heneicosane + 2.06*Ti - 1.44) + 69.4
+112.0*exp(-2.0*(0.0768*Ethylguaiacol + exp(-5.24*(0.643 - Nonadecane)**2 - 1.29*(Hexadecane - 0.554)**2) + 0.266)**2 - 91.0*(-NH4 - 0.0329*Tridecane + 0.0313)**2) + 52.0
