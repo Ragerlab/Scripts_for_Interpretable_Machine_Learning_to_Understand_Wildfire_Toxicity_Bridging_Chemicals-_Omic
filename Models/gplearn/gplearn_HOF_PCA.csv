@@ -1,0 +1,11 @@
+Equation
+"mul(add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"mul(sub(sub(add(PC4, PC2), add(add(add(sub(PC4, PC3), div(0.324, PC4)), div(div(PC3, PC1), PC3)), div(0.731, PC4))), PC1), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"mul(sub(PC3, PC1), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"mul(sub(sub(add(PC4, PC2), add(add(add(sub(PC4, PC3), div(0.324, PC4)), div(div(PC3, PC1), PC3)), div(0.731, PC4))), PC1), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), div(PC3, PC1)), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"mul(sub(sub(add(PC4, PC2), add(add(add(sub(PC4, PC3), div(0.324, PC4)), div(div(PC3, PC1), PC3)), div(0.731, PC4))), PC1), sub(div(mul(sub(-0.537, div(add(mul(PC2, PC2), sub(PC1, PC2)), PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"mul(sub(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), PC1), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"mul(sub(sub(add(PC4, PC2), add(add(add(sub(PC1, PC2), div(0.324, PC4)), div(div(PC3, PC1), PC3)), div(0.731, PC4))), PC1), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"sub(PC1, PC2)"
+"mul(sub(sub(add(PC4, PC2), add(add(add(sub(PC4, PC3), div(0.324, PC4)), div(div(PC3, PC1), PC3)), div(0.731, PC4))), PC1), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
+"mul(sub(sub(add(PC4, PC2), add(add(add(sub(PC4, PC3), div(0.324, PC4)), div(PC3, PC3)), div(0.731, PC4))), PC1), sub(div(mul(sub(-0.537, div(PC1, PC4)), div(PC3, PC1)), add(mul(PC2, PC2), sub(PC1, PC2))), add(0.324, add(mul(-0.637, PC3), add(PC4, add(PC1, PC1))))))"
