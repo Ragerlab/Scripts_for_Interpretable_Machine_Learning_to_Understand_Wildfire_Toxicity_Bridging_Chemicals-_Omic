@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import pandas as pd
 import numpy as np
 import pysr
@@ -118,7 +117,6 @@ plt.scatter(response, pred)
 plt.xlabel('Equation Output')
 plt.ylabel('Model Output')
 plt.show()
-=======
 import pandas as pd
 import numpy as np
 import pysr
@@ -238,4 +236,3 @@ plt.scatter(response, pred)
 plt.xlabel('Equation Output')
 plt.ylabel('Model Output')
 plt.show()
->>>>>>> b005bad21d7ce7904bef7b61cc2c43d41952fe1b
