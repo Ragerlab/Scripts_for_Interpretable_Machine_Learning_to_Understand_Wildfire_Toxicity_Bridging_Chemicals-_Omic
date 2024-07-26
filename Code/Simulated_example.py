@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 import pysr
-import matplotlib.pyplot as plt
-
+import matplotlib.pyplot as plt 
 
 # https://astroautomata.com/PySR/
 # Set random seed for reproducibility
