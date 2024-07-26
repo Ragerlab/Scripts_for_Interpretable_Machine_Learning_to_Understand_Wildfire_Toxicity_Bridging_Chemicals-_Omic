@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import os
 from sklearn.model_selection import train_test_split
-import pickle
 
 # Set working directory
 os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
