@@ -69,7 +69,7 @@ for i in range(len(train_input_dict)):
     # mod = est_gp.fit(df_train, train_y)
 
     # Iterate through generations one at a time
-    for j in range(500):
+    for j in range(1000):
         # Fit model
         mod = est_gp.fit(df_train, train_y)
 
