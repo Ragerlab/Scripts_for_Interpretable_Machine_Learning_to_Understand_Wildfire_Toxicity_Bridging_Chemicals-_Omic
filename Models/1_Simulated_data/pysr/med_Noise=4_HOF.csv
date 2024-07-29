@@ -1,0 +1,9 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,22.58956,0.0,myfunction(74.07668),74.0766800000000,PySRFunction(X=>74.0766800000000)
+3,8.683594,0.9560523543706873,chem3 * chem5,chem3*chem5,PySRFunction(X=>chem3*chem5)
+5,5.7897224,0.2026755762856679,chem3 * (chem11 + chem5),chem3*(chem11 + chem5),PySRFunction(X=>chem3*(chem11 + chem5))
+7,5.7845216,0.0004493425531748648,(chem3 * (chem11 + chem5)) - chem10,-chem10 + chem3*(chem11 + chem5),PySRFunction(X=>-chem10 + chem3*(chem11 + chem5))
+9,5.556702,0.020090446897120525,((chem3 * (chem5 + chem11)) - chem4) + chem2,chem2 + chem3*(chem11 + chem5) - chem4,PySRFunction(X=>chem2 + chem3*(chem11 + chem5) - chem4)
+11,5.3142743,0.022304151215306,(chem3 * (chem5 + chem11)) - (1.8059012 / (chem3 - chem6)),chem3*(chem11 + chem5) - 1.8059012/(chem3 - chem6),PySRFunction(X=>chem3*(chem11 + chem5) - 1.8059012/(chem3 - chem6))
+13,5.295138,0.001803711667659578,myfunction(chem3 * (chem5 + myfunction(0.8216586))) - (1.9913892 / (chem3 - chem6)),chem3*(chem5 + 0.8216586) - 1.9913892/(chem3 - chem6),PySRFunction(X=>chem3*(chem5 + 0.8216586) - 1.9913892/(chem3 - chem6))
+14,5.0905848,0.039396325128851876,myfunction(chem3 * (chem5 + chem11)) - ((chem11 * chem4) / (chem3 - chem6)),-chem11*chem4/(chem3 - chem6) + chem3*(chem11 + chem5),PySRFunction(X=>-chem11*chem4/(chem3 - chem6) + chem3*(chem11 + chem5))

@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,21.25542,0.0,myfunction(74.05129),74.0512900000000,PySRFunction(X=>74.0512900000000)
+3,19.427624,0.08991595088616398,65.80779 + chem3,chem3 + 65.80779,PySRFunction(X=>chem3 + 65.80779)
+5,17.666832,0.0475034937275159,(chem3 + chem3) - -57.56427,chem3 + chem3 - 1*(-57.56427),PySRFunction(X=>chem3 + chem3 - 1*(-57.56427))
+7,15.99519,0.049700465643880136,(chem3 + (chem3 + chem3)) - -49.320618,chem3 + chem3 + chem3 - 1*(-49.320618),PySRFunction(X=>chem3 + chem3 + chem3 - 1*(-49.320618))
+9,14.443684,0.051015413231684036,((chem3 + chem3) + (chem3 + chem3)) - -41.076267,chem3 + chem3 + chem3 + chem3 - 1*(-41.076267),PySRFunction(X=>chem3 + chem3 + chem3 + chem3 - 1*(-41.076267))
+11,13.055267,0.050532785851790135,chem3 + ((((chem3 + chem3) + chem3) - -32.869617) + chem3),chem3 + chem3 + chem3 + chem3 + chem3 - 1*(-32.869617),PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 - 1*(-32.869617))
+12,13.055216,3.906476950296397e-06,myfunction((((chem3 + chem3) + chem3) - -32.833584) + (chem3 + chem3)),chem3 + chem3 + chem3 + chem3 + chem3 - 1*(-32.833584),PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 - 1*(-32.833584))
+13,11.8870535,0.09373788069570278,((chem3 + (chem3 + chem3)) + (24.588228 + chem3)) + (chem3 + chem3),chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + 24.588228,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + 24.588228)
+15,10.854787,0.045421842929782165,((chem3 + (chem3 + chem3)) + ((chem5 - -16.382378) + chem3)) + (chem3 + chem3),chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 - 1*(-16.382378),PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 - 1*(-16.382378))
+17,8.830901,0.10317456646423542,(((chem3 + chem3) + (((chem3 + chem3) + chem3) + chem5)) + chem3) + (chem3 + chem5),chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5)
+18,8.8309,1.132387349167214e-07,(((chem3 + chem3) + myfunction(((chem3 + chem3) + chem3) + chem3)) + chem3) + (chem5 + chem5),chem3 + chem3 + chem3 + chem5 + chem5 + (chem3 + chem3 + chem3 + chem3),PySRFunction(X=>chem3 + chem3 + chem3 + chem5 + chem5 + (chem3 + chem3 + chem3 + chem3))
+19,8.621576,0.023989036086086227,((((chem3 + chem3) + (((chem3 + chem3) + chem3) + chem5)) + chem3) - chem14) + (chem3 + chem5),-chem14 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5,PySRFunction(X=>-chem14 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5)

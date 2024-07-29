@@ -2,62 +2,107 @@ import pandas as pd
 import numpy as np
 import pysr
 import matplotlib.pyplot as plt 
+import pickle
+from sklearn.metrics import root_mean_squared_error
 
-# Example from pysr website - https://astroautomata.com/PySR/
+# Load in data
+with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'rb') as f:
+    sim_dict = pickle.load(f)    
+
+# Define potential operator inputs
+un_vec = [["myfunction(x) = x"], ["myfunction(x) = x"], ['square', 'exp', 'log', 'sqrt', 'sin', 'cos']]
+bin_vec = [['-', '+'], ['-', '+', '*', '/'], ['-', '+', '*', '/', '^', 'min', 'max']]
+operators= pd.DataFrame({
+    'unary': un_vec,
+    'binary': bin_vec,
+})
+operators.index = ['low', 'med', 'high']
+
+# Initialize a DataFrame to store results
+results_df = pd.DataFrame(columns=["Input", "Binary operators", "Unary Operators", "RMSE"])
+
+# Intialize row counting variable for results table
+row = 0
+
+# Iterate through operator options
+for i in range(len(operators.index)):
+
+    # Subset to relevant operators
+    bin = operators.iloc[i, operators.columns.get_loc('binary')]
+    un = operators.iloc[i, operators.columns.get_loc('unary')]
+
+    # Iterate through different simulated inputs
+    for j in range(len(sim_dict)):
+
+        # Subset to one df
+        keys = list(sim_dict.keys())
+        key = keys[j]
+        data = sim_dict[key]
+        
+        # Define input and output 
+        x = data.drop('Response', axis = 1)
+        y = data['Response']
+
+        # Define parameters - https://astroautomata.com/PySR/api/
+        default_pysr_params = dict(
+                populations = 30, # default number
+                population_size = 33, #default number
+                model_selection = "best",
+                parsimony = 0.0032 # Multiplicative factor for how much to punish complexity - default value
+            )
+
+        # Define loss function - note triple quotes in julia allows line breaks 
+        loss_function = """
+            function f(tree, dataset::Dataset{T,L}, options) where {T,L}
+                ypred, completed = eval_tree_array(tree, dataset.X, options)
+                if !completed
+                    return L(Inf)
+                end
+                y = dataset.y
+                return sqrt( (1 / length(y)) * sum(i -> (ypred[i] - y[i])^2, eachindex(y)))
+            end
+            """
+        # Set up model 
+        discovered_model = pysr.PySRRegressor(
+                niterations=10,
+                unary_operators=un,
+                binary_operators= bin,
+                loss_function=loss_function,
+                **default_pysr_params,
+                temp_equation_file=True, 
+                extra_sympy_mappings={'myfunction': lambda x: x},
+                warm_start= True
+            )
+
+        # Run model 
+        discovered_model.fit(x.values, 
+                                y.values,
+                                variable_names=x.columns.tolist()
+                                )    
+        print(discovered_model.fit)
+
+        # Get top 10 models
+        equations = pd.DataFrame(discovered_model.equations_)
+
+        # Save the DataFrame to a CSV file
+        file_name = f'Models/1_Simulated_data/pysr/{list(operators.index)[i]}_{list(sim_dict.keys())[j]}_HOF.csv'
+        equations.to_csv(file_name, index=False)
 
 
-# Define parameters - https://astroautomata.com/PySR/api/
-default_pysr_params = dict(
-        populations = 30, # default number
-        population_size = 33, #default number
-        model_selection = "best",
-        parsimony = 0.0032 # Multiplicative factor for how much to punish complexity - default value
-    )
+        # Compare equation predictions to actual
+        pred = discovered_model.predict(x)
+        plt.scatter(data['Response'], pred)
+        plt.xlabel('Equation Output')
+        plt.ylabel('Model Output')
+        plt.title(file_name)
+        # plt.show()
 
-# Define loss function - note triple quotes in julia allows line breaks 
-loss_function = """
-    function f(tree, dataset::Dataset{T,L}, options) where {T,L}
-        ypred, completed = eval_tree_array(tree, dataset.X, options)
-        if !completed
-            return L(Inf)
-        end
-        y = dataset.y
-        return sqrt( (1 / length(y)) * sum(i -> (ypred[i] - y[i])^2, eachindex(y)))
-    end
-    """
-# Set up model 
-discovered_model = pysr.PySRRegressor(
-        niterations=1000,
-        # unary_operators=['exp','log'],
-        binary_operators=["-", "+", "*", "/"],
-        # binary_operators=["-", "+", "*", "/", "^"],
-        loss_function=loss_function,
-        **default_pysr_params,
-        temp_equation_file=True, 
-        warm_start= True
-    )
+        # Calc RMSE
+        y_pred = discovered_model.predict(x)
+        rmse = root_mean_squared_error(y,y_pred)
+        print(f"Training RMSE: {rmse:.2f}")
 
-# Set up input and output
-x = data.drop('Response', axis = 1)
-y = data['Response']
-
-# Run model 
-discovered_model.fit(x.values, 
-                        y.values,
-                        variable_names=x.columns.tolist()
-                        )    
-print(discovered_model.fit)
-
-# Get top 10 models
-equations = pd.DataFrame(discovered_model.equations_)
-
-# Save the DataFrame to a CSV file
-file_name = f'Models/Simulated/pysr_HOF.csv'
-equations.to_csv(file_name, index=False)
-
-# Compare equation predictions to actual
-pred = discovered_model.predict(x)
-plt.scatter(response, pred)
-plt.xlabel('Equation Output')
-plt.ylabel('Model Output')
-plt.show()
+        # Save results
+        results_df.loc[row]=[list(sim_dict.keys())[j], bin, un, rmse]
+        row = row + 1
+results_df

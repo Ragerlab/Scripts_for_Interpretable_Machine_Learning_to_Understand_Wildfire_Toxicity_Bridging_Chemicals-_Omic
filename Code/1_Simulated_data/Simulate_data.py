@@ -57,7 +57,8 @@ sim_dat_rel = pd.DataFrame({
     'chem3': chem3,
     'chem5': chem5,
     'chem7': chem7,
-    'chem12': chem12
+    'chem12': chem12, 
+    'Response': response
 })
 
 # Save simulated dataframe
@@ -74,18 +75,23 @@ for i in range(5):
     response_noisy = response + noise
 
     # Compare noisy to actual values 
-    plt.scatter(response, response_noisy)
-    plt.xlabel('Actual respsonse')
-    plt.ylabel('Noisy response')
-    plt.title('Noise = mean 0 + std dev' + str(i+1))
-    plt.show()
+    # plt.scatter(response, response_noisy)
+    # plt.xlabel('Actual respsonse')
+    # plt.ylabel('Noisy response')
+    # plt.title('Noise = mean 0 + std dev' + str(i+1))
+    # plt.show()
 
     # Update dataframe to have noisy response
     sim_noise_temp = sim_dat.assign(Response = response_noisy)
     
     # Append to dictionary
-    sim_noise_dict[i] = sim_noise_temp
-    
+    sim_noise_dict['Noise=' + str(i)] = sim_noise_temp
+
+# Combine all dfs into one dictionary to iterate through
+sim_dict = sim_noise_dict
+sim_dict['No_noise_all_var'] = sim_dat
+sim_dict['No_noise_rel_var'] = sim_dat_rel
+
 # Save simulated dataframe
-with open('Data_inputs/1_Simulated_data/sim_noise_dict.pkl', 'wb') as f:
-    pickle.dump(sim_noise_dict, f)
+with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'wb') as f:
+    pickle.dump(sim_dict, f)

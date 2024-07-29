@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,21.478565,0.0,myfunction(74.17803),74.1780300000000,PySRFunction(X=>74.1780300000000)
+3,19.639769,0.08949891993119428,chem3 + 65.93431,chem3 + 65.93431,PySRFunction(X=>chem3 + 65.93431)
+5,17.864965,0.04735750440544066,(chem3 + 57.690296) + chem3,chem3 + chem3 + 57.690296,PySRFunction(X=>chem3 + chem3 + 57.690296)
+7,16.175234,0.04968011264172348,(chem3 + (chem3 + chem3)) + 49.44725,chem3 + chem3 + chem3 + 49.44725,PySRFunction(X=>chem3 + chem3 + chem3 + 49.44725)
+9,14.600143,0.05122499193257761,(chem3 + (chem3 + (chem3 + chem3))) + 41.20362,chem3 + chem3 + chem3 + chem3 + 41.20362,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + 41.20362)
+11,13.180855,0.05113296259992646,(chem3 + (chem3 + ((chem3 + chem3) + chem3))) + 32.9601,chem3 + chem3 + chem3 + chem3 + chem3 + 32.9601,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + 32.9601)
+13,11.972905,0.048059608901563376,(chem3 + (chem3 + ((chem3 + (chem3 + chem3)) + chem3))) + 24.716484,chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + 24.716484,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + 24.716484)
+15,10.935264,0.0453266918427057,((chem3 + (chem3 + ((chem3 + chem3) + chem5))) + (chem3 + chem3)) + 16.508976,chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + 16.508976,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + 16.508976)
+17,8.842756,0.1061971018657823,(((chem3 + chem3) + (chem3 + (chem3 + ((chem3 + chem3) + chem5)))) + chem5) + chem3,chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5)
+19,8.598524,0.014004016072093166,(((((chem3 + chem5) + chem3) + ((chem3 + (chem3 - chem14)) + chem3)) + chem3) + chem5) + chem3,-chem14 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5,PySRFunction(X=>-chem14 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5)
+20,8.598523,1.162990366136186e-07,myfunction(chem5 + (chem5 + ((chem3 + ((chem3 - chem14) + chem3)) + (chem3 + ((chem3 + chem3) + chem3))))),-chem14 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5,PySRFunction(X=>-chem14 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5)

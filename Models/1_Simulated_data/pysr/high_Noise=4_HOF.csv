@@ -1,0 +1,9 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,69.034355,0.0,chem3,chem3,PySRFunction(X=>chem3)
+2,19.598717,1.2591401743273767,square(chem3),chem3**2,PySRFunction(X=>chem3**2)
+3,8.683594,0.8140286066356951,chem5 * chem3,chem3*chem5,PySRFunction(X=>chem3*chem5)
+5,5.7897224,0.2026755762856679,(chem5 + chem11) * chem3,chem3*(chem11 + chem5),PySRFunction(X=>chem3*(chem11 + chem5))
+7,5.671482,0.010316943227426056,(chem5 + (0.88441485 ^ chem4)) * chem3,chem3*(0.88441485**chem4 + chem5),PySRFunction(X=>chem3*(0.88441485**chem4 + chem5))
+9,5.427076,0.022024980105676148,"(chem5 + chem11) * max(chem6 ^ 1.0653479, chem3)","(chem11 + chem5)*Piecewise((chem3, chem3 > chem6**1.0653479), (chem6**1.0653479, True))","PySRFunction(X=>(chem11 + chem5)*Piecewise((chem3, chem3 > chem6**1.0653479), (chem6**1.0653479, True)))"
+10,5.293448,0.024930669652250954,"(chem5 + chem11) * max(chem3, cos(chem6) + chem6)","(chem11 + chem5)*Piecewise((chem6 + cos(chem6), chem3 < chem6 + cos(chem6)), (chem3, True))","PySRFunction(X=>(chem11 + chem5)*Piecewise((chem6 + cos(chem6), chem3 < chem6 + cos(chem6)), (chem3, True)))"
+17,5.2795763,0.0003748544426594946,"(chem5 + 0.7052584) * max(chem3, cos(((chem6 + chem8) ^ chem9) + log(chem1)) + chem6)","(chem5 + 0.7052584)*Piecewise((chem6 + cos((chem6 + chem8)**chem9 + log(chem1)), chem3 < chem6 + cos((chem6 + chem8)**chem9 + log(chem1))), (chem3, True))","PySRFunction(X=>(chem5 + 0.7052584)*Piecewise((chem6 + cos((chem6 + chem8)**chem9 + log(chem1)), chem3 < chem6 + cos((chem6 + chem8)**chem9 + log(chem1))), (chem3, True)))"
