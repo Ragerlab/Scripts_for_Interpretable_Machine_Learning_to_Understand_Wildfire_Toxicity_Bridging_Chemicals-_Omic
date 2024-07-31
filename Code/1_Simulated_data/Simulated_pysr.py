@@ -19,7 +19,7 @@ operators= pd.DataFrame({
 operators.index = ['low', 'med', 'high']
 
 # Initialize a DataFrame to store results
-results_df = pd.DataFrame(columns=["Input", "Binary operators", "Unary Operators", "RMSE"])
+results_df = pd.DataFrame(columns=["Input", "Binary operators", "Unary Operators", "RMSE", "Equation"])
 
 # Intialize row counting variable for results table
 row = 0
@@ -64,7 +64,7 @@ for i in range(len(operators.index)):
             """
         # Set up model 
         discovered_model = pysr.PySRRegressor(
-                niterations=10,
+                niterations=100,
                 unary_operators=un,
                 binary_operators= bin,
                 loss_function=loss_function,
@@ -80,6 +80,10 @@ for i in range(len(operators.index)):
                                 variable_names=x.columns.tolist()
                                 )    
         print(discovered_model.fit)
+
+        # Get top model
+        best_model = discovered_model.get_best()
+        best_equation = best_model['equation']
 
         # Get top 10 models
         equations = pd.DataFrame(discovered_model.equations_)
@@ -103,7 +107,7 @@ for i in range(len(operators.index)):
         print(f"Training RMSE: {rmse:.2f}")
 
         # Save results
-        results_df.loc[row]=[list(sim_dict.keys())[j], bin, un, rmse]
+        results_df.loc[row]=[list(sim_dict.keys())[j], bin, un, rmse, best_equation]
         row = row + 1
 
 # Save to csv

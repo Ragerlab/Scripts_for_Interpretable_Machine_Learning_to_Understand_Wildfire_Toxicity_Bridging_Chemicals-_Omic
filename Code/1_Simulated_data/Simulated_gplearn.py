@@ -17,7 +17,7 @@ operators= pd.DataFrame({
 operators.index = ['low', 'med', 'high']
 
 # Initialize a DataFrame to store results
-results_df = pd.DataFrame(columns=["Input", "Operators", "RMSE"])
+results_df = pd.DataFrame(columns=["Input", "Operators", "RMSE", "Equation"])
 
 # Intialize row counting variable for results table
 row = 0
@@ -46,19 +46,20 @@ for i in range(len(operators.index)):
 
         # Set model parameters - https://gplearn.readthedocs.io/en/stable/reference.html#symbolic-regressor
         est_gp = SymbolicRegressor(population_size=1000,
-                               generations=10,
+                               generations=100,
                                p_crossover=0.9,
                                metric='rmse',
                                function_set=op_temp,
                                warm_start=True,
-                               parsimony_coefficient= 0.01, 
+                               parsimony_coefficient= 0.1, 
                                feature_names=x.columns.tolist())
         
         # Fit model
         mod = est_gp.fit(x, y)
 
         # Get top 10 models
-        equations = mod._programs[-1][:10]
+        sorted_programs = sorted(est_gp._programs[-1], key=lambda program: program.fitness_, reverse=True)
+        equations = sorted_programs[:10]
 
         # Convert equations to sympy readable format and store in a list
         sympy_equations = []
@@ -81,7 +82,7 @@ for i in range(len(operators.index)):
         plt.xlabel('Equation Output')
         plt.ylabel('Model Output')
         plt.title(file_name)
-        plt.show()
+        # plt.show()
 
         # Calc RMSE
         y_pred = mod.predict(x)
@@ -89,7 +90,7 @@ for i in range(len(operators.index)):
         print(f"Training RMSE: {rmse:.2f}")
 
         # Save results
-        results_df.loc[row]=[list(sim_dict.keys())[j], op_temp, rmse]
+        results_df.loc[row]=[list(sim_dict.keys())[j], op_temp, rmse, sympy_equations[1]]
         row = row + 1
 
 # Save to csv

@@ -1,22 +1,22 @@
-Input,Operators,RMSE
-Noise=1,"('add', 'sub')",6.989229425827455
-Noise=2,"('add', 'sub')",7.017702203063491
-Noise=3,"('add', 'sub')",7.841485900390938
-Noise=4,"('add', 'sub')",7.449386948862739
-Noise=5,"('add', 'sub')",8.344558108463888
-No_noise_all_var,"('add', 'sub')",6.8413956851960345
-No_noise_rel_var,"('add', 'sub')",6.7554621236334045
-Noise=1,"('add', 'sub', 'mul', 'div')",1.8784719175651632
-Noise=2,"('add', 'sub', 'mul', 'div')",2.689662687922747
-Noise=3,"('add', 'sub', 'mul', 'div')",3.0242749749362527
-Noise=4,"('add', 'sub', 'mul', 'div')",5.151598410992272
-Noise=5,"('add', 'sub', 'mul', 'div')",6.077651859460195
-No_noise_all_var,"('add', 'sub', 'mul', 'div')",1.5900968245067233
-No_noise_rel_var,"('add', 'sub', 'mul', 'div')",0.7267651896121347
-Noise=1,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.3181736790876144
-Noise=2,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.4408042187178745
-Noise=3,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",3.229290594964987
-Noise=4,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",5.477800103575252
-Noise=5,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",5.772979636424355
-No_noise_all_var,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.6860897149277205
-No_noise_rel_var,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",1.4170035437646296
+Input,Operators,RMSE,Equation
+Noise=1,"('add', 'sub')",7.419711245896433,"add(add(add(add(chem3, chem5), add(chem3, add(chem3, chem5))), sub(add(chem3, add(chem3, add(add(add(sub(add(chem3, add(chem3, chem5)), chem12), add(chem3, add(chem3, chem5))), add(chem3, chem5)), add(chem3, chem3)))), chem12)), add(chem3, chem3))"
+Noise=2,"('add', 'sub')",8.621576434946261,"add(add(sub(sub(chem7, 0.113), add(0.603, chem12)), sub(add(chem13, chem2), add(chem10, chem6))), sub(add(sub(chem10, chem5), sub(chem9, chem11)), add(sub(chem14, chem13), sub(chem1, chem1))))"
+Noise=3,"('add', 'sub')",7.194278951811878,"add(add(add(chem5, chem3), sub(add(sub(sub(chem3, chem12), sub(chem1, add(chem5, chem3))), chem5), add(add(add(chem5, chem3), sub(add(sub(sub(chem3, chem12), sub(chem1, add(chem5, chem3))), chem5), sub(sub(chem15, chem3), add(chem3, chem3)))), add(chem5, chem3)))), add(chem5, chem3))"
+Noise=4,"('add', 'sub')",8.613250514065493,"add(sub(add(chem3, chem5), add(sub(add(chem3, chem5), sub(add(chem15, chem1), add(chem3, chem3))), add(add(chem3, chem3), add(add(chem3, chem5), add(chem3, chem5))))), add(add(chem3, chem3), add(add(chem3, chem5), add(chem3, chem5))))"
+Noise=5,"('add', 'sub')",8.115869588493652,"add(add(sub(add(chem3, chem3), add(chem12, chem2)), add(sub(add(chem3, chem3), chem14), add(chem3, chem3))), add(add(chem3, add(add(sub(add(chem3, chem3), add(chem12, chem2)), add(sub(add(chem3, chem3), chem14), add(chem3, chem3))), add(add(chem3, sub(chem5, chem4)), add(chem5, add(chem3, chem5))))), add(chem5, add(chem3, chem5))))"
+No_noise_all_var,"('add', 'sub')",6.4890318645416345,"add(add(add(add(chem3, add(chem5, chem3)), add(chem3, chem3)), add(add(chem5, chem3), add(add(sub(chem3, chem1), sub(chem5, chem15)), chem3))), add(add(add(add(chem3, add(chem5, chem3)), add(chem3, chem3)), add(add(chem5, chem3), add(add(sub(chem3, chem1), sub(chem5, chem15)), chem3))), sub(chem5, chem12)))"
+No_noise_rel_var,"('add', 'sub')",7.567265600053365,"add(add(add(add(chem3, chem5), add(add(chem3, chem3), add(chem3, chem5))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
+Noise=1,"('add', 'sub', 'mul', 'div')",1.8459554635831377,"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
+Noise=2,"('add', 'sub', 'mul', 'div')",2.737147429327416,"mul(mul(chem2, chem1), mul(chem12, chem12))"
+Noise=3,"('add', 'sub', 'mul', 'div')",2.8270311312916556,"add(add(chem7, chem2), mul(chem3, add(add(chem7, chem2), mul(chem3, chem5))))"
+Noise=4,"('add', 'sub', 'mul', 'div')",5.047204994547587,"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
+Noise=5,"('add', 'sub', 'mul', 'div')",6.204777254919413,"add(chem3, mul(add(chem3, mul(chem3, chem5)), chem3))"
+No_noise_all_var,"('add', 'sub', 'mul', 'div')",2.0405721288571104,"mul(add(mul(add(chem11, chem5), chem3), chem5), chem3)"
+No_noise_rel_var,"('add', 'sub', 'mul', 'div')",1.6378279232192587,"add(mul(mul(mul(chem5, chem3), 0.986), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), chem3)"
+Noise=1,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.4177558888172763,"add(mul(add(mul(chem5, chem3), chem9), chem3), chem9)"
+Noise=2,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.414188533791961,"add(chem2, add(sqrt(chem3), mul(add(chem2, add(sqrt(chem3), mul(chem5, chem3))), chem3)))"
+Noise=3,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",3.511695437952744,"add(chem9, mul(chem3, add(chem9, mul(chem3, chem5))))"
+Noise=4,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",5.101159007395076,"sub(add(chem3, mul(chem3, add(chem3, mul(chem3, chem5)))), log(chem3))"
+Noise=5,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",6.204777254919413,"add(chem3, mul(add(mul(chem5, chem3), chem3), chem3))"
+No_noise_all_var,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",6.552334071551106,"mul(chem3, mul(chem3, chem5))"
+No_noise_rel_var,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",1.6847015346827938,"add(mul(chem3, sub(chem5, add(mul(chem3, sub(chem5, 0.191)), chem3))), chem3)"

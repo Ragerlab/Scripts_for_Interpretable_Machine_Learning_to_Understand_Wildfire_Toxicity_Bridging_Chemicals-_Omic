@@ -46,13 +46,13 @@ for i in range(len(train_input_dict)):
     # Update the QLattice with priors
     ql.update_priors(priors)
 
-    for epoch in range(1000):
+    for epoch in range(100): #https://docs.abzu.ai/docs/guides/primitives/using_primitives
         # Sample models from the QLattice, and add them to the list
         models += ql.sample_models(df_train, 'Injury_Protein', 'regression')
 
         # Filter to models that only contain: +, =, *, /
-        # f = ContainsFunctions(["add", "multiply", "inverse"])
-        # models = list(filter(f, models))
+        f = ContainsFunctions(["add", "multiply"])
+        models = list(filter(f, models))
 
         # Fit the list of models. Returns a list of models sorted by absolute error 
         models = feyn.fit_models(models, df_train, 'absolute_error')
@@ -62,6 +62,9 @@ for i in range(len(train_input_dict)):
 
         # Update QLattice with the fitted list of models (sorted by loss)
         ql.update(models)
+
+        # Check complexity 
+        models.edge_count
 
     # Stop timer 
     end_time = time.time()
