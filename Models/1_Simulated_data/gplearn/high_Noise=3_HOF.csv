@@ -1,0 +1,11 @@
+Equation
+"max(chem7, chem3)"
+"add(mul(min(mul(chem12, chem3), max(max(chem7, chem3), chem9)), chem11), mul(max(chem7, chem3), chem5))"
+"add(mul(max(chem7, chem3), chem11), mul(chem3, chem11))"
+"add(mul(max(chem3, chem4), chem11), max(max(chem3, chem4), mul(chem5, max(chem7, chem3))))"
+"max(chem7, chem3)"
+"add(mul(min(chem3, chem3), min(chem3, chem3)), mul(chem5, max(chem7, chem3)))"
+"max(chem7, chem3)"
+"add(mul(chem3, chem11), mul(max(chem7, chem3), chem5))"
+"add(mul(chem3, chem11), mul(min(chem3, chem3), chem11))"
+"add(mul(min(mul(max(chem7, chem3), chem5), max(max(chem7, chem3), chem9)), chem11), mul(max(chem7, chem3), chem5))"

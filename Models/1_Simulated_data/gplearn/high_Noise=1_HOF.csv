@@ -1,0 +1,11 @@
+Equation
+"mul(chem3, add(chem11, chem5))"
+"mul(chem3, add(chem11, chem5))"
+"mul(chem3, add(chem11, add(chem11, chem5)))"
+"mul(chem3, mul(chem3, add(chem11, chem5)))"
+"mul(chem3, mul(chem3, add(chem11, chem5)))"
+"mul(chem3, add(chem11, chem5))"
+"mul(chem3, mul(chem3, add(chem11, chem5)))"
+"mul(chem3, add(chem11, chem5))"
+"mul(chem3, add(chem11, chem5))"
+"mul(chem3, add(chem11, chem5))"

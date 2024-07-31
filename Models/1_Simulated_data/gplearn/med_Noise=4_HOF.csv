@@ -1,0 +1,11 @@
+Equation
+"add(sub(sub(chem3, sub(chem11, mul(chem5, chem3))), sub(chem11, add(mul(chem5, chem3), -0.549))), -0.549)"
+"add(sub(chem11, mul(chem5, chem3)), -0.549)"
+"add(sub(chem3, sub(chem11, add(mul(chem5, chem3), -0.549))), -0.549)"
+"add(sub(chem3, sub(chem11, add(add(mul(chem5, chem3), -0.549), -0.549))), -0.549)"
+"add(sub(chem3, sub(chem11, add(mul(sub(chem11, add(mul(chem5, chem3), -0.549)), chem3), -0.549))), -0.549)"
+"add(sub(chem3, sub(chem11, add(sub(chem3, sub(chem11, mul(chem5, chem3))), -0.549))), -0.549)"
+"mul(chem5, chem3)"
+"add(sub(chem3, sub(chem11, add(mul(chem5, chem3), -0.549))), -0.549)"
+"add(chem11, -0.549)"
+"add(mul(chem5, chem3), -0.549)"

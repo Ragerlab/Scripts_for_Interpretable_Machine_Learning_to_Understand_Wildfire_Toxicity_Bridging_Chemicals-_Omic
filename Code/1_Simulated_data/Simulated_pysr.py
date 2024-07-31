@@ -10,8 +10,8 @@ with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'rb') as f:
     sim_dict = pickle.load(f)    
 
 # Define potential operator inputs
-un_vec = [["myfunction(x) = x"], ["myfunction(x) = x"], ['square', 'exp', 'log', 'sqrt', 'sin', 'cos']]
-bin_vec = [['-', '+'], ['-', '+', '*', '/'], ['-', '+', '*', '/', '^', 'min', 'max']]
+un_vec = [["myfunction(x) = x"], ["myfunction(x) = x"], ['log', 'sqrt', 'sin', 'cos']]
+bin_vec = [['-', '+'], ['-', '+', '*', '/'], ['-', '+', '*', '/', 'min', 'max']]
 operators= pd.DataFrame({
     'unary': un_vec,
     'binary': bin_vec,
@@ -105,4 +105,8 @@ for i in range(len(operators.index)):
         # Save results
         results_df.loc[row]=[list(sim_dict.keys())[j], bin, un, rmse]
         row = row + 1
+
+# Save to csv
 results_df
+file_name = f'Models/1_Simulated_data/pysr/results.csv'
+results_df.to_csv(file_name, index=False)

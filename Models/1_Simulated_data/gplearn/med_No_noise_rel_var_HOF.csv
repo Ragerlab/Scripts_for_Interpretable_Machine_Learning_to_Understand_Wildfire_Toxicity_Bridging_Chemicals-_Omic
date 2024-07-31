@@ -1,0 +1,11 @@
+Equation
+"add(mul(chem3, add(div(0.314, div(chem12, chem3)), chem5)), chem7)"
+"add(mul(chem3, add(div(chem12, chem3), chem5)), chem7)"
+"add(mul(mul(div(chem7, chem7), add(div(0.314, div(chem12, chem3)), chem5)), chem3), chem7)"
+"add(mul(add(div(0.314, div(div(0.314, div(chem12, chem3)), chem3)), chem5), chem3), chem7)"
+"div(chem12, chem3)"
+"add(mul(div(0.314, div(chem12, chem3)), chem3), chem7)"
+"add(div(chem7, chem7), chem7)"
+"add(mul(chem3, add(div(0.314, div(chem5, chem3)), chem5)), chem7)"
+"add(mul(div(chem12, chem3), chem3), chem7)"
+"div(0.314, div(chem12, chem3))"

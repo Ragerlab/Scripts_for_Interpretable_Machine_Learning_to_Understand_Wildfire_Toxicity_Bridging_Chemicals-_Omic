@@ -1,0 +1,22 @@
+Input,Operators,RMSE
+Noise=1,"('add', 'sub')",6.989229425827455
+Noise=2,"('add', 'sub')",7.017702203063491
+Noise=3,"('add', 'sub')",7.841485900390938
+Noise=4,"('add', 'sub')",7.449386948862739
+Noise=5,"('add', 'sub')",8.344558108463888
+No_noise_all_var,"('add', 'sub')",6.8413956851960345
+No_noise_rel_var,"('add', 'sub')",6.7554621236334045
+Noise=1,"('add', 'sub', 'mul', 'div')",1.8784719175651632
+Noise=2,"('add', 'sub', 'mul', 'div')",2.689662687922747
+Noise=3,"('add', 'sub', 'mul', 'div')",3.0242749749362527
+Noise=4,"('add', 'sub', 'mul', 'div')",5.151598410992272
+Noise=5,"('add', 'sub', 'mul', 'div')",6.077651859460195
+No_noise_all_var,"('add', 'sub', 'mul', 'div')",1.5900968245067233
+No_noise_rel_var,"('add', 'sub', 'mul', 'div')",0.7267651896121347
+Noise=1,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.3181736790876144
+Noise=2,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.4408042187178745
+Noise=3,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",3.229290594964987
+Noise=4,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",5.477800103575252
+Noise=5,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",5.772979636424355
+No_noise_all_var,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",2.6860897149277205
+No_noise_rel_var,"('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')",1.4170035437646296

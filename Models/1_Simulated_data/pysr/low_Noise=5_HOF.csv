@@ -1,0 +1,11 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,22.589558,0.0,myfunction(74.076096),74.0760960000000,PySRFunction(X=>74.0760960000000)
+3,20.780106,0.0834916773919849,chem3 + 65.832634,chem3 + 65.832634,PySRFunction(X=>chem3 + 65.832634)
+5,19.036337,0.043823230157803185,chem3 + (57.591465 + chem3),chem3 + chem3 + 57.591465,PySRFunction(X=>chem3 + chem3 + 57.591465)
+7,17.378038,0.045571200656873354,chem3 + ((chem3 + chem3) - -49.345406),chem3 + chem3 + chem3 - 1*(-49.345406),PySRFunction(X=>chem3 + chem3 + chem3 - 1*(-49.345406))
+9,15.832089,0.04658419763847054,chem3 + (chem3 - (-41.101784 - (chem3 + chem3))),chem3 + chem3 - (-(chem3 + chem3) - 41.101784),PySRFunction(X=>chem3 + chem3 - (-(chem3 + chem3) - 41.101784))
+11,14.434633,0.046204220667345475,32.858326 + (((chem3 + chem3) + (chem3 + chem3)) + chem3),chem3 + chem3 + chem3 + chem3 + chem3 + 32.858326,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + 32.858326)
+13,13.2328,0.04346589626496096,((chem3 + chem3) + 24.614511) + (chem3 + (chem3 + (chem3 + chem3))),chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + 24.614511,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + 24.614511)
+15,12.284141,0.03719475754367915,((chem3 + chem3) + chem3) + ((chem3 + chem3) - ((-16.371725 - chem3) - chem3)),chem3 + chem3 + chem3 + chem3 + chem3 - (-chem3 - chem3 - 16.371725),PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 - (-chem3 - chem3 - 16.371725))
+17,10.382025,0.08411656772125388,((((chem3 + (chem3 + (chem5 + chem5))) + chem3) + (chem3 + chem3)) + chem3) + chem3,chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5,PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5)
+19,10.150984,0.01125264940717287,(chem3 + ((((((chem3 + chem3) + chem3) + chem5) + chem5) + chem3) + chem3)) - (chem14 - chem3),chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5 - (chem14 - chem3),PySRFunction(X=>chem3 + chem3 + chem3 + chem3 + chem3 + chem3 + chem5 + chem5 - (chem14 - chem3))
