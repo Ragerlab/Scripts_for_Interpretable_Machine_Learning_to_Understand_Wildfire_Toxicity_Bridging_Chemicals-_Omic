@@ -1,11 +1,11 @@
-Equation
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem3), add(chem3, chem5))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem5, chem3), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), add(add(add(add(chem3, chem5), add(add(chem3, chem5), add(chem3, chem3))), sub(chem5, chem12)), add(chem3, add(chem3, chem3)))), add(chem3, add(chem3, chem3)))"
-"sub(chem5, chem12)"
+Equation,Short_equation
+"add(add(chem2, chem6), sub(add(add(chem6, chem2), chem6), add(add(chem6, chem6), add(add(add(chem2, chem6), chem2), add(chem6, chem2)))))",-chem2 - chem6
+"add(add(add(add(chem2, chem6), chem2), add(add(chem6, chem2), chem6)), add(add(add(chem2, chem6), add(add(chem6, chem2), chem6)), add(add(add(add(add(chem6, chem2), chem2), add(add(chem6, chem2), chem6)), add(add(add(add(chem6, chem2), chem6), chem2), add(chem2, chem6))), chem6)))",11*chem2 + 13*chem6
+chem2,chem2
+"add(add(add(chem6, chem2), add(chem15, add(chem2, add(chem2, chem6)))), add(add(chem2, chem6), add(add(chem2, add(add(add(chem6, add(add(chem6, chem2), chem2)), add(chem6, add(chem6, add(chem6, chem2)))), add(chem6, add(add(add(chem6, chem2), chem6), chem6)))), chem6)))",chem15 + 9*chem2 + 13*chem6
+"add(add(add(add(add(add(chem6, add(chem6, add(chem6, add(chem2, chem6)))), add(add(chem6, chem2), chem2)), add(chem2, add(add(chem2, chem6), add(chem2, chem6)))), add(add(chem6, chem2), chem2)), add(add(chem6, chem2), chem2)), add(chem6, add(add(add(chem6, chem2), chem6), chem6)))",11*chem2 + 13*chem6
+chem2,chem2
+chem6,chem6
+"add(add(add(add(add(chem6, add(add(chem6, chem2), chem2)), add(chem6, add(chem6, add(chem6, chem2)))), add(chem6, add(add(add(chem6, chem2), chem6), chem6))), chem6), add(add(add(chem2, chem6), add(chem2, chem6)), add(add(chem6, chem2), add(add(chem6, chem2), chem6))))",8*chem2 + 15*chem6
+"add(add(add(chem6, add(add(chem6, chem2), chem2)), add(chem6, add(chem6, add(chem6, chem2)))), add(chem6, add(add(add(add(add(chem6, add(chem6, chem2)), add(add(chem2, chem6), add(add(add(chem2, chem6), chem2), add(chem6, chem2)))), chem2), chem6), chem6)))",9*chem2 + 13*chem6
+"add(add(chem6, add(chem6, add(chem6, chem2))), add(add(add(add(chem6, add(chem6, add(chem2, chem6))), add(add(add(chem2, chem6), chem6), add(add(add(chem6, chem2), chem2), add(chem2, chem6)))), chem6), add(add(add(chem2, chem6), chem2), add(chem2, chem6))))",9*chem2 + 13*chem6

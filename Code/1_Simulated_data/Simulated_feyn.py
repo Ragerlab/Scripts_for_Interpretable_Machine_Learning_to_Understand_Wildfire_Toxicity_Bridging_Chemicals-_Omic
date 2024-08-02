@@ -13,7 +13,8 @@ with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'rb') as f:
     sim_dict = pickle.load(f)    
 
 # Define potential operator inputs
-ops = [['add'], ['add', 'multiply'], ['add', 'multiply', 'sqrt', 'log']]
+ops = [["log", "exp", "sqrt", "squared", "inverse", "linear", "tanh", "gaussian", "multiply"], ["log", "exp", "sqrt", "squared", "inverse", "linear", "tanh", "gaussian"], 
+       ["squared", "inverse", "linear", "tanh", "gaussian"]]
 operators= pd.DataFrame({
     'operators': ops,
 })
@@ -38,17 +39,14 @@ for i in range(len(operators.index)):
         keys = list(sim_dict.keys())
         key = keys[j]
         data = sim_dict[key]
+        print(key)
         
         # Define input and output 
         x = data.drop('Response', axis = 1)
         y = data['Response']
 
-        # Note column names to later fix gplearn output
-        column_names = x.columns.tolist()
-        column_mapping = {f'X{i}': name for i, name in enumerate(column_names)}
-
         # Instantiate a QLattice
-        ql = feyn.QLattice()
+        ql = feyn.QLattice(random_seed=17)
 
         # Initate an empty list of models
         models = []
@@ -59,13 +57,20 @@ for i in range(len(operators.index)):
         # Update the QLattice with priors
         ql.update_priors(priors)
 
-        for epoch in range(100): #https://docs.abzu.ai/docs/guides/primitives/using_primitives
+        for epoch in range(10): #https://docs.abzu.ai/docs/guides/primitives/using_primitives
+            print(epoch)
             # Sample models from the QLattice, and add them to the list
-            models += ql.sample_models(data, 'Response', 'regression')
+            models += ql.sample_models(data, 'Response', 'regression', max_complexity=15)
+            print(len(models))
 
-            # Filter to models that only contain: +, =, *, /
-            f = ContainsFunctions(op_temp)
+            # Filter models
+            f = ExcludeFunctions(["gaussian", "log"])
             models = list(filter(f, models))
+            print(len(models))
+            
+            # Remove redundant and poorly performing models from the list
+            models = feyn.prune_models(models)
+            print(len(models))
 
             # Fit the list of models. Returns a list of models sorted by absolute error 
             models = feyn.fit_models(models, data, 'absolute_error')

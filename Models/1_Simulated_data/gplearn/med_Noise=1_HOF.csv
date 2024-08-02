@@ -1,11 +1,11 @@
-Equation
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
-"add(add(mul(chem3, add(add(mul(chem3, chem5), chem2), chem7)), chem2), chem7)"
+Equation,Short_equation
+"add(mul(chem2, chem6), mul(add(mul(chem2, chem6), mul(chem2, add(chem6, chem6))), add(chem6, chem6)))",6*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(add(mul(chem2, chem6), mul(chem2, add(chem6, chem6))), add(chem6, chem6)))",6*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(add(mul(chem2, chem6), mul(chem2, add(chem6, chem6))), add(chem6, chem6)))",6*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(add(mul(chem2, chem6), mul(chem2, add(chem6, chem6))), add(chem6, chem6)))",6*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(add(mul(chem2, chem6), mul(chem2, add(chem6, chem6))), add(chem6, chem6)))",6*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(mul(chem2, add(chem6, chem6)), add(chem6, chem6)))",4*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(mul(chem2, add(chem6, chem6)), add(chem6, chem6)))",4*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(mul(chem2, add(chem6, chem6)), add(chem6, chem6)))",4*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(mul(chem2, add(chem6, chem6)), add(chem6, chem6)))",4*chem2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), mul(mul(chem2, add(chem6, chem6)), add(chem6, chem6)))",4*chem2*chem6**2 + chem2*chem6

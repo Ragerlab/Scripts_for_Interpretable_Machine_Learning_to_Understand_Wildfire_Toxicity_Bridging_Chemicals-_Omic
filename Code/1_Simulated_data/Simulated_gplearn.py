@@ -4,13 +4,14 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import pickle
 from sklearn.metrics import root_mean_squared_error
+import sympy as sp
 
 # Load in data
 with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'rb') as f:
     sim_dict = pickle.load(f)    
 
 # Define potential operator inputs
-ops = [('add', 'sub'), ('add', 'sub', 'mul', 'div'), ('add', 'sub', 'mul', 'div', 'min', 'max', 'sqrt', 'log', 'sin', 'cos')]
+ops = [('add', 'sub'), ('add', 'sub', 'mul', 'div'), ('add', 'sub', 'mul', 'div', 'sqrt', 'log')]
 operators= pd.DataFrame({
     'operators': ops,
 })
@@ -46,13 +47,17 @@ for i in range(len(operators.index)):
 
         # Set model parameters - https://gplearn.readthedocs.io/en/stable/reference.html#symbolic-regressor
         est_gp = SymbolicRegressor(population_size=1000,
-                               generations=100,
+                               generations=50,
                                p_crossover=0.9,
+                               p_hoist_mutation = 0.05,
+                               max_samples = 0.3,
                                metric='rmse',
                                function_set=op_temp,
                                warm_start=True,
-                               parsimony_coefficient= 0.1, 
-                               feature_names=x.columns.tolist())
+                               parsimony_coefficient= 0.25, 
+                               feature_names=x.columns.tolist(), 
+                               verbose = 1,
+                               random_state= 17)
         
         # Fit model
         mod = est_gp.fit(x, y)
@@ -62,12 +67,20 @@ for i in range(len(operators.index)):
         equations = sorted_programs[:10]
 
         # Convert equations to sympy readable format and store in a list
+        # converter = {
+        #     'sub': lambda x, y : x - y,
+        #     'div': lambda x, y : x / y,
+        #     'mul': lambda x, y : x * y,
+        #     'add': lambda x, y : x + y,
+        #     'neg': lambda x : -x,
+        #     'pow': lambda x, y : x**y,
+        #     'sqrt': lambda x : sp.sqrt(x),
+        #     'log': lambda x, base=sp.E : sp.log(x, base)
+        # }
         sympy_equations = []
         for program in equations:
-            equation = str(program)
-            for placeholder, actual_name in column_mapping.items():
-                equation = equation.replace(placeholder, actual_name)
-            sympy_equations.append(equation)
+            equation = sp.sympify(program) #, locals = converter)
+            sympy_equations.append(str(equation))
 
         # Convert the equations to a DataFrame
         df_equations = pd.DataFrame(sympy_equations, columns=['Equation'])

@@ -1,11 +1,11 @@
-Equation
-"add(mul(mul(mul(chem5, chem3), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), 0.986), chem3)"
-"add(mul(mul(mul(chem5, chem3), 0.986), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), chem3)"
-"add(mul(mul(mul(chem5, chem3), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), 0.986), chem3)"
-"add(mul(mul(mul(chem5, chem3), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), 0.986), chem3)"
-"add(mul(mul(mul(chem5, chem3), 0.986), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), chem3)"
-"add(mul(mul(mul(chem5, chem3), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), 0.986), chem3)"
-"add(mul(mul(mul(chem5, chem3), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), 0.986), chem3)"
-"add(mul(mul(mul(chem5, chem3), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), 0.986), chem3)"
-"add(mul(mul(mul(chem5, chem3), 0.986), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), chem3)"
-"add(mul(mul(mul(chem5, chem3), 0.986), add(mul(mul(mul(chem5, chem3), 0.986), 0.986), chem3)), chem3)"
+Equation,Short_equation
+"mul(add(chem6, add(chem6, chem6)), mul(add(chem6, add(0.402, add(chem6, chem6))), chem2))",3*chem2*chem6*(3*chem6 + 0.402)
+"mul(add(chem6, add(chem6, chem6)), mul(add(chem6, add(0.402, add(chem6, chem6))), chem2))",3*chem2*chem6*(3*chem6 + 0.402)
+"mul(add(chem6, add(0.402, add(chem6, chem6))), mul(add(chem6, add(0.402, add(chem6, chem6))), chem2))",chem2*(9*(chem6 + 0.134)**2)
+"mul(add(chem6, add(0.402, add(chem6, chem6))), mul(add(chem6, add(0.402, add(chem6, chem6))), chem2))",chem2*(9*(chem6 + 0.134)**2)
+"mul(add(chem6, add(0.402, add(chem6, chem6))), mul(add(chem6, add(0.402, add(chem6, chem6))), chem2))",chem2*(9*(chem6 + 0.134)**2)
+"mul(add(chem6, add(mul(add(chem6, add(0.402, add(chem6, chem6))), chem2), add(chem6, chem6))), chem2)",chem2*(chem2*(3*chem6 + 0.402) + 3*chem6)
+"mul(add(chem6, add(mul(add(chem6, add(chem6, chem6)), chem2), add(chem6, chem6))), chem2)",chem2*(3*chem2*chem6 + 3*chem6)
+"mul(add(chem6, add(0.402, add(chem6, chem6))), add(chem6, add(chem6, chem6)))",3*chem6*(3*chem6 + 0.402)
+"mul(add(chem6, add(0.402, mul(add(chem6, add(0.402, add(chem6, chem6))), chem2))), chem2)",chem2*(chem2*(3*chem6 + 0.402) + chem6 + 0.402)
+"mul(add(chem6, add(0.402, add(mul(add(chem6, add(chem6, chem6)), chem2), chem6))), chem2)",chem2*(3*chem2*chem6 + 2*chem6 + 0.402)

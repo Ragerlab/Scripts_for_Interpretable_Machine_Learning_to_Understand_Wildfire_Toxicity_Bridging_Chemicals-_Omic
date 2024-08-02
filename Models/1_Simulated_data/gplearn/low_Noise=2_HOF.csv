@@ -1,11 +1,11 @@
-Equation
-"sub(chem3, add(add(add(add(chem5, chem3), sub(chem3, chem14)), chem3), add(add(add(chem5, chem3), chem3), chem4)))"
-"add(add(sub(sub(chem7, 0.113), add(0.603, chem12)), sub(add(chem13, chem2), add(chem10, chem6))), sub(add(sub(chem10, chem5), sub(chem9, chem11)), add(sub(chem14, chem13), sub(chem1, chem1))))"
-"add(chem3, add(add(add(add(chem5, chem3), sub(chem3, add(chem3, add(add(add(add(chem5, chem3), sub(chem3, chem14)), chem3), add(add(add(chem5, chem3), chem3), chem3))))), chem3), add(add(add(chem5, chem3), chem3), chem3)))"
-"add(chem3, add(add(add(add(chem5, chem3), sub(chem3, add(add(add(add(chem5, chem3), chem3), chem3), add(add(add(chem5, chem3), sub(chem3, chem14)), chem3)))), chem3), add(add(add(chem5, chem3), chem3), chem3)))"
-"add(chem3, add(add(add(add(chem5, chem3), add(chem3, add(add(add(add(chem5, chem3), chem3), chem3), add(add(add(chem5, chem3), chem3), chem3)))), chem3), add(add(add(chem5, chem3), chem3), chem3)))"
-"sub(chem3, chem14)"
-"sub(chem3, chem14)"
-"sub(chem3, chem14)"
-"sub(chem3, chem14)"
-"sub(chem3, chem14)"
+Equation,Short_equation
+"add(add(add(add(chem2, chem4), chem6), add(chem4, chem6)), add(add(add(chem4, chem6), chem6), add(add(chem2, add(add(add(add(add(chem4, chem6), chem6), add(chem6, chem6)), add(chem6, add(chem6, add(chem2, chem4)))), add(add(chem4, chem2), chem8))), chem8)))",4*chem2 + 6*chem4 + 10*chem6 + 2*chem8
+chem6,chem6
+"add(chem2, chem4)",chem2 + chem4
+"add(chem2, chem4)",chem2 + chem4
+"add(add(add(add(chem4, chem6), chem8), add(add(chem2, chem6), add(chem6, add(chem4, add(add(add(add(add(add(chem4, chem6), add(chem6, add(chem2, chem4))), add(chem2, chem6)), add(add(add(chem4, chem6), chem6), chem8)), chem8), chem2))))), chem2)",5*chem2 + 5*chem4 + 8*chem6 + 3*chem8
+"add(add(add(add(add(chem4, chem6), chem6), add(chem6, chem6)), add(chem6, add(chem6, add(add(add(add(add(chem4, chem6), chem6), add(add(chem2, chem4), chem6)), add(add(chem4, chem6), add(chem11, chem8))), chem2)))), add(add(chem4, chem2), chem8))",chem11 + 3*chem2 + 5*chem4 + 10*chem6 + 2*chem8
+"add(chem2, chem4)",chem2 + chem4
+"add(add(add(add(add(chem4, chem6), add(add(add(chem6, add(chem4, add(chem2, chem6))), add(chem2, chem6)), add(add(add(chem4, add(chem2, chem6)), chem6), chem8))), add(chem6, add(chem6, chem6))), add(chem2, chem6)), add(add(chem4, chem2), chem8))",5*chem2 + 4*chem4 + 10*chem6 + 2*chem8
+"add(add(add(add(add(chem4, add(chem6, chem6)), add(add(add(add(add(chem6, chem6), chem8), add(add(chem6, add(chem4, chem2)), add(chem4, chem6))), chem2), add(chem4, chem6))), add(add(chem4, chem6), chem6)), add(chem6, add(chem6, chem6))), chem2)",3*chem2 + 5*chem4 + 12*chem6 + chem8
+"add(add(add(add(add(add(chem4, chem6), add(add(add(chem2, add(chem6, chem6)), chem6), add(add(add(add(add(add(chem4, chem6), add(chem2, chem6)), chem8), add(chem6, add(chem6, add(chem4, add(chem6, chem6))))), chem2), chem6))), chem2), chem2), chem2), chem2)",7*chem2 + 3*chem4 + 11*chem6 + chem8

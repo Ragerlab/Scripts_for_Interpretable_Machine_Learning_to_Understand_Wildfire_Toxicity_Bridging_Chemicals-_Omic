@@ -1,11 +1,11 @@
-Equation
-"mul(add(chem12, chem12), mul(chem9, chem5))"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
-"add(mul(chem3, add(mul(chem3, chem5), chem9)), chem9)"
+Equation,Short_equation
+"add(add(mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13)",chem13 + 3*chem2*chem6**2 + 2*chem2*chem6
+"add(add(mul(chem2, chem6), mul(mul(chem2, chem6), mul(chem2, chem6))), chem13)",chem13 + chem2**2*chem6**2 + chem2*chem6
+"add(mul(chem2, chem6), add(mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6), mul(chem2, chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
+"add(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(add(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13), chem6))), chem13)",chem13 + 2*chem2*chem6 + chem6*(chem13 + 3*chem2*chem6)
+"add(add(mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13)",chem13 + 3*chem2*chem6**2 + 2*chem2*chem6
+"add(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6))), chem13)",chem13 + 3*chem2*chem6**2 + 2*chem2*chem6
+"add(add(mul(chem2, chem6), add(mul(add(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13), chem6), mul(chem2, chem6))), chem13)",chem13 + 2*chem2*chem6 + chem6*(chem13 + 3*chem2*chem6)
+"add(add(mul(add(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13), chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13)",chem13 + 2*chem2*chem6 + chem6*(chem13 + 3*chem2*chem6)
+"add(add(mul(chem2, chem6), mul(mul(chem13, chem3), chem4)), chem13)",chem13*chem3*chem4 + chem13 + chem2*chem6
+"add(add(mul(add(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13), chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem13)",chem13 + 2*chem2*chem6 + chem6*(chem13 + 3*chem2*chem6)

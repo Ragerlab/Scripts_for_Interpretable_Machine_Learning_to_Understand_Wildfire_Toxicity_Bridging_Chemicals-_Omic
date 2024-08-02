@@ -1,11 +1,11 @@
 Equation
-"add(mul(chem3, sub(chem5, add(mul(chem3, sub(chem5, 0.191)), chem3))), chem3)"
-"add(mul(chem3, sub(chem5, add(mul(chem3, sub(chem5, 0.191)), chem3))), chem3)"
-"add(mul(chem3, sub(chem5, add(mul(chem3, sub(chem5, 0.191)), chem3))), chem3)"
-"add(mul(chem3, sub(chem5, add(mul(chem3, sub(chem5, 0.191)), chem3))), chem3)"
-"add(mul(chem3, add(mul(chem3, sub(chem5, 0.191)), chem3)), chem3)"
-"add(mul(chem3, add(mul(chem3, sub(chem5, 0.191)), chem3)), chem3)"
-"add(mul(chem3, add(mul(chem3, sub(chem5, 0.191)), chem3)), chem3)"
-"add(mul(chem3, add(mul(chem3, sub(chem5, 0.191)), chem3)), chem3)"
-"add(mul(chem3, add(mul(chem3, sub(chem5, 0.191)), chem3)), chem3)"
-"add(mul(chem3, add(mul(chem3, sub(chem5, 0.191)), chem3)), chem3)"
+2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
+2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 2.42251583114096*chem2) + chem6
+2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
+2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
+2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
+5.86858295212856*chem2*chem6**2 + 2*chem2 + chem6
+5.86858295212856*chem2*chem6**2 + 2*chem2 + chem6
+chem15 + 5.86858295212856*chem2*chem6**2 + chem2 + chem6
+2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 2.42251583114096*chem2) + chem6
+2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
