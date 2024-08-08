@@ -110,7 +110,7 @@ ggsave(filename = '..\\images\\1_Simulated_data\\Input_data\\Input_correlations.
 
 # Create dataframe only containing variables included in the equation
 sim_dat_rel = transformed_data %>%
-  select(chem2, chem6, chem10, chem15, Response)
+  select(chem2, chem6, chem10, chem13, Response)
 
 # Save the simulated dataframes
 # transformed_data.to_pickle("Data_inputs/1_Simulated_data/sim_dat_all.pkl")
@@ -120,15 +120,10 @@ sim_dat_rel = transformed_data %>%
 sim_noise_dict = list()
 
 # Add noise to the response variable in the complete dataset
-for(i in 1:6){
+std = 0.25
+while(std<2.25){
   
    #Generate noise from a Gaussian distribution with mean 0 and standard deviation i+1
-    if(i == 1){
-      std = 0.5
-    } else{
-      std = i-1
-    }
-
     noise <- rnorm(n, mean = 0, sd = std)
     response_noisy = Response + noise
 
@@ -139,7 +134,8 @@ for(i in 1:6){
     # Append to dictionary
     sim_noise_dict[[paste0('Noise=', std)]] <- sim_noise_temp
 
-  
+    # Increase standard deviation 
+    std = std + 0.25
 }
     
 # Combine all dataframes into one list to iterate through

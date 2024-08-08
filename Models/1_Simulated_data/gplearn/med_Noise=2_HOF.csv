@@ -1,11 +1,11 @@
-Equation,Short_equation
-"add(mul(chem2, chem6), add(mul(chem2, chem6), mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6), add(mul(chem2, chem6), mul(chem2, chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6), add(mul(chem2, chem6), mul(chem2, chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(chem2, chem6), add(mul(chem2, chem6), mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(chem2, chem6), add(mul(chem2, chem6), mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(chem2, chem6), add(mul(chem2, chem6), mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6), add(mul(chem2, chem6), mul(chem2, chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(chem2, chem6), add(mul(chem2, chem6), mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(chem2, chem6), add(mul(add(mul(chem2, chem6), add(mul(chem2, chem6), mul(chem2, chem6))), chem6), mul(chem2, chem6)))",3*chem2*chem6**2 + 2*chem2*chem6
-"add(mul(chem2, chem6), add(mul(mul(chem13, chem3), chem4), mul(chem2, chem6)))",chem13*chem3*chem4 + 2*chem2*chem6
+Equation
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"
+"mul(add(chem2, chem7), mul(add(chem2, chem7), chem6))"

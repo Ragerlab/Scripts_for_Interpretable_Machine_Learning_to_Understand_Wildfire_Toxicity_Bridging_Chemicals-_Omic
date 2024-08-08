@@ -60,7 +60,7 @@ for i in range(len(operators.index)):
         for epoch in range(10): #https://docs.abzu.ai/docs/guides/primitives/using_primitives
             print(epoch)
             # Sample models from the QLattice, and add them to the list
-            models += ql.sample_models(data, 'Response', 'regression', max_complexity=15)
+            models += ql.sample_models(data, 'Response', 'regression', max_complexity=10)
             print(len(models))
 
             # Filter models

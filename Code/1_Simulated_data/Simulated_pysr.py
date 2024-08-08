@@ -4,14 +4,16 @@ import pysr
 import matplotlib.pyplot as plt 
 import pickle
 from sklearn.metrics import root_mean_squared_error
+import time
 
 # Load in data
 with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'rb') as f:
     sim_dict = pickle.load(f)    
 
+
 # Define potential operator inputs
-un_vec = [["myfunction(x) = x"], ["myfunction(x) = x"], ['log', 'sqrt', 'sin', 'cos']]
-bin_vec = [['-', '+'], ['-', '+', '*', '/'], ['-', '+', '*', '/', 'min', 'max']]
+un_vec = [["myfunction(x) = x"], ["myfunction(x) = x"], ['log', 'sqrt']]
+bin_vec = [['-', '+'], ['-', '+', '*', '/'], ['-', '+', '*', '/']]
 operators= pd.DataFrame({
     'unary': un_vec,
     'binary': bin_vec,
@@ -24,6 +26,9 @@ results_df = pd.DataFrame(columns=["Input", "Binary operators", "Unary Operators
 # Intialize row counting variable for results table
 row = 0
 
+# Start timer 
+start_time = time.time()
+
 # Iterate through operator options
 for i in range(len(operators.index)):
 
@@ -31,7 +36,7 @@ for i in range(len(operators.index)):
     bin = operators.iloc[i, operators.columns.get_loc('binary')]
     un = operators.iloc[i, operators.columns.get_loc('unary')]
 
-    # Iterate through different simulated inputs
+     # Iterate through different simulated inputs
     for j in range(len(sim_dict)):
 
         # Subset to one df
@@ -64,7 +69,7 @@ for i in range(len(operators.index)):
             """
         # Set up model 
         discovered_model = pysr.PySRRegressor(
-                niterations=100,
+                niterations=500,
                 unary_operators=un,
                 binary_operators= bin,
                 loss_function=loss_function,
@@ -92,14 +97,26 @@ for i in range(len(operators.index)):
         file_name = f'Models/1_Simulated_data/pysr/{list(operators.index)[i]}_{list(sim_dict.keys())[j]}_HOF.csv'
         equations.to_csv(file_name, index=False)
 
-
         # Compare equation predictions to actual
         pred = discovered_model.predict(x)
+        plt.figure()
         plt.scatter(data['Response'], pred)
         plt.xlabel('Equation Output')
         plt.ylabel('Model Output')
         plt.title(file_name)
         # plt.show()
+        plt.savefig(f'images/1_Simulated_data/pysr/real_vs_pred_{key}.png')
+
+        # Get top model
+        best_model = discovered_model.get_best()
+        best_equation = best_model['equation']
+
+        # Get top 10 models
+        equations = pd.DataFrame(discovered_model.equations_)
+
+        # Save the DataFrame to a CSV file
+        file_name = f'Models/1_Simulated_data/pysr/{list(operators.index)[i]}_{list(sim_dict.keys())[j]}_HOF.csv'
+        equations.to_csv(file_name, index=False)
 
         # Calc RMSE
         y_pred = discovered_model.predict(x)
@@ -110,7 +127,13 @@ for i in range(len(operators.index)):
         results_df.loc[row]=[list(sim_dict.keys())[j], bin, un, rmse, best_equation]
         row = row + 1
 
+# End timer and calculate time taken 
+end_time = time.time()
+time_taken = end_time - start_time
+
+results_df['time'] = time_taken
+
 # Save to csv
 results_df
-file_name = f'Models/1_Simulated_data/pysr/results.csv'
+file_name = f'Models/1_Simulated_data/pysr/results_pysr.csv'
 results_df.to_csv(file_name, index=False)

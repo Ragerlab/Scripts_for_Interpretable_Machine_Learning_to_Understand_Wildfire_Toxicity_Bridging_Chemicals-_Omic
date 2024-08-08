@@ -5,7 +5,6 @@ import pickle
 import seaborn as sns
 from sklearn.datasets import make_spd_matrix
 
-
 # Set random seed for reproducibility
 np.random.seed(17)
 
@@ -93,10 +92,10 @@ plt.show()
 
 # Create dataframe only containing variables included in the equation
 sim_dat_rel = pd.DataFrame({
-    'chem3': chem3,
-    'chem5': chem5,
-    'chem7': chem7,
-    'chem12': chem12, 
+    'chem3': chem2,
+    'chem5': chem6,
+    'chem7': chem10,
+    'chem12': chem13, 
     'Response': response
 })
 

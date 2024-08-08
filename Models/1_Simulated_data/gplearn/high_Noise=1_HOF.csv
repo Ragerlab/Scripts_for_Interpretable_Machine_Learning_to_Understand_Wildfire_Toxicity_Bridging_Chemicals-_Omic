@@ -1,11 +1,11 @@
-Equation,Short_equation
-"add(mul(add(mul(chem6, chem8), mul(chem2, chem4)), chem8), mul(chem2, chem4))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
-"add(mul(add(mul(chem6, chem8), mul(chem2, chem4)), chem8), mul(chem2, chem4))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
-"add(mul(add(mul(chem6, chem8), mul(chem2, chem4)), chem8), mul(chem4, chem2))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
-"add(mul(chem2, chem4), mul(add(mul(chem8, chem6), mul(chem4, chem2)), chem8))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
-"add(mul(chem2, chem4), mul(add(mul(chem6, chem8), mul(chem2, chem4)), chem8))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
-"add(mul(add(mul(chem6, chem8), mul(chem2, chem4)), chem8), mul(chem2, chem4))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
-"add(mul(chem2, chem4), mul(mul(chem6, chem8), chem8))",chem2*chem4 + chem6*chem8**2
-"add(mul(add(mul(chem6, chem8), mul(chem2, chem4)), chem8), mul(chem2, chem4))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
-"add(mul(mul(chem8, chem6), chem8), mul(chem2, chem4))",chem2*chem4 + chem6*chem8**2
-"add(mul(add(mul(chem6, chem8), mul(chem4, chem2)), chem8), mul(chem2, chem4))",chem2*chem4 + chem8*(chem2*chem4 + chem6*chem8)
+Equation
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(add(chem2, add(chem6, add(add(chem6, chem6), mul(chem2, add(chem6, chem6))))), add(chem6, chem6)))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(add(chem6, add(add(chem6, chem6), mul(chem2, add(chem6, chem6)))), add(chem6, chem6)))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(add(add(chem6, chem6), mul(chem2, add(chem6, chem6))), add(chem6, chem6)))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(add(chem2, add(chem6, add(add(chem6, chem6), mul(chem2, add(chem6, chem6))))), add(chem6, chem6)))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(add(add(chem6, chem6), mul(chem2, add(chem6, chem6))), add(chem6, chem6)))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(add(chem6, add(add(chem6, chem6), mul(chem2, add(chem6, chem6)))), add(chem6, chem6)))))"
+"add(chem6, add(add(chem6, chem6), mul(mul(chem2, add(chem6, chem6)), add(chem6, chem6))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(mul(chem2, add(chem6, chem6)), add(chem6, chem6)))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(chem2, add(chem2, add(chem6, add(add(chem6, chem6), mul(chem2, add(chem6, chem6)))))))))"
+"add(chem2, add(chem6, add(add(chem6, chem6), mul(chem2, add(chem6, add(add(chem6, chem6), mul(chem2, add(chem6, chem6))))))))"

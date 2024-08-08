@@ -1,0 +1,11 @@
+Equation
+"add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, chem2))))))"
+"add(mul(chem6, add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, chem2)))), add(mul(chem6, chem2), mul(chem6, chem2)))"
+"add(mul(chem6, add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, chem2)))), add(mul(chem6, chem2), mul(chem6, chem2)))"
+"add(mul(chem6, chem2), add(mul(chem6, add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, chem2)))), mul(chem6, chem2)))"
+"add(mul(chem6, add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, chem2)))), add(mul(chem6, chem2), mul(chem6, chem2)))"
+"add(mul(chem6, chem2), add(mul(chem6, add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, chem2)))), mul(chem6, chem2)))"
+"add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, chem2))))))"
+"add(mul(chem6, chem2), add(mul(chem6, add(mul(chem6, chem2), mul(chem6, chem2))), mul(chem6, chem2)))"
+"add(mul(chem6, chem2), add(mul(chem6, chem2), mul(chem6, add(mul(chem6, chem2), mul(chem6, chem2)))))"
+"add(mul(chem6, add(mul(chem6, chem2), mul(chem6, chem2))), add(mul(chem6, chem2), mul(chem6, chem2)))"

@@ -1,0 +1,11 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,24.703514,0.0,57.79108,57.7910800000000,PySRFunction(X=>57.7910800000000)
+3,23.367222,0.027805614791430504,52.563404 + chem6,chem6 + 52.563404,PySRFunction(X=>chem6 + 52.563404)
+5,22.07545,0.02843406990265746,chem6 + (chem6 - -47.336437),chem6 + chem6 - 1*(-47.336437),PySRFunction(X=>chem6 + chem6 - 1*(-47.336437))
+7,20.836483,0.028880345343058517,(42.109844 + chem6) + (chem6 + chem6),chem6 + chem6 + chem6 + 42.109844,PySRFunction(X=>chem6 + chem6 + chem6 + 42.109844)
+9,19.660305,0.029051906157472104,(36.883015 + chem6) + ((chem6 + chem6) + chem6),chem6 + chem6 + chem6 + chem6 + 36.883015,PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + 36.883015)
+11,18.558859,0.028827189578473206,chem6 + (chem6 + ((chem6 - -31.656208) + (chem6 + chem6))),chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-31.656208),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-31.656208))
+13,17.546223,0.02805426805016572,(((chem6 + ((chem6 + chem6) + 26.430256)) + chem6) + chem6) + chem6,chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 26.430256,PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 26.430256)
+15,16.620596,0.02709803194069819,((chem6 + (((chem6 + chem6) + (chem6 + chem6)) + chem6)) + 21.903008) + chem4,chem4 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 21.903008,PySRFunction(X=>chem4 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 21.903008)
+17,15.697888,0.028558234090572496,((chem6 + (((chem6 + chem6) + (chem6 + chem6)) + chem6)) + (27.20448 - chem1)) + chem4,-chem1 + chem4 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 27.20448,PySRFunction(X=>-chem1 + chem4 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 27.20448)
+19,14.887659,0.026496783143595704,chem4 + ((chem6 + (((((chem6 - chem1) + chem6) + chem6) + (chem6 + chem6)) + chem6)) + 21.979923),-chem1 + chem4 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 21.979923,PySRFunction(X=>-chem1 + chem4 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 21.979923)

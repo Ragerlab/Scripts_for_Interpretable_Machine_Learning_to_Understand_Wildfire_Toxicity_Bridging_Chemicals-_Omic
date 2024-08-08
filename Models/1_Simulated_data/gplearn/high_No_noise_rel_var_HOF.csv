@@ -1,11 +1,11 @@
 Equation
-2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
-2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 2.42251583114096*chem2) + chem6
-2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
-2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
-2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
-5.86858295212856*chem2*chem6**2 + 2*chem2 + chem6
-5.86858295212856*chem2*chem6**2 + 2*chem2 + chem6
-chem15 + 5.86858295212856*chem2*chem6**2 + chem2 + chem6
-2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 2.42251583114096*chem2) + chem6
-2*chem2 + chem6*(5.86858295212856*chem2*chem6 + 4.84503166228191*chem2 + 2.42251583114096*chem6) + chem6
+"add(add(div(chem6, mul(-0.969, div(-0.426, add(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6)))), add(chem2, chem2)), chem6)"
+"add(add(div(chem6, mul(-0.969, div(-0.426, add(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6)))), add(chem2, chem2)), chem6)"
+"add(add(div(chem6, mul(-0.969, div(-0.426, add(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6)))), add(chem2, chem2)), chem6)"
+"add(add(div(chem6, mul(-0.969, div(-0.426, add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2))))), add(chem2, chem2)), chem6)"
+"add(add(div(chem6, mul(-0.969, div(-0.426, div(chem6, mul(-0.969, div(-0.426, chem2)))))), chem2), chem6)"
+"add(add(div(add(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6), mul(-0.969, div(-0.426, chem2))), add(chem2, add(chem2, chem2))), chem6)"
+"add(add(div(add(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6), mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6)"
+"add(add(div(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6)"
+"add(add(div(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6)"
+"add(add(div(add(div(chem6, mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), mul(-0.969, div(-0.426, chem2))), add(chem2, chem2)), chem6)"
