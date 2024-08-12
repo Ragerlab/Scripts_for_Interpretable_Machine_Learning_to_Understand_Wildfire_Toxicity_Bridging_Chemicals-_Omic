@@ -1,0 +1,109 @@
+---
+title: "Plot_results"
+output: html_document
+date: "2024-08-12"
+---
+# Libraries
+```{r}
+library(data.table)
+library(pheatmap)
+library(tidyverse)
+```
+
+# Read in data and format data
+```{r}
+setwd("C://Users//Jessie PC//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI")
+
+# Read in results
+results_pysr <- read.csv('..\\NIH_Cloud_NOSI\\Models\\1_Simulated_data\\pysr\\results_pysr.csv')
+results_gplearn <- read.csv('..\\NIH_Cloud_NOSI\\Models\\1_Simulated_data\\gplearn\\results_gplearn.csv')
+results_feyn <- read.csv('..\\NIH_Cloud_NOSI\\Models\\1_Simulated_data\\feyn\\results_feyn.csv')
+
+# Combine results into one data frame
+results_list <- list(results_gplearn, results_pysr, results_feyn)
+names(results_list) <- c('gplearn', 'pysr', 'feyn')
+
+# Add operator complexity
+for(i in 1:length(results_list)){
+  temp <- results_list[[i]]
+  
+  # Make operator column consistent
+  if(i==2){
+    temp <- temp %>%
+      mutate(Operators = paste0(Binary.operators, Unary.Operators)) %>%
+      select(-Binary.operators, -Unary.Operators)
+  }
+  
+  # Add complexity level
+  temp$Operator_complexity <- 'Low'
+  temp$Operator_complexity[11:20] <- 'Medium'
+  temp$Operator_complexity[21:30] <- 'High'
+  
+  # Add package name
+  temp$Package <- names(results_list)[i]
+  
+  # Append to list 
+  results_list[[i]] <- temp
+}
+
+# Combine into one data frame
+results_all <- do.call(bind_rows, results_list)
+results_all$Level <- paste0(results_all$Package, results_all$Operator_complexity)
+```
+
+# Create RMSE heatmap
+```{r}
+# Convert to wide format for RMSE heatmap
+rmse_wide <- results_all %>%
+  select(Input, Level, RMSE) %>%
+  pivot_wider(names_from = Input, values_from = RMSE) 
+
+# Define the desired order for rows and columns
+row_order <- c('pysrHigh', 'gplearnHigh', 'feynHigh', 'pysrMedium', 'gplearnMedium', 'feynMedium', 'pysrLow', 'gplearnLow', 'feynLow')
+column_order <- c('No_noise_rel_var', 'No_noise_all_var', 'Noise=0.25', 'Noise=0.5', 'Noise=0.75', 'Noise=1', 'Noise=1.25', 'Noise=1.5', 'Noise=1.75', 'Noise=2')
+
+# Reorder rows and columns
+rmse_wide <- rmse_wide[match(row_order, rmse_wide$Level), ]
+rmse_wide <- rmse_wide[, c("Level", column_order), with = FALSE]
+
+# Set row names for pheatmap
+rows <- rmse_wide$Level
+rmse_wide <- rmse_wide %>%
+  select(-Level)
+rownames(rmse_wide) <- rows
+
+
+# Plot heatmap
+p <- pheatmap(as.matrix(rmse_wide), cluster_rows = FALSE, cluster_cols = FALSE, 
+         border_color = "white", cellwidth = 20, cellheight = 20, 
+         gaps_row = seq(3, length(row_order), by = 3),  # Thicker lines every 3 rows
+         main = 'Heatmap of RMSE by Input and Operator Complexity')
+
+
+```
+
+# Create accuracy heatmap
+```{r}
+# Convert to wide format for RMSE heatmap
+acc_wide <- results_all %>%
+  select(Input, Level, Correct) %>%
+  pivot_wider(names_from = Input, values_from = Correct) 
+
+# Reorder rows and columns
+acc_wide <- acc_wide[match(row_order, acc_wide$Level), ]
+acc_wide <- acc_wide[, c("Level", column_order), with = FALSE]
+
+# Set row names for pheatmap
+rows <- acc_wide$Level
+acc_wide <- acc_wide %>%
+  select(-Level)
+rownames(acc_wide) <- rows
+
+
+# Plot heatmap
+pheatmap(as.matrix(acc_wide), cluster_rows = FALSE, cluster_cols = FALSE, 
+         border_color = "white", cellwidth = 20, cellheight = 20, 
+         gaps_row = seq(3, length(row_order), by = 3),  # Thicker lines every 3 rows
+         main = 'Heatmap of RMSE by Input and Operator Complexity')
+```
+

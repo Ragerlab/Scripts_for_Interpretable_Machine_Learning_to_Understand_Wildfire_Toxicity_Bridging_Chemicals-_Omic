@@ -108,5 +108,5 @@ for i in range(len(operators.index)):
 
 # Save to csv
 results_df
-file_name = f'Models/1_Simulated_data/gplearn/results.csv'
+file_name = f'Models/1_Simulated_data/gplearn/results_gplearn.csv'
 results_df.to_csv(file_name, index=False)
