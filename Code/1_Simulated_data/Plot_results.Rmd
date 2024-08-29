@@ -8,6 +8,8 @@ date: "2024-08-12"
 library(data.table)
 library(pheatmap)
 library(tidyverse)
+library(gridExtra)
+library(ggpubr)
 ```
 
 # Read in data and format data
@@ -59,7 +61,7 @@ rmse_wide <- results_all %>%
   pivot_wider(names_from = Input, values_from = RMSE) 
 
 # Define the desired order for rows and columns
-row_order <- c('pysrHigh', 'gplearnHigh', 'feynHigh', 'pysrMedium', 'gplearnMedium', 'feynMedium', 'pysrLow', 'gplearnLow', 'feynLow')
+row_order <- c('gplearnHigh', 'pysrHigh', 'feynHigh', 'gplearnMedium', 'pysrMedium', 'feynMedium', 'gplearnLow','pysrLow','feynLow')
 column_order <- c('No_noise_rel_var', 'No_noise_all_var', 'Noise=0.25', 'Noise=0.5', 'Noise=0.75', 'Noise=1', 'Noise=1.25', 'Noise=1.5', 'Noise=1.75', 'Noise=2')
 
 # Reorder rows and columns
@@ -67,43 +69,103 @@ rmse_wide <- rmse_wide[match(row_order, rmse_wide$Level), ]
 rmse_wide <- rmse_wide[, c("Level", column_order), with = FALSE]
 
 # Set row names for pheatmap
-rows <- rmse_wide$Level
+rows <- c('gplearn', 'PySR', 'feyn', 'gplearn ', 'PySR ', 'feyn ', 'gplearn  ', 'PySR  ', 'feyn  ')
 rmse_wide <- rmse_wide %>%
   select(-Level)
 rownames(rmse_wide) <- rows
-
+colnames(rmse_wide) <- 1:10
 
 # Plot heatmap
 p <- pheatmap(as.matrix(rmse_wide), cluster_rows = FALSE, cluster_cols = FALSE, 
          border_color = "white", cellwidth = 20, cellheight = 20, 
-         gaps_row = seq(3, length(row_order), by = 3),  # Thicker lines every 3 rows
-         main = 'Heatmap of RMSE by Input and Operator Complexity')
+         gaps_row = seq(3, length(row_order), by = 3), # Thicker lines every 3 rows)
+           main = "Variation in RMSE")  # Add title) 
 
-
+# ggsave(file = 'C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\images\\1_Simulated_data\\All_results\\rmse_heatmap.png', p, width = 4, height = 4)
 ```
 
 # Create accuracy heatmap
 ```{r}
 # Convert to wide format for RMSE heatmap
 acc_wide <- results_all %>%
-  select(Input, Level, Correct) %>%
-  pivot_wider(names_from = Input, values_from = Correct) 
+  select(Input, Level, Correct_level) %>%
+  pivot_wider(names_from = Input, values_from = Correct_level) 
 
 # Reorder rows and columns
 acc_wide <- acc_wide[match(row_order, acc_wide$Level), ]
 acc_wide <- acc_wide[, c("Level", column_order), with = FALSE]
 
 # Set row names for pheatmap
-rows <- acc_wide$Level
+rows <- c('gplearn', 'PySR', 'feyn', 'gplearn ', 'PySR ', 'feyn ', 'gplearn  ', 'PySR  ', 'feyn  ')
 acc_wide <- acc_wide %>%
   select(-Level)
 rownames(acc_wide) <- rows
+colnames(acc_wide) <- 1:10
 
 
 # Plot heatmap
-pheatmap(as.matrix(acc_wide), cluster_rows = FALSE, cluster_cols = FALSE, 
-         border_color = "white", cellwidth = 20, cellheight = 20, 
-         gaps_row = seq(3, length(row_order), by = 3),  # Thicker lines every 3 rows
-         main = 'Heatmap of RMSE by Input and Operator Complexity')
+p <- pheatmap(as.matrix(acc_wide), 
+              cluster_rows = FALSE, 
+              cluster_cols = FALSE, 
+              border_color = "white", 
+              cellwidth = 20, 
+              cellheight = 20, 
+              gaps_row = seq(3, length(row_order), by = 3),  # Thicker lines every 3 rows
+              main = 'Variation in Accuracy',
+              color = colorRampPalette(c("#CCCCFF", "#6666FF", "#0000FF", "#000066"))(4)) # Light red to red color scale
+ggsave(file = 'C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\images\\1_Simulated_data\\All_results\\accuracy_heatmap.png', p, width = 4, height = 4)
 ```
+
+# Plot sensitivity 
+```{r}
+sens <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\1_Simulated_data\\pysr\\Sensitivity\\pysr_RMSE_sensitivity.csv')
+
+# Format with correct labels
+sens$Input <- factor(sens$Input, levels = c(
+  "No_noise_rel_var", "No_noise_all_var", "Noise=0.25", 
+  "Noise=0.5", "Noise=0.75", "Noise=1", 
+  "Noise=1.25", "Noise=1.5", "Noise=1.75", 
+  "Noise=2"
+))
+sens$Input <- as.numeric(sens$Input)
+sens <- sens %>%
+  mutate(Complexity = as.factor(Complexity)) %>%
+  mutate(Operator = ifelse(Operator == "['myfunction(x) = x'] ['-', '+']", "Low", 
+                           ifelse(Operator == "['myfunction(x) = x'] ['-', '+', '*', '/']", "Medium", "High"))) %>%
+    mutate(ID = paste(Operator, "-", Input))
+
+# Initialize a list to store plots
+plot_list <- list()
+
+# Iterate through tests and create plots
+tests <- unique(sens$ID)
+for(i in 1:length(tests)){
+  temp <- sens %>%
+    filter(ID == tests[i])
+  
+  # Plot
+  p <- ggplot(temp, aes(x = Iteration, y = RMSE, color = Complexity)) +
+    geom_point() +
+    theme_classic() + 
+    ggtitle(tests[i]) +
+    theme(plot.title = element_text(hjust = 0.5))  # Center the title
+  
+  # Add plot to the list
+  plot_list[[i]] <- p
+}
+
+# Extract the legend from one of the plots
+legend <- get_legend(plot_list[[1]])
+
+# Remove the legend from the individual plots
+plot_list <- lapply(plot_list, function(x) x + theme(legend.position = "none"))
+
+# Arrange plots in a grid and add a shared legend at the bottom
+pdf("C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\images\\1_Simulated_data\\pysr\\sensitivity_plots.pdf", width = 11, height = 8)
+plots<-ggarrange(plotlist=plot_list, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
+  print(plots)
+dev.off()
+
+```
+
 

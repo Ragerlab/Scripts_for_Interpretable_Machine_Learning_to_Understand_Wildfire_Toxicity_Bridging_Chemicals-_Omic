@@ -16,7 +16,7 @@ test_x = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x")
 
 # Reduce dimensionality using Lasso
 # Perform Lasso with cross-validation to select the best alpha (lambda)
-lasso_cv = LassoCV(cv=3, max_iter = 10000).fit(train_x, train_y)
+lasso_cv = LassoCV(cv=3, max_iter = 1000).fit(train_x, train_y)
 
 # Best alpha (lambda) value
 best_alpha = lasso_cv.alpha_

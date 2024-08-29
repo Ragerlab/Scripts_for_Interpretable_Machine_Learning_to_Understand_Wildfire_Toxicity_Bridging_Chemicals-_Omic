@@ -56,10 +56,7 @@ operators= pd.DataFrame({
 operators.index = ['low', 'med', 'high']
 
 # Initialize a DataFrame to store results
-results_df = pd.DataFrame(columns=["Input", "Binary operators", "Unary Operators", "RMSE", "Equation"])
-
-# Intialize row counting variable for results table
-row = 0
+results_rmse = pd.DataFrame(columns=["Input", "Operator", "Iteration", "RMSE", "Complexity", "Equation"])
 
 # Iterate through operator options
 for i in range(len(operators.index)):
@@ -110,12 +107,10 @@ for i in range(len(operators.index)):
                 extra_sympy_mappings={'myfunction': lambda x: x},
                 warm_start= True
             )
-        
-        # Initialize a DataFrame to store results
-        results_rmse = pd.DataFrame(columns=["Iteration", "RMSE", "Complexity", "Equation"])
+    
 
         # Iterate through generations
-        for k in range(10):
+        for k in range(500):
 
             # Fit model
             discovered_model.fit(x.values, 
@@ -147,63 +142,16 @@ for i in range(len(operators.index)):
 
                 # Update results
                 results_rmse = results_rmse._append({
+                    "Input": key,
+                    "Operator": f"{un} {bin}",
                     "Iteration": k + 1,
                     "RMSE": rmse,
                     "Complexity": comp,
                     "Equation": cur_eq_str
                 }, ignore_index=True)
 
-        # Compare equation predictions to actual
-        pred = discovered_model.predict(x)
-        plt.figure()
-        plt.scatter(data['Response'], pred)
-        plt.xlabel('Equation Output')
-        plt.ylabel('Model Output')
-        plt.title(file_name)
-        # plt.show()
-        plt.savefig(f'images/1_Simulated_data/pysr/real_vs_pred_{key}.png')
-
-    # Save the complete plot with all iterations
-    results_rmse['RMSE'] = np.log(results_rmse['RMSE'])
-    plt.figure()
-    for comp in results_rmse['Complexity'].unique():
-        subset = results_rmse[results_rmse['Complexity'] == comp]
-        plt.plot(subset['Iteration'], subset['RMSE'], marker='.', linestyle='', label=f'Complexity {comp}')
-
-    plt.xlabel('Iteration')
-    plt.ylabel('log(RMSE)')
-    plt.title(f'{key} - RMSE Sensitivity')
-    # Place legend outside of the plot area
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
-    plt.show()
-
-    plt.savefig(f'images/1_Simulated_data/pysr/pysr_rmse_sensitivity_{key}_complete.png')
-
     # Save RMSE results to csv
-    file_name = f'Models/1_Simulated_data/pysr/pysr_RMSE_sensitivity_{key}.csv'
+    file_name = f'Models/1_Simulated_data/pysr/Sensitivity/pysr_RMSE_sensitivity_{key}.csv'
     results_rmse.to_csv(file_name, index=False)
 
-    # Get top model
-    best_model = discovered_model.get_best()
-    best_equation = best_model['equation']
-
-    # Get top 10 models
-    equations = pd.DataFrame(discovered_model.equations_)
-
-    # Save the DataFrame to a CSV file
-    file_name = f'Models/1_Simulated_data/pysr/{list(operators.index)[i]}_{list(sim_dict.keys())[j]}_HOF.csv'
-    equations.to_csv(file_name, index=False)
-
-    # Calc RMSE
-    y_pred = discovered_model.predict(x)
-    rmse = root_mean_squared_error(y,y_pred)
-    print(f"Training RMSE: {rmse:.2f}")
-
-    # Save results
-    results_df.loc[row]=[list(sim_dict.keys())[j], bin, un, rmse, best_equation]
-    row = row + 1
-
-# Save to csv
-results_df
-file_name = f'Models/1_Simulated_data/pysr/results_pysr.csv'
-results_df.to_csv(file_name, index=False)
+   

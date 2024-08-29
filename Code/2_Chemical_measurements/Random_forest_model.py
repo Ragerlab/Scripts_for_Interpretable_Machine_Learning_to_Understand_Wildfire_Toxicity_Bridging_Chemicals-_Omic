@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
 import pickle
@@ -62,12 +63,13 @@ for i in range(len(train_input_dict)):
     var_imp_rf_injury = var_imp_rf_injury.sort_values("Importance", ascending=False)
 
     # Plot variable importance
-    # plt.figure(figsize=(10, 6))
-    # var_imp_rf_injury.plot(kind="bar", x="Feature", y="Importance")
-    # plt.title("Variable Importance Plot")
-    # plt.xlabel("Feature")
-    # plt.ylabel("Importance")
-    # plt.show()
+    plt.figure(figsize=(10, 6))
+    var_imp_rf_injury.plot(kind="bar", x="Feature", y="Importance")
+    plt.title("Variable Importance Plot")
+    plt.xlabel("Feature")
+    plt.ylabel("Importance")
+    plt.savefig(f'images/2_Chemical_measurements/rf/var_importance_{key}.png')
+
 
     # Get training data RMSE 
     train_pred = rf_model.predict(df_train)

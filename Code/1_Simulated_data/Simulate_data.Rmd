@@ -96,8 +96,8 @@ p <- ggplot(data = melted_transformed_corr_matrix, aes(x = Var1, y = Var2, fill 
                        midpoint = 0, limit = c(-1,1), space = "Lab", 
                        name="Correlation") +
   theme_minimal() + 
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
-                                   size = 12, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 10, hjust = 1),
+        axis.text.y = element_text(vjust = 1, size = 10, hjust = 1)) +
   xlab(NULL)+
   ylab(NULL)+
   coord_fixed()
