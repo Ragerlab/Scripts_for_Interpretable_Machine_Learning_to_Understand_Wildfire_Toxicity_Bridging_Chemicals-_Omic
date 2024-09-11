@@ -118,7 +118,7 @@ ggsave(file = 'C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at 
 
 # Plot sensitivity 
 ```{r}
-sens <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\1_Simulated_data\\pysr\\Sensitivity\\pysr_RMSE_sensitivity.csv')
+sens <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\1_Simulated_data\\pysr\\Sensitivity\\pysr_RMSE_sensitivity.csv')
 
 # Format with correct labels
 sens$Input <- factor(sens$Input, levels = c(
@@ -144,7 +144,7 @@ for(i in 1:length(tests)){
     filter(ID == tests[i])
   
   # Plot
-  p <- ggplot(temp, aes(x = Iteration, y = RMSE, color = Complexity)) +
+  p <- ggplot(temp, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
     geom_point() +
     theme_classic() + 
     ggtitle(tests[i]) +
@@ -161,7 +161,7 @@ legend <- get_legend(plot_list[[1]])
 plot_list <- lapply(plot_list, function(x) x + theme(legend.position = "none"))
 
 # Arrange plots in a grid and add a shared legend at the bottom
-pdf("C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\images\\1_Simulated_data\\pysr\\sensitivity_plots.pdf", width = 11, height = 8)
+pdf("C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\images\\1_Simulated_data\\pysr\\sensitivity_plots.pdf", width = 11, height = 8)
 plots<-ggarrange(plotlist=plot_list, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
   print(plots)
 dev.off()
