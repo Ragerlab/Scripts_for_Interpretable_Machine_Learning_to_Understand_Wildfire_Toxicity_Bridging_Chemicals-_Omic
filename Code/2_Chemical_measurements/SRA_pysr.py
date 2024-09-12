@@ -32,93 +32,86 @@ def clean_column_names(df):
                 cleaned_col = re.sub(r'(\d)([a-zA-Z])', r'\1_\2', cleaned_col)
                 if cleaned_col[0].isdigit():
                     cleaned_col = 'var' + cleaned_col
+                    
                 new_columns.append(cleaned_col)
         df.columns = new_columns
         return df
 
+# Clean names for pysr
+train_clean = {key: clean_column_names(df) for key, df in train_input_dict.items()}
+test_clean = {key: clean_column_names(df) for key, df in test_input_dict.items()}
 
-# Iterate through different random seeds
-for x in range(5):
+# Save a copy of clean names to access later 
+with open('Data_inputs/2_Chemical_measurements/train_clean.pkl', 'wb') as f:
+    pickle.dump(train_clean, f)
 
-    # Run SRA using pysr
-    # Clean names
-    train_clean = {key: clean_column_names(df) for key, df in train_input_dict.items()}
-    test_clean = {key: clean_column_names(df) for key, df in test_input_dict.items()}
+# Initialize a DataFrame to store results
+results_pysr_df = pd.DataFrame(columns=["Input", "Training RMSE", "Test RMSE", "Time Taken"])
 
-    # Initialize a DataFrame to store results
-    results_pysr_df = pd.DataFrame(columns=["Input", "Training RMSE", "Test RMSE", "Time Taken"])
+# Define keys for loop
+keys = list(train_clean.keys())
 
-    # Define keys for loop
-    keys = list(train_clean.keys())
+# Iterate through relevant inputs
+for i in range(len(train_clean)):
+    # Subset to relevant input
+    key = keys[i]
+    df_train = train_clean[key]
+    df_test = test_clean[key]
 
-    # Iterate through relevant inputs
-    for i in range(len(train_clean)):
-        # Subset to relevant input
-        key = keys[i]
-        df_train = train_clean[key]
-        df_test = test_clean[key]
+    # Define parameters
+    default_pysr_params = dict(
+        populations=15,  # default number
+        population_size=33,  # default number
+        model_selection="best",
+        parsimony=0.0032  # Multiplicative factor for how much to punish complexity - default value
+    )
 
-        # Define parameters - https://astroautomata.com/PySR/api/
-        default_pysr_params = dict(
-            populations = 15, # default number
-            population_size = 33, #default number
-            model_selection = "best",
-            parsimony = 0.0032 # Multiplicative factor for how much to punish complexity - default value
-        )
-
-        # Define loss function - note triple quotes in julia allows line breaks 
-        loss_function = """
-        function f(tree, dataset::Dataset{T,L}, options) where {T,L}
-            ypred, completed = eval_tree_array(tree, dataset.X, options)
-            if !completed
-                return L(Inf)
-            end
-            y = dataset.y
-            return sqrt( (1 / length(y)) * sum(i -> (ypred[i] - y[i])^2, eachindex(y)))
+    # Define loss function
+    loss_function = """
+    function f(tree, dataset::Dataset{T,L}, options) where {T,L}
+        ypred, completed = eval_tree_array(tree, dataset.X, options)
+        if !completed
+            return L(Inf)
         end
-        """
-        # Set up model 
-        discovered_model = pysr.PySRRegressor(
-            niterations=500,
-            # unary_operators=['exp','log'],
-            binary_operators=["-", "+", "*", "/", "^"],
-            loss_function=loss_function,
-            **default_pysr_params,
-            temp_equation_file=True, 
-            warm_start= True, 
-            random_state=x
-        )
+        y = dataset.y
+        return sqrt( (1 / length(y)) * sum(i -> (ypred[i] - y[i])^2, eachindex(y)))
+    end
+    """
 
-        # - https://github.com/MilesCranmer/PySR/discussions/439#discussioncomment-7330778
-        # Initialize a DataFrame to store results
-        results_rmse = pd.DataFrame(columns=["Iteration", "RMSE", "Complexity", "Equation"])
+    # Initialize model with warm_start set to True for continuing training
+    discovered_model = pysr.PySRRegressor(
+        niterations=1,  # We will manually iterate
+        binary_operators=["-", "+", "*", "/", "^"],
+        loss_function=loss_function,
+        **default_pysr_params,
+        temp_equation_file=True,
+        warm_start=True,  # Continue training from where the last iteration left off
+        random_state=17
+    )
+
+    # Iterate through a set number of iterations, e.g., 5 iterations
+    for iteration in range(5):
+        print(f"Iteration {iteration + 1}")
 
         # Start timer 
         start_time = time.time()
 
-        # Fit model
+        # Fit the model (each iteration performs one step of fitting)
         discovered_model.fit(df_train.values, 
-                            train_y.values,
-                            variable_names=df_train.columns.tolist()
-                            ) 
-        print(discovered_model.fit)
-        
+                             train_y.values,
+                             variable_names=df_train.columns.tolist())
+
         # End timer and calculate time taken 
         end_time = time.time()
         time_taken = end_time - start_time
 
-        # Get top 10 models
+        # Get the Hall of Fame (HOF) after the iteration
         equations = discovered_model.equations_
-        df_equations = pd.DataFrame(equations) # Convert the equations to a DataFrame
+        df_equations = pd.DataFrame(equations)  # Convert equations to a DataFrame
 
-        # Save the DataFrame to a CSV file
-        file_name = f'Models/2_Chemical_measurements/pysr/Varied_random_seed_results/pysr_HOF_{keys[i]}_{x}.csv'
+        # Save the HOF file for this iteration
+        file_name = f'Models/2_Chemical_measurements/pysr/HOF_all_iterations/hall_of_fame_iteration_{iteration+1}.csv'
         df_equations.to_csv(file_name, index=False)
-        
-        # Save the model to a file - note these files are large and hard to push to github
-        # file_name = f'Models/2_Chemical_measurements/pysr/pysr_model_{keys[i]}.pkl'
-        # with open(file_name, 'wb') as model_file:
-        #     pickle.dump(discovered_model, model_file)
 
         # Pysr Train RMSE 
         y_train = discovered_model.predict(df_train.values)
@@ -126,32 +119,32 @@ for x in range(5):
         print(f"Training RMSE: {train_pysr_rmse:.2f}")
 
         # Plot training residuals
-        #file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_train_{keys[i]}'
-        #plot_residuals(train_y, y_train, filename=file_name)
+        # file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_train_{keys[i]}'
+        # plot_residuals(train_y, y_train, filename=file_name)
 
         # Plot training regression plot
-        #file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_train_{keys[i]}'
-        #plot_regression(train_y, y_train, filename=file_name)
+        # file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_train_{keys[i]}'
+        # plot_regression(train_y, y_train, filename=file_name)
 
         # Pysr Test RMSE 
-        ypredict = discovered_model.predict(df_test.values)
-        test_pysr_rmse = root_mean_squared_error(test_y, ypredict)
+        y_test_predict = discovered_model.predict(df_test.values)
+        test_pysr_rmse = root_mean_squared_error(test_y, y_test_predict)
         print(f"Testing RMSE: {test_pysr_rmse:.2f}")
 
         # Plot testing residuals
-        #file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_test_{keys[i]}'
-        #plot_residuals(test_y, ypredict, filename=file_name)
+        # file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_test_{keys[i]}'
+        # plot_residuals(test_y, y_test_predict, filename=file_name)
 
         # Plot testing regression plot
-        #file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_test_{keys[i]}'
-        #plot_regression(test_y, ypredict, filename=file_name)
+        # file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_test_{keys[i]}'
+        # plot_regression(test_y, y_test_predict, filename=file_name)
 
         # Store results in DataFrame
         results_pysr_df.loc[i] = [key, train_pysr_rmse, test_pysr_rmse, time_taken]
-        
-    # Print final results  
-    results_pysr_df
 
-    # Save model comparisons to csv
-    file_name = f'Models/2_Chemical_measurements/pysr/Varied_random_seed_results/pysr_model_comparison_{x}.csv'
+    # Save model comparisons to csv after all iterations
+    file_name = f'Models/2_Chemical_measurements/pysr/pysr_model_comparison_{key}.csv'
     results_pysr_df.to_csv(file_name, index=False)
+
+# Print final results
+print(results_pysr_df)
