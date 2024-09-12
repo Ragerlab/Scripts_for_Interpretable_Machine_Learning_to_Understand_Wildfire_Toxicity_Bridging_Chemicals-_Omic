@@ -4,7 +4,7 @@ import os
 from sklearn.model_selection import train_test_split
 
 # Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Read in and format mouse tox data
 tox = pd.read_excel("LK_Prelim_Model/ChemistrywTox_MouseMap_042821.xlsx", sheet_name=2)
@@ -41,6 +41,7 @@ np.random.seed(17)
 train_x, test_x, train_y, test_y = train_test_split(injury_df.drop("Injury_Protein", axis=1), injury_df["Injury_Protein"], test_size=0.4)
 
 # Save data splits for downstream use
+injury_df.to_pickle("Data_inputs/2_Chemical_measurements/Injury_df")
 train_x.to_pickle("Data_inputs/2_Chemical_measurements/train_x")
 train_y.to_pickle("Data_inputs/2_Chemical_measurements/train_y")
 test_x.to_pickle("Data_inputs/2_Chemical_measurements/test_x")

@@ -18,12 +18,8 @@ with open('Data_inputs/2_Chemical_measurements/test_input_dict.pkl', 'rb') as f:
 train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
 test_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_y")
 
-# Iterate through different random seeds
-for x in range(5):
-
-    # Run SRA using pysr
-    # Define function to clean up names for pysr
-    def clean_column_names(df):
+# Define function to clean up names for pysr
+def clean_column_names(df):
         new_columns = []
         for col in df.columns:
             if col == 'S':
@@ -41,6 +37,10 @@ for x in range(5):
         return df
 
 
+# Iterate through different random seeds
+for x in range(5):
+
+    # Run SRA using pysr
     # Clean names
     train_clean = {key: clean_column_names(df) for key, df in train_input_dict.items()}
     test_clean = {key: clean_column_names(df) for key, df in test_input_dict.items()}
