@@ -113,38 +113,44 @@ for i in range(len(train_clean)):
         file_name = f'Models/2_Chemical_measurements/pysr/HOF_all_iterations/hall_of_fame_iteration_{iteration+1}.csv'
         df_equations.to_csv(file_name, index=False)
 
-        # Pysr Train RMSE 
-        y_train = discovered_model.predict(df_train.values)
-        train_pysr_rmse = root_mean_squared_error(train_y, y_train)
-        print(f"Training RMSE: {train_pysr_rmse:.2f}")
+    # Pysr Train RMSE 
+    y_train_predict = discovered_model.predict(df_train.values)
+    train_pysr_rmse = root_mean_squared_error(train_y, y_train_predict)
+    print(f"Training RMSE: {train_pysr_rmse:.2f}")
 
-        # Plot training residuals
-        # file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_train_{keys[i]}'
-        # plot_residuals(train_y, y_train, filename=file_name)
+    # Plot training residuals
+    file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_train_{keys[i]}'
+    plot_residuals(train_y, y_train_predict, filename=file_name)
 
-        # Plot training regression plot
-        # file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_train_{keys[i]}'
-        # plot_regression(train_y, y_train, filename=file_name)
+    # Plot training regression plot
+    file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_train_{keys[i]}'
+    plot_regression(train_y, y_train_predict, filename=file_name)
 
-        # Pysr Test RMSE 
-        y_test_predict = discovered_model.predict(df_test.values)
-        test_pysr_rmse = root_mean_squared_error(test_y, y_test_predict)
-        print(f"Testing RMSE: {test_pysr_rmse:.2f}")
+    # Pysr Test RMSE 
+    y_test_predict = discovered_model.predict(df_test.values)
+    test_pysr_rmse = root_mean_squared_error(test_y, y_test_predict)
+    print(f"Testing RMSE: {test_pysr_rmse:.2f}")
 
-        # Plot testing residuals
-        # file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_test_{keys[i]}'
-        # plot_residuals(test_y, y_test_predict, filename=file_name)
+    # Plot testing residuals
+    file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_test_{keys[i]}'
+    plot_residuals(test_y, y_test_predict, filename=file_name)
 
-        # Plot testing regression plot
-        # file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_test_{keys[i]}'
-        # plot_regression(test_y, y_test_predict, filename=file_name)
+    # Plot testing regression plot
+    file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_test_{keys[i]}'
+    plot_regression(test_y, y_test_predict, filename=file_name)
 
-        # Store results in DataFrame
-        results_pysr_df.loc[i] = [key, train_pysr_rmse, test_pysr_rmse, time_taken]
+    # Store results in DataFrame
+    results_pysr_df.loc[i] = [key, train_pysr_rmse, test_pysr_rmse, time_taken]
 
     # Save model comparisons to csv after all iterations
     file_name = f'Models/2_Chemical_measurements/pysr/pysr_model_comparison_{key}.csv'
     results_pysr_df.to_csv(file_name, index=False)
+
+    # Save predictions
+    file_name = f'Data_inputs/2_Chemical_measurements/training_predictions_{key}'
+    pd.DataFrame(y_train_predict).to_pickle(file_name)
+    file_name = f'Data_inputs/2_Chemical_measurements/test_predictions_{key}'
+    pd.DataFrame(y_test_predict).to_pickle(file_name)
 
 # Print final results
 print(results_pysr_df)
