@@ -101,7 +101,7 @@ for col in injury_df_cleaned.columns:
     chemical_ranges[col] = (min_value, max_value)
 
 # Initialize df to hold results 
-results_df = pd.DataFrame(columns=["chem", "equation", "sympy_equation", "integrated_derivative", "derivative", "direction"])
+results_df = pd.DataFrame(columns=["chem", "sympy_equation", "parital derivative w/ respect to chem", "integrated_derivative", "direction"])
 
 # Iterate through each chemical
 for i in range(len(chems)):
@@ -150,16 +150,15 @@ for i in range(len(chems)):
 
         except Exception as e:
             # If there's an issue, log the error message in the 'derivative' column
-            partial_derivative = f"Error: {str(e)}"
+            partial_derivative = f"Error"
             integrated_derivative = "Error"
-            direction = "Error processing derivative"
+            direction = "Error"
 
         # Store the results for this row
         results_df = results_df._append({
             "chem": chem,
-            "equation": equation_str,
             "sympy_equation": equation_sympy if 'equation_sympy' in locals() else "Error in sympy parsing",
-            "derivative": partial_derivative,
+            "parital derivative w/ respect to chem": partial_derivative,
             "integrated_derivative": integrated_derivative,
             "direction": direction
         }, ignore_index=True)
