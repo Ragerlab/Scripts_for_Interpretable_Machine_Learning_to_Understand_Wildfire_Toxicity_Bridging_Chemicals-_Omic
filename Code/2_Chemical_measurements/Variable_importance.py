@@ -4,6 +4,8 @@ import pickle
 import sympy as sp
 import re
 from scipy.integrate import quad
+from scipy.integrate import nquad
+import numpy as np
 
 # Define all functions 
 
@@ -53,6 +55,7 @@ def integrate_over_all_variables(partial_derivative, all_symbols, ranges):
     except Exception as e:
         return f"Error during numerical integration: {str(e)}"
 
+
 # Directory where the HOF files are stored
 hof_directory = r"Models/2_Chemical_measurements/pysr/HOF_all_iterations"
 
@@ -77,6 +80,7 @@ for file_name in os.listdir(hof_directory):
 
 # Concatenate all DataFrames into one
 combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
+# combined_hof_df = combined_hof_df.loc[:50,]
 
 # Load in clean names 
 with open('Data_inputs/2_Chemical_measurements/train_clean.pkl', 'rb') as f:
@@ -117,6 +121,7 @@ for i in range(len(chems)):
 
     # Iterate through each row in the subset DataFrame
     for j in range(len(subset_df)):
+        print(j)
         try:
             # Get the equation string from the j-th row of the subset DataFrame
             equation_str = subset_df.iloc[j]['equation']

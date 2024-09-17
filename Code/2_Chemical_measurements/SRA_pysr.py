@@ -89,8 +89,8 @@ for i in range(len(train_clean)):
         random_state=17
     )
 
-    # Iterate through a set number of iterations, e.g., 5 iterations
-    for iteration in range(5):
+    # Iterate through a set number of iterations
+    for iteration in range(100):
         print(f"Iteration {iteration + 1}")
 
         # Start timer 

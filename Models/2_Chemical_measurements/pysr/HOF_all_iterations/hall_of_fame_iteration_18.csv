@@ -1,0 +1,7 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+3,18.073547,0.0,P + 67.80656,P + 67.80656,PySRFunction(X=>P + 67.80656)
+5,17.747217,0.009110331320982037,(P + 63.39511) + Heneicosane,Heneicosane + P + 63.39511,PySRFunction(X=>Heneicosane + P + 63.39511)
+7,17.35382,0.011208029913679673,(P + 65.12236) - (Ethylguaiacol * 0.44651067),-0.44651067*Ethylguaiacol + P + 65.12236,PySRFunction(X=>-0.44651067*Ethylguaiacol + P + 65.12236)
+9,16.636103,0.021118720907686336,(Cu + 72.80608) - ((0.91749144 / Acenaphthylene) + 1.1908554),Cu - (1.1908554 + 0.91749144/Acenaphthylene) + 72.80608,PySRFunction(X=>Cu - (1.1908554 + 0.91749144/Acenaphthylene) + 72.80608)
+11,16.620209,0.00047792434741786104,((Cu ^ 1.0065724) + 72.91493) - ((0.9889544 / Acenaphthylene) + 1.0824232),Cu**1.0065724 - (1.0824232 + 0.9889544/Acenaphthylene) + 72.91493,PySRFunction(X=>Cu**1.0065724 - (1.0824232 + 0.9889544/Acenaphthylene) + 72.91493)
+15,16.441082,0.002709040502837497,(((Cu ^ 0.997977) + 72.80608) - ((0.91749144 / Acenaphthylene) + (0.16211249 / Eugenol))) - Propylguaiacol,Cu**0.997977 - Propylguaiacol - (0.16211249/Eugenol + 0.91749144/Acenaphthylene) + 72.80608,PySRFunction(X=>Cu**0.997977 - Propylguaiacol - (0.16211249/Eugenol + 0.91749144/Acenaphthylene) + 72.80608)

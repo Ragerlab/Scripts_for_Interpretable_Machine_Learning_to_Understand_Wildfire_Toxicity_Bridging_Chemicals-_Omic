@@ -1,89 +1,84 @@
 chem,sympy_equation,parital derivative w/ respect to chem,integrated_derivative,direction
-Docosane,Benzokfluoranthene + Cu - (Docosane/Zn)**Naphthalene + 61.184902,-Naphthalene*(Docosane/Zn)**Naphthalene/Docosane,-73.40259529593574,negative
-Heptadecane,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,Fluoranthene**(Heptadecane + 1.8194845)*log(Fluoranthene),2643.046217300683,positive
-Heptadecane,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,Fluoranthene**(Heptadecane + 1.8194845)*log(Fluoranthene),2643.046217300683,positive
-Pentadecane,0.04264588*Mg/Pentadecane + 74.76269 - (Dibenzofuran - Pentadecane + Propylguaiacol - 0.14462063)/Fluoranthene,-0.04264588*Mg/Pentadecane**2 + 1/Fluoranthene,-29785.81487995187,negative
-Tetradecane,22.6914096440773*Benzoapyrene - Guaiacol + 7.27443165792345*Tetradecane + 91.4809610666516,7.27443165792345,7.27443165792345,positive
-Benzoapyrene,22.6914096440773*Benzoapyrene - Guaiacol + 7.27443165792345*Tetradecane + 91.4809610666516,22.6914096440773,22.6914096440773,positive
-Benzokfluoranthene,Benzokfluoranthene + Cu - (Docosane/Zn)**Naphthalene + 61.184902,1,1.0,positive
-Dibenzofuran,0.04264588*Mg/Pentadecane + 74.76269 - (Dibenzofuran - Pentadecane + Propylguaiacol - 0.14462063)/Fluoranthene,-1/Fluoranthene,-3.7898553714539385,negative
-Dibenzofuran,Fluoranthene/var35_Dimethoxyphenol + 6.7576672154343*PO_4**0.13090888 + 30.7086170934111*(Methylfluorene**Guaiacol)**Dibenzofuran + 54.1788477053618,30.7086170934111*(Methylfluorene**Guaiacol)**Dibenzofuran*log(Methylfluorene**Guaiacol),-881.7225856128491,negative
-Fluoranthene,Cu + Fluoranthene + 60.667508,1,1.0,positive
-Fluoranthene,Cu + Fluoranthene**2.0606148 + 60.667508,2.0606148*Fluoranthene**1.0606148,13.524086382014834,positive
-Fluoranthene,Cu + Fluoranthene + 60.667508,1,1.0,positive
-Fluoranthene,Cu + Fluoranthene - Propylguaiacol + 60.667508,1,1.0,positive
-Fluoranthene,0.04264588*Mg/Pentadecane + 74.76269 - (Dibenzofuran - Pentadecane + Propylguaiacol - 0.14462063)/Fluoranthene,(Dibenzofuran - Pentadecane + Propylguaiacol - 0.14462063)/Fluoranthene**2,610.2766320631408,positive
-Fluoranthene,Fluoranthene + 67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.997929,1,1.0,positive
-Fluoranthene,Cu + Fluoranthene - Propylguaiacol + 60.667508,1,1.0,positive
-Fluoranthene,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,1.8194845*Fluoranthene**0.8194845,9.964673882667068,positive
-Fluoranthene,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,Fluoranthene**(Heptadecane + 1.8194845)*(Heptadecane + 1.8194845)/Fluoranthene,4663.463002910369,positive
-Fluoranthene,Fluoranthene + 67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.997929,1,1.0,positive
-Fluoranthene,Cu + Fluoranthene - Propylguaiacol + 60.667508,1,1.0,positive
-Fluoranthene,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,1.8194845*Fluoranthene**0.8194845,9.964673882667068,positive
-Fluoranthene,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,Fluoranthene**(Heptadecane + 1.8194845)*(Heptadecane + 1.8194845)/Fluoranthene,4663.463002910369,positive
-Fluoranthene,Fluoranthene/var35_Dimethoxyphenol + 6.7576672154343*PO_4**0.13090888 + 30.7086170934111*(Methylfluorene**Guaiacol)**Dibenzofuran + 54.1788477053618,1/var35_Dimethoxyphenol,1.9718848518703636,positive
-Methylfluorene,Fluoranthene/var35_Dimethoxyphenol + 6.7576672154343*PO_4**0.13090888 + 30.7086170934111*(Methylfluorene**Guaiacol)**Dibenzofuran + 54.1788477053618,30.7086170934111*Dibenzofuran*Guaiacol*(Methylfluorene**Guaiacol)**Dibenzofuran/Methylfluorene,348.05132757543936,positive
-Naphthalene,Benzokfluoranthene + Cu - (Docosane/Zn)**Naphthalene + 61.184902,-(Docosane/Zn)**Naphthalene*log(Docosane/Zn),3250.013048865368,positive
-Pyrene,-Guaiacol + 8.08211195877671*Pyrene + 92.7914439915855,8.08211195877671,8.08211195877671,positive
-Pyrene,-Guaiacol - 8.08211195877671*NH_4 + 8.08211195877671*Pyrene + 92.7914439915855,8.08211195877671,8.08211195877671,positive
-var35_Dimethoxyphenol,Fluoranthene/var35_Dimethoxyphenol + 6.7576672154343*PO_4**0.13090888 + 30.7086170934111*(Methylfluorene**Guaiacol)**Dibenzofuran + 54.1788477053618,-Fluoranthene/var35_Dimethoxyphenol**2,-15.247717160254398,negative
-Guaiacol,-Guaiacol + 8.08211195877671*Pyrene + 92.7914439915855,-1,-1.0,negative
-Guaiacol,-Guaiacol - 8.08211195877671*NH_4 + 8.08211195877671*Pyrene + 92.7914439915855,-1,-1.0,negative
-Guaiacol,22.6914096440773*Benzoapyrene - Guaiacol + 7.27443165792345*Tetradecane + 91.4809610666516,-1,-1.0,negative
-Guaiacol,Fluoranthene/var35_Dimethoxyphenol + 6.7576672154343*PO_4**0.13090888 + 30.7086170934111*(Methylfluorene**Guaiacol)**Dibenzofuran + 54.1788477053618,30.7086170934111*Dibenzofuran*(Methylfluorene**Guaiacol)**Dibenzofuran*log(Methylfluorene),-18.04900897726865,negative
-Propylguaiacol,67.3007754185049*(1.4266665**(4.97367649118936*P)/Propylguaiacol)**0.006777028 - 2.0674,-0.45609923943292*(1.4266665**(4.97367649118936*P)/Propylguaiacol)**0.006777028/Propylguaiacol,-66.03287275412109,negative
-Propylguaiacol,67.41105304717*(1.5867231**(0.561586110933481*P)/Propylguaiacol)**0.03889326 + 1.311942683,-2.62183561303738*(1.5867231**(0.561586110933481*P)/Propylguaiacol)**0.03889326/Propylguaiacol,-358.39264019740983,negative
-Propylguaiacol,Cu + Fluoranthene - Propylguaiacol + 60.667508,-1,-1.0,negative
-Propylguaiacol,67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol)**0.03889326 + 1.2519779,-2.62183561303738*(1.5867231**(0.495712336148484*P)/Propylguaiacol)**0.03889326/Propylguaiacol,-348.93445209029426,negative
-Propylguaiacol,0.04264588*Mg/Pentadecane + 74.76269 - (Dibenzofuran - Pentadecane + Propylguaiacol - 0.14462063)/Fluoranthene,-1/Fluoranthene,-3.7898553714539385,negative
-Propylguaiacol,Fluoranthene + 67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.997929,Error,Error,Error
-Propylguaiacol,Cu - Propylguaiacol + 60.667508,-1,-1,negative
-Propylguaiacol,Cu + Fluoranthene - Propylguaiacol + 60.667508,-1,-1,negative
-Propylguaiacol,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,-1,-1,negative
-Propylguaiacol,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,-2,-2,negative
-Propylguaiacol,67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.017299,Error,Error,Error
-Propylguaiacol,Fluoranthene + 67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.997929,Error,Error,Error
-Propylguaiacol,Cu - Propylguaiacol + 60.667508,-1,-1,negative
-Propylguaiacol,Cu + Fluoranthene - Propylguaiacol + 60.667508,-1,-1,negative
-Propylguaiacol,79.3650851819327*(1/Propylguaiacol)**0.14585575 + 0.03960442,-11.5758540230247*(1/Propylguaiacol)**0.14585575/Propylguaiacol,-32.76742106976085,negative
-Propylguaiacol,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,-1,-1,negative
-Propylguaiacol,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,-2,-2,negative
-Propylguaiacol,67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.017299,Error,Error,Error
-Cu,Cu + 60.667454,1,1,positive
-Cu,Benzokfluoranthene + Cu - (Docosane/Zn)**Naphthalene + 61.184902,1,1,positive
-Cu,Cu + 60.667454,1,1,positive
-Cu,Cu + Fluoranthene + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene**2.0606148 + 60.667508,1,1,positive
-Cu,Cu + 60.667454,1,1,positive
-Cu,Cu + Fluoranthene + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene - Propylguaiacol + 60.667508,1,1,positive
-Cu,Cu + 60.667454,1,1,positive
-Cu,Cu - Propylguaiacol + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene - Propylguaiacol + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,1,1,positive
-Cu,Cu + 60.667454,1,1,positive
-Cu,Cu - Propylguaiacol + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene - Propylguaiacol + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,1,1,positive
-Cu,Cu + Fluoranthene**(Heptadecane + 1.8194845) - 2*Propylguaiacol + 60.667508,1,1,positive
-Mg,0.04264588*Mg/Pentadecane + 74.76269 - (Dibenzofuran - Pentadecane + Propylguaiacol - 0.14462063)/Fluoranthene,0.04264588/Pentadecane,0.16190769062328145,positive
-P,67.3007754185049*(1.4266665**(4.97367649118936*P))**0.006777028,0.806086630034037*(1.4266665**(4.97367649118936*P))**0.006777028,38.97006636842523,positive
-P,67.3007754185049*(1.4266665**(4.97367649118936*P - 0.4564907))**0.006777028,0.806086630034037*1.4266665**(0.4564907 - 4.97367649118936*P)*1.4266665**(4.97367649118936*P - 0.4564907)*(1.4266665**(4.97367649118936*P - 0.4564907))**0.006777028,38.9272501302223,positive
-P,67.3007754185049*(1.4266665**(4.97367649118936*P)/Propylguaiacol)**0.006777028 - 2.0674,0.806086630034037*(1.4266665**(4.97367649118936*P)/Propylguaiacol)**0.006777028,262.0829229096477,positive
-P,67.41105304717*(1.5867231**(0.561586110933481*P)/Propylguaiacol)**0.03889326 + 1.311942683,0.679758052623578*(1.5867231**(0.561586110933481*P)/Propylguaiacol)**0.03889326,204.2672467401988,positive
-P,67.3007754185049*(1.4266665**(4.97367649118936*P))**0.006777028,0.806086630034037*(1.4266665**(4.97367649118936*P))**0.006777028,38.97006636842523,positive
-P,67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol)**0.03889326 + 1.2519779,0.60002276716151*(1.5867231**(0.495712336148484*P)/Propylguaiacol)**0.03889326,175.5483988641441,positive
-P,Fluoranthene + 67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.997929,Error,Error,Error
-P,67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.017299,Error,Error,Error
-P,Fluoranthene + 67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.997929,Error,Error,Error
-P,67.41105304717*(1.5867231**(0.495712336148484*P)/Propylguaiacol - 0.5409851)**0.03889326 + 2.017299,Error,Error,Error
-Zn,Benzokfluoranthene + Cu - (Docosane/Zn)**Naphthalene + 61.184902,Naphthalene*(Docosane/Zn)**Naphthalene/Zn,3.589112150555284,positive
-NH_4,-Guaiacol - 8.08211195877671*NH_4 + 8.08211195877671*Pyrene + 92.7914439915855,-8.08211195877671,-8.08211195877671,negative
-PO_4,PO_4 + 81.52743,1,1,positive
-PO_4,PO_4 + 81.52743,1,1,positive
-PO_4,PO_4 + 81.52743,1,1,positive
-PO_4,PO_4 + 81.52743,1,1,positive
-PO_4,Fluoranthene/var35_Dimethoxyphenol + 6.7576672154343*PO_4**0.13090888 + 30.7086170934111*(Methylfluorene**Guaiacol)**Dibenzofuran + 54.1788477053618,0.884638646585222/PO_4**0.86909112,7.104199992028972,positive
-SO_4,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,-1,-1,negative
-SO_4,Cu + Fluoranthene**1.8194845 - Propylguaiacol - SO_4 + 60.667508,-1,-1,negative
+Isoeugenol,84.66278 - 0.00587156652807812*Isoeugenol,-0.00587156652807812,-0.00587156652807812,negative
+Isoeugenol,1.84891382886971*(0.243949324894638*Isoeugenol + 0.487898649789277*Na + 1)**0.4356398 + 62.249817,0.196491533159552/(0.243949324894638*Isoeugenol + 0.487898649789277*Na + 1)**0.5643602,12444.218332341805,positive
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,-0.0269586679754121*Isoeugenol + 0.00779249895115085*Silicon + 84.48946377,-0.0269586679754121,-0.0269586679754121,negative
+Isoeugenol,(0.568047*Isoeugenol*Na + Silicon + 23811.58988578)/(Isoeugenol + 271.620763),0.568047*Na/(Isoeugenol + 271.620763) - 1.35542056396412e-5*(0.568047*Isoeugenol*Na + Silicon + 23811.58988578)/(0.00368160367769823*Isoeugenol + 1)**2,866594994.945192,positive
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,97.3934 - (0.392190083552175*Isoeugenol + 1412.61777)/Silicon,-0.392190083552175/Silicon,-1.4636039441920614,negative
+Isoeugenol,97.3934 - (0.392190083552175*Isoeugenol + Silicon + 1412.61777)/Silicon,-0.392190083552175/Silicon,-1.4636039441920614,negative
+Isoeugenol,(0.568047*Isoeugenol*Na + 23811.503)/(Isoeugenol + 271.620763),0.568047*Na/(Isoeugenol + 271.620763) - 1.35542056396412e-5*(0.568047*Isoeugenol*Na + 23811.503)/(0.00368160367769823*Isoeugenol + 1)**2,451281.7181112075,positive
+Isoeugenol,(0.568047*Isoeugenol*Na + Na + 23811.503)/(Isoeugenol + 271.620763),0.568047*Na/(Isoeugenol + 271.620763) - 1.35542056396412e-5*(0.568047*Isoeugenol*Na + Na + 23811.503)/(0.00368160367769823*Isoeugenol + 1)**2,447646.02871763316,positive
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,27.9233772018298*0.98562217**Isoeugenol + 63.83632232852,-0.404391725102469*0.98562217**Isoeugenol,-27.78076833985607,negative
+Isoeugenol,(0.568047*Isoeugenol*Na + 23811.503)/(Isoeugenol + 271.620763),0.568047*Na/(Isoeugenol + 271.620763) - 1.35542056396412e-5*(0.568047*Isoeugenol*Na + 23811.503)/(0.00368160367769823*Isoeugenol + 1)**2,451281.7181112075,positive
+Isoeugenol,(0.57124925*Isoeugenol*Na + Na + 23811.079)/(Isoeugenol + 271.009027),0.57124925*Na/(Isoeugenol + 271.009027) - 1.36154652496877e-5*(0.57124925*Isoeugenol*Na + Na + 23811.079)/(0.00368991398947017*Isoeugenol + 1)**2,450729.28921800014,positive
+Isoeugenol,(0.568047*Isoeugenol*Na + Isoeugenol + Na + 23811.503)/(Isoeugenol + 271.620763),(0.568047*Na + 1)/(Isoeugenol + 271.620763) - 1.35542056396412e-5*(0.568047*Isoeugenol*Na + Isoeugenol + Na + 23811.503)/(0.00368160367769823*Isoeugenol + 1)**2,448897.17361037363,positive
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,27.9233772018298*0.98562217**Isoeugenol + 63.83632232852,-0.404391725102469*0.98562217**Isoeugenol,-27.78076833985607,negative
+Isoeugenol,(0.568047*Isoeugenol*Na + 23811.503)/(Isoeugenol + 271.620763),0.568047*Na/(Isoeugenol + 271.620763) - 1.35542056396412e-5*(0.568047*Isoeugenol*Na + 23811.503)/(0.00368160367769823*Isoeugenol + 1)**2,451281.7181112075,positive
+Isoeugenol,(0.57124925*Isoeugenol*Na + Na + 23811.079)/(Isoeugenol + 271.009027),0.57124925*Na/(Isoeugenol + 271.009027) - 1.36154652496877e-5*(0.57124925*Isoeugenol*Na + Na + 23811.079)/(0.00368991398947017*Isoeugenol + 1)**2,450729.28921800014,positive
+Isoeugenol,(0.568047*Isoeugenol*Na + Isoeugenol + Na + 23811.503)/(Isoeugenol + 271.620763),(0.568047*Na + 1)/(Isoeugenol + 271.620763) - 1.35542056396412e-5*(0.568047*Isoeugenol*Na + Isoeugenol + Na + 23811.503)/(0.00368160367769823*Isoeugenol + 1)**2,448897.17361037363,positive
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,39.593246 + 16291.333/(Isoeugenol + 297.01135),-0.184676029757559/(0.00336687470024294*Isoeugenol + 1)**2,-44.54708306259328,negative
+Isoeugenol,27.9233772018298*0.98562217**Isoeugenol + 63.83632232852,-0.404391725102469*0.98562217**Isoeugenol,-27.78076833985607,negative
+Isoeugenol,38.5202848 + 16291.333/(Isoeugenol + 295.9102171),-0.186053009638169/(0.0033794034210791*Isoeugenol + 1)**2,-44.74361638397197,negative
+Isoeugenol,(Isoeugenol + 16291.333)/(2*Isoeugenol + 294.7614973) + 39.593246,1/(2*Isoeugenol + 294.7614973) - 2.30191078543277e-5*(Isoeugenol + 16291.333)/(0.00678514669765182*Isoeugenol + 1)**2,-49.03892163388056,negative
+Isoeugenol,0.022140158*Isoeugenol + 15.9200945 + 16836.535/(Isoeugenol + 209.762427),0.022140158 - 0.382646124397632/(0.00476729800613911*Isoeugenol + 1)**2,-40.289560319713786,negative
+Isoeugenol,(80.623405 - Isoeugenol)/(0.0481012219375001*Isoeugenol + 3.606414) + 74.43886,-0.00369832393769946*(80.623405 - Isoeugenol)/(0.0133376872254545*Isoeugenol + 1)**2 - 1/(0.0481012219375001*Isoeugenol + 3.606414),-40.57987824341382,negative
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,39.593246 + 16291.333/(Isoeugenol + 297.01135),-0.184676029757559/(0.00336687470024294*Isoeugenol + 1)**2,-44.54708306259328,negative
+Isoeugenol,38.5202848 + 16291.333/(Isoeugenol + 297.01135),-0.184676029757559/(0.00336687470024294*Isoeugenol + 1)**2,-44.54708306259328,negative
+Isoeugenol,41.980835 + 16291.294/(2*Isoeugenol + 300.260767),-0.361400207513832/(0.00666087687706466*Isoeugenol + 1)**2,-48.48978206610611,negative
+Isoeugenol,41.980835 + 16291.294/(2*Isoeugenol + 304.520605),-0.351359911457318/(0.00656770007402291*Isoeugenol + 1)**2,-47.742639087543694,negative
+Isoeugenol,0.022140158*Isoeugenol + 15.9200945 + 16836.535/(Isoeugenol + 209.762427),0.022140158 - 0.382646124397632/(0.00476729800613911*Isoeugenol + 1)**2,-40.289560319713786,negative
+Isoeugenol,(80.623405 - Isoeugenol)/(0.0481012219375001*Isoeugenol + 3.606414) + 74.43886,-0.00369832393769946*(80.623405 - Isoeugenol)/(0.0133376872254545*Isoeugenol + 1)**2 - 1/(0.0481012219375001*Isoeugenol + 3.606414),-40.57987824341382,negative
+Isoeugenol,(89.901505 - Isoeugenol)/(0.0481012219375001*Isoeugenol + 4.3457189) + 74.43886,-0.0025470228867936*(89.901505 - Isoeugenol)/(0.0110686454978715*Isoeugenol + 1)**2 - 1/(0.0481012219375001*Isoeugenol + 4.3457189),-38.60862912665186,negative
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,39.593246 + 16291.333/(Isoeugenol + 297.01135),-0.184676029757559/(0.00336687470024294*Isoeugenol + 1)**2,-44.54708306259328,negative
+Isoeugenol,38.5202848 + 16291.333/(Isoeugenol + 297.01135),-0.184676029757559/(0.00336687470024294*Isoeugenol + 1)**2,-44.54708306259328,negative
+Isoeugenol,41.980835 + 16291.294/(2*Isoeugenol + 300.260767),-0.361400207513832/(0.00666087687706466*Isoeugenol + 1)**2,-48.48978206610611,negative
+Isoeugenol,41.980835 + 16291.294/(2*Isoeugenol + 304.520605),-0.351359911457318/(0.00656770007402291*Isoeugenol + 1)**2,-47.742639087543694,negative
+Isoeugenol,0.022140158*Isoeugenol + 15.9200945 + 16836.535/(Isoeugenol + 209.762427),0.022140158 - 0.382646124397632/(0.00476729800613911*Isoeugenol + 1)**2,-40.289560319713786,negative
+Isoeugenol,(80.623405 - Isoeugenol)/(0.0481012219375001*Isoeugenol + 3.606414) + 74.43886,-0.00369832393769946*(80.623405 - Isoeugenol)/(0.0133376872254545*Isoeugenol + 1)**2 - 1/(0.0481012219375001*Isoeugenol + 3.606414),-40.57987824341382,negative
+Isoeugenol,(89.901505 - Isoeugenol)/(0.0481012219375001*Isoeugenol + 4.3457189) + 74.43886,-0.0025470228867936*(89.901505 - Isoeugenol)/(0.0110686454978715*Isoeugenol + 1)**2 - 1/(0.0481012219375001*Isoeugenol + 4.3457189),-38.60862912665186,negative
+Isoeugenol,Isoeugenol,1,1.0,positive
+Isoeugenol,39.593246 + 16291.333/(Isoeugenol + 297.01135),-0.184676029757559/(0.00336687470024294*Isoeugenol + 1)**2,-44.54708306259328,negative
+Isoeugenol,38.5202848 + 16291.333/(Isoeugenol + 297.01135),-0.184676029757559/(0.00336687470024294*Isoeugenol + 1)**2,-44.54708306259328,negative
+Isoeugenol,(Isoeugenol + 16291.294)/(2*Isoeugenol + 299.0034) + 41.980835,1/(2*Isoeugenol + 299.0034) - 2.23706056512342e-5*(Isoeugenol + 16291.294)/(0.00668888714977823*Isoeugenol + 1)**2,-48.26737301387241,negative
+Isoeugenol,(Isoeugenol + 16291.294)/(2*Isoeugenol + 300.260767) + 41.980835,1/(2*Isoeugenol + 300.260767) - 2.21836403857073e-5*(Isoeugenol + 16291.294)/(0.00666087687706466*Isoeugenol + 1)**2,-48.042930540535565,negative
+Isoeugenol,0.00049833633767126*Silicon*(1.8186955 - Isoeugenol) + 96.48145 - 875.4587/Na,-0.00049833633767126*Silicon,-984.2515505926507,negative
+Na,1.84891382886971*(0.243949324894638*Isoeugenol + 0.487898649789277*Na + 1)**0.4356398 + 62.249817,0.392983066319104/(0.243949324894638*Isoeugenol + 0.487898649789277*Na + 1)**0.5643602,24888.43666468361,positive
+Na,18.4356664269741/(0.00726387079060808 + 1/Na)**0.34562445 + 0.26096043,6.37181706920638/(Na**2*(0.00726387079060808 + 1/Na)**1.34562445),41.759646787519046,positive
+Na,Na**0.4356398 + 62.249817,0.4356398/Na**0.5643602,20.040907899644267,positive
+Na,(Na + Silicon)**0.4356398 + 62.249817,0.4356398/(Na + Silicon)**0.5643602,20580.953382669464,positive
+Na,(0.568047*Isoeugenol*Na + Silicon + 23811.58988578)/(Isoeugenol + 271.620763),0.568047*Isoeugenol/(Isoeugenol + 271.620763),464.8628008411665,positive
+Na,(0.568047*Isoeugenol*Na + 23811.503)/(Isoeugenol + 271.620763),0.568047*Isoeugenol/(Isoeugenol + 271.620763),464.8628008411665,positive
+Na,(0.568047*Isoeugenol*Na + Na + 23811.503)/(Isoeugenol + 271.620763),(0.568047*Isoeugenol + 1)/(Isoeugenol + 271.620763),466.6132330730293,positive
+Na,(0.568047*Isoeugenol*Na + 23811.503)/(Isoeugenol + 271.620763),0.568047*Isoeugenol/(Isoeugenol + 271.620763),464.8628008411665,positive
+Na,(0.57124925*Isoeugenol*Na + Na + 23811.079)/(Isoeugenol + 271.009027),(0.57124925*Isoeugenol + 1)/(Isoeugenol + 271.009027),469.55924956119685,positive
+Na,(0.568047*Isoeugenol*Na + Isoeugenol + Na + 23811.503)/(Isoeugenol + 271.620763),(0.568047*Isoeugenol + 1)/(Isoeugenol + 271.620763),466.6132330730293,positive
+Na,(0.568047*Isoeugenol*Na + 23811.503)/(Isoeugenol + 271.620763),0.568047*Isoeugenol/(Isoeugenol + 271.620763),464.8628008411665,positive
+Na,(0.57124925*Isoeugenol*Na + Na + 23811.079)/(Isoeugenol + 271.009027),(0.57124925*Isoeugenol + 1)/(Isoeugenol + 271.009027),469.55924956119685,positive
+Na,(0.568047*Isoeugenol*Na + Isoeugenol + Na + 23811.503)/(Isoeugenol + 271.620763),(0.568047*Isoeugenol + 1)/(Isoeugenol + 271.620763),466.6132330730293,positive
+Na,0.00049833633767126*Silicon*(1.8186955 - Isoeugenol) + 96.48145 - 875.4587/Na,875.4587/Na**2,27.458767813559817,positive
+Silicon,Silicon**0.6116713,0.6116713/Silicon**0.3883287,93.50333006471912,positive
+Silicon,(Na + Silicon)**0.4356398 + 62.249817,0.4356398/(Na + Silicon)**0.5643602,20580.953382669464,positive
+Silicon,97.3934 - 2097.42137/Silicon,2097.42137/Silicon**2,42.99912197376913,positive
+Silicon,-0.0269586679754121*Isoeugenol + 0.00779249895115085*Silicon + 84.48946377,0.00779249895115085,0.00779249895115085,positive
+Silicon,18.1729659023043/(0.00726387079060808 + 1/Silicon)**0.34562445 + 0.26096043,6.28102134485268/(Silicon**2*(0.00726387079060808 + 1/Silicon)**1.34562445),35.08108339309265,positive
+Silicon,(0.568047*Isoeugenol*Na + Silicon + 23811.58988578)/(Isoeugenol + 271.620763),1/(Isoeugenol + 271.620763),1.7504322318627215,positive
+Silicon,Silicon**0.49709046 + 54.01077,0.49709046/Silicon**0.50290954,36.790392876376366,positive
+Silicon,1.35251050541035*Silicon**0.4356398 + 62.249817,0.589207406074862/Silicon**0.5643602,29.71064335961575,positive
+Silicon,97.3934 - 2097.42137/Silicon,2097.42137/Silicon**2,42.99912197376913,positive
+Silicon,97.3934 - (0.392190083552175*Isoeugenol + 1412.61777)/Silicon,(0.392190083552175*Isoeugenol + 1412.61777)/Silicon**2,44201.756339658015,positive
+Silicon,97.3934 - (0.392190083552175*Isoeugenol + Silicon + 1412.61777)/Silicon,-1/Silicon + (0.392190083552175*Isoeugenol + Silicon + 1412.61777)/Silicon**2,44201.756339658015,positive
+Silicon,Silicon**0.4536597 + 61.103024,0.4536597/Silicon**0.5463403,25.5901766241712,positive
+Silicon,1.35251050541035*Silicon**0.4356398 + 62.249817,0.589207406074862/Silicon**0.5643602,29.71064335961575,positive
+Silicon,Silicon**0.48557833 + 62.868637,0.48557833/Silicon**0.51442167,33.43585124287373,positive
+Silicon,1.3630470091178*(0.52843112708758*Silicon - 1)**0.48557833 + 62.868637,0.349750644130549/(0.52843112708758*Silicon - 1)**0.51442167,33.544648243198026,positive
+Silicon,Silicon**0.48557833 + 62.868637,0.48557833/Silicon**0.51442167,33.43585124287373,positive
+Silicon,Silicon**0.48557833 + 62.868637,0.48557833/Silicon**0.51442167,33.43585124287373,positive
+Silicon,Silicon**0.48557833 + 62.868637,0.48557833/Silicon**0.51442167,33.43585124287373,positive
+Silicon,Silicon**0.48557833 + 62.868637,0.48557833/Silicon**0.51442167,33.43585124287373,positive
+Silicon,0.00049833633767126*Silicon*(1.8186955 - Isoeugenol) + 96.48145 - 875.4587/Na,0.000906322054809201 - 0.00049833633767126*Isoeugenol,-416.146697423276,negative
