@@ -89,29 +89,29 @@ for i in range(len(train_clean)):
         random_state=17
     )
 
+    # Start timer 
+    start_time = time.time()
+
     # Iterate through a set number of iterations
     for iteration in range(100):
         print(f"Iteration {iteration + 1}")
-
-        # Start timer 
-        start_time = time.time()
 
         # Fit the model (each iteration performs one step of fitting)
         discovered_model.fit(df_train.values, 
                              train_y.values,
                              variable_names=df_train.columns.tolist())
 
-        # End timer and calculate time taken 
-        end_time = time.time()
-        time_taken = end_time - start_time
-
         # Get the Hall of Fame (HOF) after the iteration
         equations = discovered_model.equations_
         df_equations = pd.DataFrame(equations)  # Convert equations to a DataFrame
 
         # Save the HOF file for this iteration
-        file_name = f'Models/2_Chemical_measurements/pysr/HOF_all_iterations/hall_of_fame_iteration_{iteration+1}.csv'
+        file_name = f'Models/2_Chemical_measurements/pysr/HOF_all_iterations/{keys[i]}/hall_of_fame_iteration_{iteration+1}.csv'
         df_equations.to_csv(file_name, index=False)
+
+    # End timer and calculate time taken 
+    end_time = time.time()
+    time_taken = end_time - start_time
 
     # Pysr Train RMSE 
     y_train_predict = discovered_model.predict(df_train.values)

@@ -1,0 +1,5 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+3,45.90345,0.0,Silicon ^ 0.6116713,Silicon**0.6116713,PySRFunction(X=>Silicon**0.6116713)
+5,22.6236,0.3537733342110825,(83.589226 / Na) * Na,83.589226*Na/Na,PySRFunction(X=>83.589226*Na/Na)
+7,22.619104,9.937513935502961e-05,82.42213 + ((Silicon - 1.2716078) / Silicon),82.42213 + (Silicon - 1*1.2716078)/Silicon,PySRFunction(X=>82.42213 + (Silicon - 1*1.2716078)/Silicon)
+13,18.962696,0.029386863021434922,(((-1.0245582 / -0.017935729) * Isoeugenol) * ((0.99586004 ^ Isoeugenol) - -0.6286965)) / Isoeugenol,-1.0245582*Isoeugenol*(0.99586004**Isoeugenol - 1*(-0.6286965))/((-0.017935729)*Isoeugenol),PySRFunction(X=>-1.0245582*Isoeugenol*(0.99586004**Isoeugenol - 1*(-0.6286965))/((-0.017935729)*Isoeugenol))

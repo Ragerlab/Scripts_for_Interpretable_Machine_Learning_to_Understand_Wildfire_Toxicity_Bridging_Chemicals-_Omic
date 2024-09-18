@@ -1,0 +1,8 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+3,21.755945,0.0,Cr - -82.52583,Cr - 1*(-82.52583),PySRFunction(X=>Cr - 1*(-82.52583))
+5,20.556734,0.02834923884536379,0.6957346 + (76.959145 + Ba),Ba + 0.6957346 + 76.959145,PySRFunction(X=>Ba + 0.6957346 + 76.959145)
+7,18.726234,0.04663157369752617,98.898 - ((-0.45875123 - -6.703586) / Mn),98.898 - (-0.45875123 - 1*(-6.703586))/Mn,PySRFunction(X=>98.898 - (-0.45875123 - 1*(-6.703586))/Mn)
+9,18.411026,0.008487852080097712,98.898 - ((-0.021201354 - (-6.703586 + Fluoranthene)) / Mn),98.898 - (-(Fluoranthene - 6.703586) - 0.021201354)/Mn,PySRFunction(X=>98.898 - (-(Fluoranthene - 6.703586) - 0.021201354)/Mn)
+13,18.355993,0.0007484022718713383,(((Vanillin / -7.650144) + Ba) + 83.47473) + ((-0.17129247 * Retene) / Acetosyringone),Ba + Vanillin/(-7.650144) + 83.47473 - 0.17129247*Retene/Acetosyringone,PySRFunction(X=>Ba + Vanillin/(-7.650144) + 83.47473 - 0.17129247*Retene/Acetosyringone)
+15,17.63102,0.020148132261115056,(0.09787134 + (((((Pyrene / Tridecane) + 76.959145) - Retene) + Ba) - Anthracene)) + Dodecylcyclohexane,-Anthracene + Ba + Dodecylcyclohexane + Pyrene/Tridecane - Retene + 0.09787134 + 76.959145,PySRFunction(X=>-Anthracene + Ba + Dodecylcyclohexane + Pyrene/Tridecane - Retene + 0.09787134 + 76.959145)
+19,17.183691,0.006424778585595569,Heptacosane + ((76.89124 + ((Pyrene / (((var1_Methylnaphthalene ^ (0.7943101 * 0.93791205)) - var3_Methylnonadecane) * 0.7780491)) * 2.1739016)) + Ba),Ba + Heptacosane + Pyrene*2.1739016/((var1_Methylnaphthalene**(0.7943101*0.93791205) - var3_Methylnonadecane)*0.7780491) + 76.89124,PySRFunction(X=>Ba + Heptacosane + Pyrene*2.1739016/((var1_Methylnaphthalene**(0.7943101*0.93791205) - var3_Methylnonadecane)*0.7780491) + 76.89124)

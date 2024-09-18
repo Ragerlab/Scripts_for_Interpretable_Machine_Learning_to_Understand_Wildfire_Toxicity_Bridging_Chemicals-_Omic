@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
@@ -65,5 +65,6 @@ p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
   labs(x = "Group", y = "Actual - Predicted") +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/prediction_spread.png',p)
 ```
 

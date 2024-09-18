@@ -27,26 +27,28 @@ for i in range(len(cols)):
             p_values.loc[cols[i], cols[j]] = p_value
             p_values.loc[cols[j], cols[i]] = p_value
         else:
-            correlation_matrix.loc[cols[i], cols[j]] = 1  # Perfect correlation with itself
-            p_values.loc[cols[i], cols[j]] = 0  # No p-value for correlation with itself
+            correlation_matrix.loc[cols[i], cols[j]] = 1  
+            p_values.loc[cols[i], cols[j]] = 0  
 
 # Flatten the p-values matrix for FDR correction
 p_values_flat = p_values.values.flatten()
 
-# Apply FDR correction using the Benjamini-Hochberg procedure
+# Apply FDR correction 
 rejected, p_values_corrected = smm.fdrcorrection(p_values_flat, alpha=0.05)
 
-# Reshape the corrected p-values back into a DataFrame with the same shape as the original p-values matrix
+# Reshape the corrected p-values back into a df
 p_values_corrected = p_values_corrected.reshape(p_values.shape)
 p_values_corrected_df = pd.DataFrame(p_values_corrected, index=p_values.index, columns=p_values.columns)
 
-# Create a mask for non-significant correlations (p-value > threshold)
+# Create a mask for non-significant correlations 
 significance_mask = p_values.applymap(lambda x: x <= 0.05)
 
 # Create a heatmap where only significant correlations are colored
-#correlation_matrix = correlation_matrix[["Si", "P", "Isoeugenol"]]
 plt.figure(figsize=(10, 8))
 sns.heatmap(correlation_matrix, mask=~significance_mask, annot=False, fmt='.2f', cmap='coolwarm', cbar=True, linewidths=0.5)
-#sns.heatmap(correlation_matrix, annot=False, fmt='.2f', cmap='coolwarm', cbar=True, linewidths=0.5)
-plt.title('Correlation Matrix (Significant Correlations Highlighted)')
-plt.show()
+# sns.heatmap(correlation_matrix, annot=False, fmt='.2f', cmap='coolwarm', cbar=True, linewidths=0.5)
+plt.title('Correlation Matrix')
+# plt.show()
+
+# Save plot
+plt.savefig('Images/2_Chemical_measurements/pysr/Input_cor_sig.png')
