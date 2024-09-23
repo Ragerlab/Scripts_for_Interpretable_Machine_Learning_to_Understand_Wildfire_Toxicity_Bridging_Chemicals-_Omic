@@ -10,7 +10,8 @@ import statsmodels.stats.multitest as smm
 injury_df = pd.read_pickle("Data_inputs/2_Chemical_measurements/injury_df")
 
 # Drop the 'Injury_Protein' column
-data = injury_df.drop(columns=['Injury_Protein'])
+data = injury_df
+# data = injury_df.drop(columns=['Injury_Protein'])
 
 # Initialize matrices to store the p-values and correlation coefficients
 cols = data.columns
@@ -45,10 +46,10 @@ significance_mask = p_values.applymap(lambda x: x <= 0.05)
 
 # Create a heatmap where only significant correlations are colored
 plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, mask=~significance_mask, annot=False, fmt='.2f', cmap='coolwarm', cbar=True, linewidths=0.5)
-# sns.heatmap(correlation_matrix, annot=False, fmt='.2f', cmap='coolwarm', cbar=True, linewidths=0.5)
+# sns.heatmap(correlation_matrix, mask=~significance_mask, annot=False, fmt='.2f', cmap='coolwarm', cbar=True, linewidths=0.5)
+sns.heatmap(correlation_matrix, annot=False, fmt='.2f', cmap='coolwarm', cbar=True, linewidths=0.5)
 plt.title('Correlation Matrix')
 # plt.show()
 
 # Save plot
-plt.savefig('Images/2_Chemical_measurements/pysr/Input_cor_sig.png')
+plt.savefig('Images/2_Chemical_measurements/pysr/Input_cor_all.png')
