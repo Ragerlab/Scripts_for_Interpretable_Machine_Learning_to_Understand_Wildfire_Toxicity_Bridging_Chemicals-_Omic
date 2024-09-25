@@ -77,7 +77,7 @@ discovered_model = pysr.PySRRegressor(
 start_time = time.time()
 
 # Iterate through a set number of iterations
-for iteration in range(100):
+for iteration in range(500):
     print(f"Iteration {iteration + 1}")
 
     # Fit the model (each iteration performs one step of fitting)
@@ -123,11 +123,11 @@ file_name = f'images/3_Omic_measurements/pysr_regression_test'
 plot_regression(test_y, y_test_predict, filename=file_name)
 
 # Store results in DataFrame
-# results_pysr_df = [train_pysr_rmse, test_pysr_rmse, time_taken]
+results_pysr_df = [train_pysr_rmse, test_pysr_rmse, time_taken]
 
 # Save model comparisons to csv after all iterations
-# file_name = f'Models/3_Omic_measurements/pysr_model_comparison.csv'
-# results_pysr_df.to_csv(file_name, index=False)
+file_name = f'Models/3_Omic_measurements/pysr_model_comparison.csv'
+results_pysr_df.to_csv(file_name, index=False)
 
 # Save predictions
 file_name = f'Data_inputs/3_Omic_measurements/training_predictions'
