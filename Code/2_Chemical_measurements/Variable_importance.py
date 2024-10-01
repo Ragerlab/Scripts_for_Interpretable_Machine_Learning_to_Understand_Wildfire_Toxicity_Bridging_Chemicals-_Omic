@@ -2,15 +2,15 @@ import os
 import pandas as pd
 import pickle
 import sympy as sp
+from sympy import integrate
 import re
 from scipy.integrate import nquad, IntegrationWarning
 import numpy as np
 import matplotlib.pyplot as plt
 import math
 import warnings
+import sys
 
-
-# Define all functions 
 # Define function to clean up names for pysr
 def clean_column_names(df):
         new_columns = []
@@ -30,40 +30,6 @@ def clean_column_names(df):
         df.columns = new_columns
         return df
 
-
-# Function to perform numerical integration over all variables using nquad, focusing on the real part
-def integrate_over_all_variables(partial_derivative, all_symbols, ranges):
-    try:
-        # Check if the partial_derivative is a constant (no symbols)
-        if not partial_derivative.free_symbols:
-            # If it's a constant, return the constant value multiplied by the volume of the integration ranges
-            constant_value = float(partial_derivative)
-            volume = np.prod([upper - lower for lower, upper in ranges])
-            return constant_value * volume
-
-        # Extract only the real part of the partial_derivative
-        real_part = sp.re(partial_derivative)
-
-        # Convert the SymPy expression (real part) into a numerical function using lambdify
-        func = sp.lambdify(all_symbols, real_part, 'numpy')
-
-        # Suppress integration warnings and handle them by returning 0
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            
-            # Perform multidimensional integration using nquad
-            result, _ = nquad(func, ranges)
-            
-            # Check if any warnings were raised
-            if any(issubclass(warning.category, IntegrationWarning) for warning in w):
-                # If an integration warning was raised, return 0
-                return 0
-
-            return result
-
-    except Exception as e:
-        return f"Error during numerical integration: {str(e)}"
-    
     
 # Directory where the HOF files are stored
 base_hof_directory = r"Models/2_Chemical_measurements/pysr/HOF_all_iterations"
@@ -149,7 +115,6 @@ for idx in range(len(keys)):
         # Get the free symbols 
         chems.update(expr.free_symbols)
 
-
     # Convert the set to a list
     chems = list(chems)
 
@@ -158,6 +123,8 @@ for idx in range(len(keys)):
 
     # Iterate through each chemical
     for j in range(len(chems)):  
+        print(f'j_{j}')
+
         # Chemical of interest
         chem = chems[j]
 
@@ -165,7 +132,8 @@ for idx in range(len(keys)):
         subset_df = combined_hof_df[combined_hof_df['equation'].str.contains(rf'\b{chem}\b', na=False)]
 
         # Iterate through each row in the subset DataFrame
-        for k in range(len(subset_df)):  
+        for k in range(len(subset_df)): 
+            print(f'k_{k}')
             try:
                 # Get the equation 
                 equation_str = subset_df.iloc[k]['equation']
@@ -176,17 +144,26 @@ for idx in range(len(keys)):
                 # Compute the partial derivative of the equation with respect to the chemical
                 partial_derivative = sp.diff(equation_sympy, chem)
 
+                # Extract only the real part of the partial_derivative
+                real_part = sp.re(partial_derivative)
+
                 # Identify all variables in the equation
-                all_symbols = list(partial_derivative.free_symbols)
+                all_symbols = list(real_part.free_symbols)
 
-                # Define the ranges for all chemicals
-                ranges = []
+                # Ensure that 'chem' is included in the integration variables
+                if chem not in all_symbols:
+                    all_symbols.append(chem)
+
+                # Define the ranges for all variables in the partial derivative
+                integration_ranges = []
                 for sym in all_symbols:
-                    sym_str = str(sym)  # Convert sympy symbol to string to match the column names
-                    ranges.append(chemical_ranges.get(sym_str)) 
+                    sym_str = str(sym)  # Convert sympy symbol to string to match the keys in chemical_ranges
+                    range_values = chemical_ranges.get(sym_str)
+                    a, b = map(float, range_values) 
+                    integration_ranges.append((sym, a, b))
 
-                # Integrate the partial derivative over all variables 
-                integrated_derivative = integrate_over_all_variables(partial_derivative, all_symbols, ranges)
+                # Integrate
+                integrated_derivative = sp.integrate(real_part, *integration_ranges)
 
                 # Determine the direction based on the integrated_derivative
                 if integrated_derivative > 0:

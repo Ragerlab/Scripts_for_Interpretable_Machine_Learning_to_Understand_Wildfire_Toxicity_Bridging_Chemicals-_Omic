@@ -86,14 +86,17 @@ for i in range(len(train_clean)):
         **default_pysr_params,
         temp_equation_file=True,
         warm_start=True,  # Continue training from where the last iteration left off
-        random_state=17
+        random_state=17, 
+        deterministic=True, 
+        procs=0, 
+        constraints = {**default_pysr_params.get('constraints', {}), '^': (-1, 1)}
     )
 
     # Start timer 
     start_time = time.time()
 
     # Iterate through a set number of iterations
-    for iteration in range(100):
+    for iteration in range(500):
         print(f"Iteration {iteration + 1}")
 
         # Fit the model (each iteration performs one step of fitting)
