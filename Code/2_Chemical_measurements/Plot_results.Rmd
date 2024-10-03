@@ -17,54 +17,87 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
 test_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_y")
 train_y_pred = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_Full")
 test_y_pred = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Full")
+train_y_pred_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_PCA")
+test_y_pred_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_PCA")
+train_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_Lasso")
+test_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Lasso")
+
+# Store the inputs (Full, PCA, Lasso) in a list
+input_names = ['Full', 'PCA', 'Lasso']
+train_preds_list = [train_y_pred, train_y_pred_pca, train_y_pred_lasso]
+test_preds_list = [test_y_pred, test_y_pred_pca, test_y_pred_lasso]
 ```
 
-# Convert to r variables and format
+# Convert to r variables and plot
 ```{r}
+# Assign the list from Python to R variables
+input_names <- py$input_names
+train_preds_list <- py$train_preds_list
+test_preds_list <- py$test_preds_list
 train_y <- py$train_y
 test_y <- py$test_y
-train_y_pred <- py$train_y_pred
-test_y_pred <- py$test_y_pred
 
-# Combine training data into one DataFrame with 'Actual' and 'Predicted' columns
-train_combined <- data.frame(
-  Actual = train_y,
-  Predicted = train_y_pred[,1]
-)
+# Iterate through the input list
+for (i in seq_along(input_names)) {
+  # Get the current input name, training, and test predictions
+  input_name <- input_names[[i]]
+  train_y_pred <- train_preds_list[[i]]
+  test_y_pred <- test_preds_list[[i]]
+  
+  # Combine training data into one DataFrame with 'Actual' and 'Predicted' columns
+  train_combined <- data.frame(
+    Actual = train_y,
+    Predicted = train_y_pred[,1]
+  )
+  
+  # Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
+  test_combined <- data.frame(
+    Actual = test_y,
+    Predicted = test_y_pred[,1]
+  )
+  
+  # Plot testing data
+  # Calculate difference between actual and predicted
+  test_df <- test_combined %>%
+    mutate(Dif = Actual - Predicted)
+  
+  # Extract the rownames and modify them to contain only the part before the first '_'
+  Group <- gsub("_.*", "", rownames(test_df))
+  
+  # Add 'Group' as a new column to your dataframe
+  test_df$Group <- Group
+  
+  # Create plot
+  p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
+    geom_boxplot() +
+    geom_point(position = position_jitter(width = 0.2), alpha = 0.5) +
+    labs(x = "Group", y = "Actual - Predicted", title = paste("Prediction Spread -", input_name)) +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  # Save the plot with a unique filename
+  plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/prediction_spread_', input_name, '.png')
+  ggsave(plot_filename, p)
+  
+  # Create the bar and red dash plot for each individual
+  p_bar <- ggplot(test_df, aes(x = rownames(test_df), y = Actual, fill = Group)) +
+    geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
+    geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
+    labs(x = "Individual", y = "Value", title = paste("Actual vs Predicted -", input_name)) +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate individual labels
+  
+  # Save the plot with a unique filename
+  plot_filename_bar <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/actual_vs_predicted_', input_name, '.png')
+  ggsave(plot_filename_bar, p_bar)
+}
 
-# Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
-test_combined <- data.frame(
-  Actual = test_y,
-  Predicted = test_y_pred[,1]
-)
-```
-
-# Plot testing data
-```{r}
-# Calculate difference between actual and predicted
-test_df <- test_combined %>%
-  mutate(Dif = Actual - Predicted)
-
-# Extract the rownames and modify them to contain only the part before the first '_'
-Group <- gsub("_.*", "", rownames(test_df))
-
-# Add 'Group' as a new column to your dataframe
-test_df$Group <- Group
-
-# Plot
-p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
-  geom_boxplot() +
-  geom_point(position = position_jitter(width = 0.2), alpha = 0.5) +
-  labs(x = "Group", y = "Actual - Predicted") +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/prediction_spread.png',p)
 ```
 

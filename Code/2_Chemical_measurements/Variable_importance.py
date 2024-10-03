@@ -10,6 +10,9 @@ import matplotlib.pyplot as plt
 import math
 import warnings
 import sys
+import random
+
+random.seed(17)
 
 # Define function to clean up names for pysr
 def clean_column_names(df):
@@ -102,6 +105,7 @@ for idx in range(len(keys)):
     # Subset to the relevant DataFrame
     key = keys[idx]
     combined_hof_df = hof_dataframes[key]
+    combined_hof_df = combined_hof_df[['equation', 'Iteration', 'Directory']]
     print(f"Processing subdirectory: {key}")
 
     # Get all chemical names from the equations
@@ -118,8 +122,8 @@ for idx in range(len(keys)):
     # Convert the set to a list
     chems = list(chems)
 
-    # Initialize df to hold results for each subdirectory
-    results_df = pd.DataFrame(columns=["chem", "sympy_equation", "parital derivative w/ respect to chem", "integrated_derivative", "direction"])
+    # Initialize an empty DataFrame to hold the final results
+    final_results_df = pd.DataFrame(columns=["chem", "equation", "parital derivative w/ respect to chem", "integrated_derivative", "direction"])
 
     # Iterate through each chemical
     for j in range(len(chems)):  
@@ -131,12 +135,18 @@ for idx in range(len(keys)):
         # Subset HOF to only equations containing this chemical
         subset_df = combined_hof_df[combined_hof_df['equation'].str.contains(rf'\b{chem}\b', na=False)]
 
+        # Get unique equations so not performing repeat calculations
+        uniq_eqs = subset_df['equation'].unique()
+
+        # Initialize df to hold results for subset
+        results_df = pd.DataFrame(columns=["chem", "equation", "parital derivative w/ respect to chem", "integrated_derivative", "direction"])
+
         # Iterate through each row in the subset DataFrame
-        for k in range(len(subset_df)): 
+        for k in range(len(uniq_eqs)): 
             print(f'k_{k}')
             try:
                 # Get the equation 
-                equation_str = subset_df.iloc[k]['equation']
+                equation_str = uniq_eqs[k]
 
                 # Convert the equation string to a sympy expression
                 equation_sympy = sp.sympify(equation_str)
@@ -172,20 +182,27 @@ for idx in range(len(keys)):
                     direction = "negative"
                 else:
                     direction = "neutral"
-            
+
             except Exception as e:
                 # If there's an issue, log the error message in the 'derivative' column
                 partial_derivative = f"Error"
                 integrated_derivative = "Error"
                 direction = "Error"
 
+            # Ensure the equation is stored as a string
             results_df.loc[len(results_df)] = {
                 "chem": chem,
-                "sympy_equation": equation_sympy,
+                "equation": equation_str,  # Convert sympy expression to string
                 "parital derivative w/ respect to chem": partial_derivative,
                 "integrated_derivative": integrated_derivative,
                 "direction": direction
             }
+
+        # Merge with subset_df
+        results_subset = pd.merge(subset_df, results_df, how='left', on='equation')
+
+        # Concatenate the results_subset into the final_results_df
+        final_results_df = pd.concat([final_results_df, results_subset], ignore_index=True)
 
     # Save results for each subdirectory
     results_file_name = f'Models/2_Chemical_measurements/pysr/partial_deriv_{key}.csv'

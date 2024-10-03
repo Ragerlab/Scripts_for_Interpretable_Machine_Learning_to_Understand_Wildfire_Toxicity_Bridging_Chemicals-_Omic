@@ -80,7 +80,7 @@ for i in range(len(train_clean)):
 
     # Initialize model with warm_start set to True for continuing training
     discovered_model = pysr.PySRRegressor(
-        niterations=1,  # We will manually iterate
+        niterations=1,  
         binary_operators=["-", "+", "*", "/", "^"],
         loss_function=loss_function,
         **default_pysr_params,
@@ -89,7 +89,8 @@ for i in range(len(train_clean)):
         random_state=17, 
         deterministic=True, 
         procs=0, 
-        constraints = {**default_pysr_params.get('constraints', {}), '^': (-1, 1)}
+        constraints={'^': (-1, 1)},
+        complexity_of_variables=2
     )
 
     # Start timer 
@@ -145,10 +146,6 @@ for i in range(len(train_clean)):
     # Store results in DataFrame
     results_pysr_df.loc[i] = [key, train_pysr_rmse, test_pysr_rmse, time_taken]
 
-    # Save model comparisons to csv after all iterations
-    file_name = f'Models/2_Chemical_measurements/pysr/pysr_model_comparison_{key}.csv'
-    results_pysr_df.to_csv(file_name, index=False)
-
     # Save predictions
     file_name = f'Data_inputs/2_Chemical_measurements/training_predictions_{key}'
     pd.DataFrame(y_train_predict).to_pickle(file_name)
@@ -157,3 +154,7 @@ for i in range(len(train_clean)):
 
 # Print final results
 print(results_pysr_df)
+
+# Save model comparisons to csv after all iterations
+file_name = f'Models/2_Chemical_measurements/pysr/pysr_model_comparison.csv'
+results_pysr_df.to_csv(file_name, index=False)
