@@ -79,6 +79,7 @@ train_x = train_x.drop('Injury_Protein', axis = 1)
 test_x = test_x.drop('Injury_Protein', axis = 1)
 
 # Save data splits for downstream use
+dat_deg.to_pickle('Data_inputs/3_Omic_measurements/dat_deg')
 train_x.to_pickle("Data_inputs/3_Omic_measurements/train_x")
 train_y.to_pickle("Data_inputs/3_Omic_measurements/train_y")
 test_y.to_pickle("Data_inputs/3_Omic_measurements/test_y")

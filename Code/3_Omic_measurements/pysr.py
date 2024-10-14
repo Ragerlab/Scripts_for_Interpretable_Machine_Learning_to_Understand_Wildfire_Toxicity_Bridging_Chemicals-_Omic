@@ -64,13 +64,17 @@ loss_function = """
 
 # Initialize model with warm_start set to True for continuing training
 discovered_model = pysr.PySRRegressor(
-        niterations=1,  # We will manually iterate
+        niterations=1,  
         binary_operators=["-", "+", "*", "/", "^"],
         loss_function=loss_function,
         **default_pysr_params,
         temp_equation_file=True,
         warm_start=True,  # Continue training from where the last iteration left off
-        random_state=17
+        random_state=17, 
+        deterministic=True, 
+        procs=0, 
+        constraints={'^': (-1, 1)},
+        complexity_of_variables=2
     )
 
 # Start timer 

@@ -56,36 +56,20 @@ def integrate_over_all_variables(partial_derivative, all_symbols, ranges):
                 # If an exception occurs in the integrand, return 0
                 return 0
 
-        # Function to perform integration with a timeout
-        def perform_integration():
-            with warnings.catch_warnings():
-                # Convert IntegrationWarnings to exceptions
-                warnings.simplefilter("error", IntegrationWarning)
-                # Suppress runtime warnings (e.g., overflow, divide by zero)
-                warnings.simplefilter("ignore", RuntimeWarning)
-                return nquad(integrand, ranges)
+        # Perform integration without timeout
+        with warnings.catch_warnings():
+            # Convert IntegrationWarnings to exceptions
+            warnings.simplefilter("error", IntegrationWarning)
+            # Suppress runtime warnings (e.g., overflow, divide by zero)
+            warnings.simplefilter("ignore", RuntimeWarning)
+            result, _ = nquad(integrand, ranges)
 
-        # Perform numerical integration using func_timeout
-        try:
-            # Set the timeout duration (in seconds)
-            TIMEOUT_DURATION = 5  # Adjust this value as needed
-
-            # Attempt to perform the integration within the timeout
-            result, _ = func_timeout(TIMEOUT_DURATION, perform_integration)
-
-            return result
-
-        except FunctionTimedOut:
-            print("Integration took too long. Setting integral to 0.")
-            return 0
-        except Exception as e:
-            print(f"Error during integration: {e}")
-            return 0
+        return result
 
     except Exception as e:
         print(f"Error during numerical integration setup: {str(e)}")
         return 0
-    
+
 # Directory where the HOF files are stored
 base_hof_directory = r"Models/2_Chemical_measurements/pysr/HOF_all_iterations"
 
@@ -174,8 +158,8 @@ for idx in range(len(keys)):
     # Convert the set to a list
     chems = list(chems)
 
-    # Initialize df to hold results for each subdirectory
-    results_df = pd.DataFrame(columns=["chem", "sympy_equation", "parital derivative w/ respect to chem", "integrated_derivative", "direction"])
+    # Initialize an empty DataFrame to hold the final results
+    final_results_df = pd.DataFrame(columns=["chem", "equation", "parital derivative w/ respect to chem", "integrated_derivative", "direction"])
 
     # Iterate through each chemical
     for j in range(len(chems)):  
@@ -187,13 +171,19 @@ for idx in range(len(keys)):
         # Subset HOF to only equations containing this chemical
         subset_df = combined_hof_df[combined_hof_df['equation'].str.contains(rf'\b{chem}\b', na=False)]
 
+        # Get unique equations so not performing repeat calculations
+        uniq_eqs = subset_df['equation'].unique()
+
+        # Initialize df to hold results for subset
+        results_df = pd.DataFrame(columns=["chem", "equation", "parital derivative w/ respect to chem", "integrated_derivative", "direction"])
+
         # Iterate through each row in the subset DataFrame
-        for k in range(len(subset_df)):  
+        for k in range(len(uniq_eqs)): 
             print(f'k_{k}')
 
             try:
                 # Get the equation 
-                equation_str = subset_df.iloc[k]['equation']
+                equation_str = uniq_eqs[k]
 
                 # Convert the equation string to a sympy expression
                 equation_sympy = sp.sympify(equation_str)
@@ -219,11 +209,11 @@ for idx in range(len(keys)):
 
                 # Determine the direction based on the integrated_derivative
                 if integrated_derivative > 0:
-                    direction = "positive"
+                    direction = 1
                 elif integrated_derivative < 0:
-                    direction = "negative"
+                    direction = -1
                 else:
-                    direction = "neutral"
+                    direction = 0
             
             except Exception as e:
                 # If there's an issue, log the error message in the 'derivative' column
@@ -231,18 +221,26 @@ for idx in range(len(keys)):
                 integrated_derivative = "Error"
                 direction = "Error"
 
+            # Ensure the equation is stored as a string
             results_df.loc[len(results_df)] = {
                 "chem": chem,
-                "sympy_equation": equation_sympy,
+                "equation": equation_str,  # Convert sympy expression to string
                 "parital derivative w/ respect to chem": partial_derivative,
                 "integrated_derivative": integrated_derivative,
                 "direction": direction
             }
 
+        # Merge with subset_df
+        results_subset = pd.merge(subset_df, results_df, how='left', on='equation')
+
+        # Concatenate the results_subset into the final_results_df
+        final_results_df = pd.concat([final_results_df, results_subset], ignore_index=True)
+        final_results_df = final_results_df.iloc[:, :7]
+
+
     # Save results for each subdirectory
     results_file_name = f'Models/2_Chemical_measurements/pysr/partial_deriv_{key}.csv'
-    results_df.to_csv(results_file_name, index=False)
-
+    final_results_df.to_csv(results_file_name, index=False)
 
 # Calculate variable importance 
 for idx in range(len(keys)):  
@@ -266,17 +264,14 @@ for idx in range(len(keys)):
         chem_rows = results_df[results_df['chem'] == chem]
 
         # Sum the 'integrated_derivative' for the current chemical
-        sum_integrated_derivative = chem_rows['integrated_derivative'].sum()
+        sum_integrated_derivative = chem_rows['direction'].sum()
 
         # Get chemical concentrations
         min_value, max_value = chemical_ranges[chem]
         range_value = max_value - min_value
 
         # Calculate the var_importance
-        var_importance = sum_integrated_derivative * (len(chem_rows) / len(combined_hof_df)) / range_value
-
-        # Log transform
-        # var_importance = math.log(var_importance)
+        var_importance = sum_integrated_derivative #* (len(chem_rows) / len(combined_hof_df)) / range_value
 
         # Append the chemical name and its var_importance to the list
         var_importance_list.append([chem, var_importance])
@@ -292,11 +287,9 @@ for idx in range(len(keys)):
     plt.figure(figsize=(10, 6))
     plt.bar(var_importance_df['chem'], var_importance_df['var_importance'])
     plt.xlabel('Chemical')
-    plt.ylabel('Log of Variable Importance')
-    plt.title(f'Log of Variable Importance by Chemical ({key})')
+    plt.ylabel('Variable Importance')
+    plt.title(f'Variable Importance by Chemical ({key})')
     plt.xticks(rotation=90)  # Rotate chemical names for better readability
     plt.tight_layout()
     plt.show()
-
-    # Save the plot for each subdirectory
     plt.savefig(f'Images/2_Chemical_measurements/pysr/var_importance_{key}.png')
