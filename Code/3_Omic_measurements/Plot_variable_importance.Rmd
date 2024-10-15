@@ -1,0 +1,37 @@
+---
+title: "Plot_variable_importance"
+output: html_document
+date: "2024-10-15"
+---
+# Libraries
+```{r}
+library(tidyverse)
+```
+
+# Load in data
+```{r}
+dat <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\partial_deriv.csv')
+```
+
+# Sum directions and plot
+```{r}
+dat_sum <- dat %>% 
+  group_by(gene) %>%
+  mutate(sum_dir = sum(direction)) %>%
+  select(gene, sum_dir) %>%
+  unique() 
+
+dat_top <- dat_sum %>%
+  arrange(desc(abs(sum_dir))) 
+dat_top <- dat_top[1:10,]
+
+# Create bar chart
+p <- ggplot(dat_top, aes(x = reorder(gene, -sum_dir), y = sum_dir)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Chem", y = "Directional importance") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
