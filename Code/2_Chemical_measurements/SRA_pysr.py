@@ -89,7 +89,8 @@ for i in range(len(train_clean)):
         random_state=17, 
         deterministic=True, 
         procs=0, 
-        constraints={'^': (-1, 1)},
+        constraints={'^': (1, 1), 
+                     '/': (-1, 2)},
         complexity_of_variables=2
     )
 
