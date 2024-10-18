@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 # Set working directory
 os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
@@ -28,13 +29,25 @@ injury_df = pd.merge(injury, chem, on="Exposure", how="left")
 injury_df = injury_df.set_index("Link")
 injury_df = injury_df.select_dtypes(include=["number"])
 
-# Check for outliers
-injury = injury_df["Injury_Protein"]
-inj_mean = injury.mean()
-inj_std = injury.std()
-low_thresh = inj_mean - 3 * inj_std
-up_thresh = inj_mean + 3 * inj_std
-injury_df = injury_df[(injury_df["Injury_Protein"] >= low_thresh) & (injury_df["Injury_Protein"] <= up_thresh)]
+# Apply the log transformation to all columns except the first one ('Injury Protein')
+injury_df.iloc[:, 1:] = injury_df.iloc[:, 1:].applymap(lambda x: np.log(x + 1))
+
+# Split columns into 4 groups
+columns_per_plot = len(injury_df.columns) // 4
+column_groups = [injury_df.columns[i:i + columns_per_plot] for i in range(0, len(injury_df.columns), columns_per_plot)]
+
+# Plotting each group separately
+for i, group in enumerate(column_groups, start=1):
+    plt.figure(figsize=(10, 6))
+    injury_df[group].boxplot()
+    plt.title(f'Distribution of Columns Group {i} in Injury DataFrame')
+    plt.xlabel('Columns')
+    plt.ylabel('Log-Transformed Values')
+    plt.xticks(rotation=45)
+    plt.savefig(f'Images/2_Chemical_measurements/Data_distributions/Concentration_spread{i}.png')
+
+# Remove outlier
+injury_df = injury_df.drop('EucalyptusSmoldering_M28', axis=0, errors='ignore')
 
 # Set seed and establish train and test sets
 np.random.seed(17)

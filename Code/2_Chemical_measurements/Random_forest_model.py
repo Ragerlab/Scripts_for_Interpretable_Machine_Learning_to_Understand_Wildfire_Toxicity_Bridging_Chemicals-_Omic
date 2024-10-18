@@ -21,13 +21,13 @@ test_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_y")
 train_x_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_x_pca")
 test_x_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x_pca")
 
-# LASSO
-train_x_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_x_lasso")
-test_x_lasso= pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x_lasso")
+# Elastic
+train_x_elastic = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_x_elastic")
+test_x_elastic= pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x_elastic")
 
-# Create dictionaries containing full input, PCA-reduced input, and Lasso-reduced input to iterate through 
-train_input_dict = {'Full': train_x, 'PCA': train_x_pca, 'Lasso': train_x_lasso}
-test_input_dict = {'Full': test_x, 'PCA': test_x_pca, 'Lasso': test_x_lasso}
+# Create dictionaries containing full input, PCA-reduced input, and elastic-reduced input to iterate through 
+train_input_dict = {'Full': train_x, 'PCA': train_x_pca, 'Elastic': train_x_elastic}
+test_input_dict = {'Full': test_x, 'PCA': test_x_pca, 'Elastic': test_x_elastic}
 
 # Save dictionaries for future use
 with open('Data_inputs/2_Chemical_measurements/train_input_dict.pkl', 'wb') as f:
@@ -68,6 +68,25 @@ for i in range(len(train_input_dict)):
     plt.title("Variable Importance Plot")
     plt.xlabel("Feature")
     plt.ylabel("Importance")
+    plt.savefig(f'images/2_Chemical_measurements/rf/var_importance_{key}.png')
+
+
+    # Subset to the top 15 rows if the DataFrame has more than 15 rows
+    if len(var_imp_rf_injury) > 15:
+        var_imp_rf_injury = var_imp_rf_injury.head(15)
+
+    # Plot variable importance
+    plt.figure(figsize=(10, 6))
+    ax = var_imp_rf_injury.plot(kind="bar", x="Feature", y="Importance", legend=False)
+    plt.title("Variable Importance Plot")
+    plt.xlabel("Feature")
+    plt.ylabel("Importance")
+
+    # Rotate x-axis labels diagonally for readability
+    plt.xticks(rotation=45, ha='right')
+
+    # Save the plot
+    plt.tight_layout()
     plt.savefig(f'images/2_Chemical_measurements/rf/var_importance_{key}.png')
 
 

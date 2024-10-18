@@ -2,18 +2,15 @@ import os
 import pandas as pd
 import pickle
 import sympy as sp
-from sympy import integrate
 import re
 from scipy.integrate import nquad, IntegrationWarning
 import numpy as np
 import matplotlib.pyplot as plt
 import math
 import warnings
-import sys
-import random
+from func_timeout import func_timeout, FunctionTimedOut
 
-random.seed(17)
-
+# Define all functions 
 # Define function to clean up names for pysr
 def clean_column_names(df):
         new_columns = []
@@ -33,12 +30,49 @@ def clean_column_names(df):
         df.columns = new_columns
         return df
 
-    
+
+# Function to perform numerical integration over all variables using nquad, focusing on the real part
+def integrate_over_all_variables(partial_derivative, all_symbols, ranges):
+    try:
+        # Extract only the real part of the partial_derivative
+        real_part = sp.re(partial_derivative)
+
+        # Convert the SymPy expression (real part) into a numerical function using lambdify
+        func = sp.lambdify(all_symbols, real_part, 'numpy')
+
+        # Define the integrand function for nquad
+        def integrand(*args):
+            try:
+                result = func(*args)
+                # Convert result to float, in case it's an array
+                result = float(result)
+                if np.isnan(result) or np.isinf(result):
+                    return 0
+                else:
+                    return result
+            except Exception:
+                # If an exception occurs in the integrand, return 0
+                return 0
+
+        # Perform integration without timeout
+        with warnings.catch_warnings():
+            # Convert IntegrationWarnings to exceptions
+            warnings.simplefilter("error", IntegrationWarning)
+            # Suppress runtime warnings (e.g., overflow, divide by zero)
+            warnings.simplefilter("ignore", RuntimeWarning)
+            result, _ = nquad(integrand, ranges)
+
+        return result
+
+    except Exception as e:
+        print(f"Error during numerical integration setup: {str(e)}")
+        return 0
+
 # Directory where the HOF files are stored
 base_hof_directory = r"Models/2_Chemical_measurements/pysr/HOF_all_iterations"
 
-# Subdirectories for Full, PCA, and Lasso
-subdirectories = ['Full', 'Lasso']
+# Subdirectories for Full, PCA, and Elastic
+subdirectories = ['Full', 'PCA', 'Elastic']
 
 # Initialize a dictionary to store the concatenated DataFrames for each subdirectory
 hof_dataframes = {}
@@ -60,7 +94,7 @@ def process_hof_directory(subdirectory):
             file_path = os.path.join(hof_directory, file_name)
             df = pd.read_csv(file_path)
 
-            # Add a new column for the iteration number and directory (Full, PCA, or Lasso)
+            # Add a new column for the iteration number and directory (Full, PCA, or Elastic)
             df['Iteration'] = iteration_num
             df['Directory'] = subdirectory  # Track which subdirectory this data came from
 
@@ -71,7 +105,7 @@ def process_hof_directory(subdirectory):
     combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 
     # Filter based on RMSE (assuming 'loss' is the relevant column)
-    combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 25]
+    combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 19]
 
     return combined_hof_df
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,19 +116,21 @@ for subdirectory in subdirectories:
     hof_dataframes[subdirectory] = combined_hof_df  
 
 # Load in chemical ranges data 
-injury_df = pd.read_pickle("Data_inputs/2_Chemical_measurements/injury_df")
-
-# Remove the 'Injury_Protein' column
-injury_df_cleaned = injury_df.drop(columns=['Injury_Protein'])
+train_x = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_x")
+train_x_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_x_pca")
 
 # Clean the column names
-injury_df_cleaned = clean_column_names(injury_df_cleaned)
+train_x_clean = clean_column_names(train_x)
+train_x_clean_pca = clean_column_names(train_x_pca)
+
+# Merge the DataFrames by row names (indices)
+merged_df = pd.merge(train_x_clean, train_x_pca, left_index=True, right_index=True)
 
 # Calculate ranges for each chemical (min, max)
 chemical_ranges = {}
-for col in injury_df_cleaned.columns:
-    min_value = injury_df_cleaned[col].min()
-    max_value = injury_df_cleaned[col].max()
+for col in merged_df.columns:
+    min_value = merged_df[col].min()
+    max_value = merged_df[col].max()
     chemical_ranges[col] = (min_value, max_value)
 
 # Define keys for loop
@@ -105,7 +141,6 @@ for idx in range(len(keys)):
     # Subset to the relevant DataFrame
     key = keys[idx]
     combined_hof_df = hof_dataframes[key]
-    combined_hof_df = combined_hof_df[['equation', 'Iteration', 'Directory']]
     print(f"Processing subdirectory: {key}")
 
     # Get all chemical names from the equations
@@ -118,6 +153,7 @@ for idx in range(len(keys)):
 
         # Get the free symbols 
         chems.update(expr.free_symbols)
+
 
     # Convert the set to a list
     chems = list(chems)
@@ -144,6 +180,7 @@ for idx in range(len(keys)):
         # Iterate through each row in the subset DataFrame
         for k in range(len(uniq_eqs)): 
             print(f'k_{k}')
+
             try:
                 # Get the equation 
                 equation_str = uniq_eqs[k]
@@ -154,35 +191,30 @@ for idx in range(len(keys)):
                 # Compute the partial derivative of the equation with respect to the chemical
                 partial_derivative = sp.diff(equation_sympy, chem)
 
-                # Extract only the real part of the partial_derivative
-                real_part = sp.re(partial_derivative)
-
                 # Identify all variables in the equation
-                all_symbols = list(real_part.free_symbols)
+                all_symbols = list(partial_derivative.free_symbols)
 
                 # Ensure that 'chem' is included in the integration variables
                 if chem not in all_symbols:
                     all_symbols.append(chem)
 
-                # Define the ranges for all variables in the partial derivative
-                integration_ranges = []
+                # Define the ranges for all chemicals
+                ranges = []
                 for sym in all_symbols:
-                    sym_str = str(sym)  # Convert sympy symbol to string to match the keys in chemical_ranges
-                    range_values = chemical_ranges.get(sym_str)
-                    a, b = map(float, range_values) 
-                    integration_ranges.append((sym, a, b))
+                    sym_str = str(sym)  # Convert sympy symbol to string to match the column names
+                    ranges.append(chemical_ranges.get(sym_str)) 
 
-                # Integrate
-                integrated_derivative = sp.integrate(real_part, *integration_ranges)
+                # Integrate the partial derivative over all variables 
+                integrated_derivative = integrate_over_all_variables(partial_derivative, all_symbols, ranges)
 
                 # Determine the direction based on the integrated_derivative
                 if integrated_derivative > 0:
-                    direction = "positive"
+                    direction = 1
                 elif integrated_derivative < 0:
-                    direction = "negative"
+                    direction = -1
                 else:
-                    direction = "neutral"
-
+                    direction = 0
+            
             except Exception as e:
                 # If there's an issue, log the error message in the 'derivative' column
                 partial_derivative = f"Error"
@@ -203,12 +235,15 @@ for idx in range(len(keys)):
 
         # Concatenate the results_subset into the final_results_df
         final_results_df = pd.concat([final_results_df, results_subset], ignore_index=True)
+        final_results_df = final_results_df.iloc[:, :7]
+
 
     # Save results for each subdirectory
     results_file_name = f'Models/2_Chemical_measurements/pysr/partial_deriv_{key}.csv'
-    results_df.to_csv(results_file_name, index=False)
+    final_results_df.to_csv(results_file_name, index=False)
 
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Calculate variable importance 
 for idx in range(len(keys)):  
     # Subset to the relevant DataFrame
@@ -222,7 +257,11 @@ for idx in range(len(keys)):
     var_importance_list = []
 
     # Iterate through each unique chemical
-    for chem in results_df['chem'].unique():
+    chems = results_df['chem'].unique()
+    for j in range(len(chems)):  
+        # Chemical of interest
+        chem = chems[j]
+
         # Get rows corresponding to the current chemical
         chem_rows = results_df[results_df['chem'] == chem]
 
@@ -230,14 +269,12 @@ for idx in range(len(keys)):
         sum_integrated_derivative = chem_rows['integrated_derivative'].sum()
 
         # Get chemical concentrations
+        chem = str(chem)
         min_value, max_value = chemical_ranges[chem]
         range_value = max_value - min_value
 
         # Calculate the var_importance
-        var_importance = sum_integrated_derivative * (len(chem_rows) / len(combined_hof_df)) / range_value
-
-        # Log transform
-        # var_importance = math.log(var_importance)
+        var_importance = sum_integrated_derivative #* (len(chem_rows) / len(combined_hof_df)) #/ range_value
 
         # Append the chemical name and its var_importance to the list
         var_importance_list.append([chem, var_importance])
@@ -249,15 +286,19 @@ for idx in range(len(keys)):
     # Sort the DataFrame by 'var_importance' in decreasing order
     var_importance_df = var_importance_df.sort_values(by='var_importance', ascending=False)
 
+    # Sort the DataFrame by the absolute value of 'var_importance' in decreasing order and subset the top 15
+    top_15_abs = var_importance_df.reindex(var_importance_df['var_importance'].abs().sort_values(ascending=False).index).head(15)
+
+    # Sort the subset based on the original 'var_importance' values to maintain the original order
+    top_15_df = top_15_abs.sort_values(by='var_importance', ascending=False if top_15_abs['var_importance'].iloc[0] > 0 else True)
+
     # Create a bar plot for each subdirectory
     plt.figure(figsize=(10, 6))
-    plt.bar(var_importance_df['chem'], var_importance_df['var_importance'])
+    plt.bar(top_15_df['chem'], top_15_df['var_importance'])
     plt.xlabel('Chemical')
-    plt.ylabel('Log of Variable Importance')
-    plt.title(f'Log of Variable Importance by Chemical ({key})')
+    plt.ylabel('Variable Importance')
+    plt.title(f'Variable Importance by Chemical ({key})')
     plt.xticks(rotation=90)  # Rotate chemical names for better readability
     plt.tight_layout()
     plt.show()
-
-    # Save the plot for each subdirectory
     plt.savefig(f'Images/2_Chemical_measurements/pysr/var_importance_{key}.png')

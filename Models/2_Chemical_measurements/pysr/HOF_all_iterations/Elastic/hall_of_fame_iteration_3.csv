@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,86.13583,0.0,0.47756523,0.477565230000000,PySRFunction(X=>0.477565230000000)
+2,85.15423,0.011461385973009906,Methoxymethylphenol,Methoxymethylphenol,PySRFunction(X=>Methoxymethylphenol)
+3,22.623602,1.3254703852936935,42.00696 - -41.582306,42.00696 - 1*(-41.582306),PySRFunction(X=>42.00696 - 1*(-41.582306))
+6,22.108963,0.00767020190219773,(41.948643 + Fe) + 38.789272,Fe + 38.789272 + 41.948643,PySRFunction(X=>Fe + 38.789272 + 41.948643)
+7,21.452288,0.030151785562855728,(83.57316 + Silicon) - Vanillin,Silicon - Vanillin + 83.57316,PySRFunction(X=>Silicon - Vanillin + 83.57316)
+8,17.968403,0.1772164798453979,(98.63527 + (-5.355878 * Isoeugenol)) + -0.36526144,-5.355878*Isoeugenol - 0.36526144 + 98.63527,PySRFunction(X=>-5.355878*Isoeugenol - 0.36526144 + 98.63527)
+9,17.886974,0.004542088066389634,(98.63527 + (-5.355878 * Isoeugenol)) + Syringealdehyde,-5.355878*Isoeugenol + Syringealdehyde + 98.63527,PySRFunction(X=>-5.355878*Isoeugenol + Syringealdehyde + 98.63527)
+11,17.549152,0.009533554392134845,(0.13594936 / Retene) + (98.63527 + (Isoeugenol * -5.355878)),Isoeugenol*(-5.355878) + 98.63527 + 0.13594936/Retene,PySRFunction(X=>Isoeugenol*(-5.355878) + 98.63527 + 0.13594936/Retene)
+12,17.500723,0.0027634352943798858,((-29.757885 - (Silicon * P)) / -0.5529205) - Eugenol,-Eugenol + (-P*Silicon - 29.757885)/(-0.5529205),PySRFunction(X=>-Eugenol + (-P*Silicon - 29.757885)/(-0.5529205))
+13,17.252903,0.014261775188478997,-1.5834597 + ((98.63527 + (-5.355878 * Isoeugenol)) + (0.32098928 / Retene)),-5.355878*Isoeugenol - 1.5834597 + 98.63527 + 0.32098928/Retene,PySRFunction(X=>-5.355878*Isoeugenol - 1.5834597 + 98.63527 + 0.32098928/Retene)
+15,17.14037,0.0032719596527488056,(-1.5834597 + (((Isoeugenol * -5.355878) + 98.63527) + (0.32098928 / Retene))) + -1.6021395,Isoeugenol*(-5.355878) - 1.6021395 - 1.5834597 + 98.63527 + 0.32098928/Retene,PySRFunction(X=>Isoeugenol*(-5.355878) - 1.6021395 - 1.5834597 + 98.63527 + 0.32098928/Retene)
+17,16.86355,0.00814100596279482,((-29.048628 - (P * Silicon)) / -0.5391106) - ((-0.36467484 / Retene) + Na),-(Na - 0.36467484/Retene) + (-P*Silicon - 29.048628)/(-0.5391106),PySRFunction(X=>-(Na - 0.36467484/Retene) + (-P*Silicon - 29.048628)/(-0.5391106))

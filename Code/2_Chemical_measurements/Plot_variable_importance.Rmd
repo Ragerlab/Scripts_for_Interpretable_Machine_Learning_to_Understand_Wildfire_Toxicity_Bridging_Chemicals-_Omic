@@ -1,37 +1,120 @@
 ---
 title: "Plot_variable_importance"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 date: "2024-10-15"
 ---
 # Libraries
 ```{r}
 library(tidyverse)
+library(reticulate)
+
 ```
 
 # Load in data
 ```{r}
-dat <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\partial_deriv_Full.csv')
+dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\partial_deriv_Full.csv')
+dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\partial_deriv_PCA.csv')
+dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\partial_deriv_Elastic.csv')
+
+# Put in list
+dat_list <- list(dat_full, dat_pca, dat_elastic)
 ```
 
 # Sum directions and plot
 ```{r}
-dat_sum <- dat %>% 
+for(i in 1:length(dat_list)){
+  
+  # Subset to relevant data
+  dat <- dat_list[[i]]
+  
+  # Calculate importance
+  dat_sum <- dat %>% 
   group_by(chem) %>%
   mutate(sum_dir = sum(direction)) %>%
   select(chem, sum_dir) %>%
   unique() 
 
-dat_top <- dat_sum %>%
-  arrange(desc(abs(sum_dir))) 
-dat_top <- dat_top[1:10,]
-
-# Create bar chart
-p <- ggplot(dat_top, aes(x = reorder(chem, -sum_dir), y = sum_dir)) +
-  geom_bar(stat = "identity") +
-  labs(x = "Chem", y = "Directional importance") +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  # Add direction
+  dat_top <- dat_sum %>%
+    arrange(desc(abs(sum_dir))) %>%
+    mutate(Association = ifelse(sum_dir > 0, "Positively associated", "Negatively associated"))
+  
+  if(i==1){
+    dat_top <- dat_top[1:15,]
+  }
+  
+  # Create bar chart
+  p <- ggplot(dat_top, aes(x = reorder(chem, -sum_dir), y = sum_dir, fill = Association)) +
+    geom_bar(stat = "identity") +
+    labs(x = "Chem", y = "Directional importance") +
+    scale_fill_manual(values = c("Positively associated" = "darkred", "Negatively associated" = "darkblue")) +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  print(p)
+  }
 
 
 ```
 
+# Check for correlations to injury protein
+```{python}
+import pickle
+import pandas as pd
+
+injury_df = pd.read_pickle("C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Data_inputs/2_Chemical_measurements/injury_df")
+```
+
+```{r}
+# Read in the data
+data <- py$injury_df
+chems <- unique(dat_top$chem)
+# chems <- c(chems, 'Injury_Protein', 'SO4')
+chems <- c(chems, 'Injury_Protein', 'Si')
+
+
+# Subset full data to important chems
+dat_sub <- data[, colnames(data) %in% chems]
+
+# Initialize matrices to store p-values and correlation coefficients
+cols <- colnames(dat_sub)
+p_values <- matrix(0, nrow = length(cols), ncol = length(cols), dimnames = list(cols, cols))
+correlation_matrix <- matrix(0, nrow = length(cols), ncol = length(cols), dimnames = list(cols, cols))
+
+# Calculate pairwise Pearson correlations and p-values
+for (i in seq_along(cols)) {
+  for (j in i:length(cols)) {
+    if (i != j) {
+      correlation_test <- cor.test(dat_sub[[cols[i]]], dat_sub[[cols[j]]], method = "pearson")
+      corr <- correlation_test$estimate
+      p_value <- correlation_test$p.value
+      correlation_matrix[i, j] <- corr
+      correlation_matrix[j, i] <- corr
+      p_values[i, j] <- p_value
+      p_values[j, i] <- p_value
+    } else {
+      correlation_matrix[i, j] <- 1
+      p_values[i, j] <- 0
+    }
+  }
+}
+
+# Apply FDR correction to the p-values
+p_values_flat <- as.vector(p_values)
+p_values_corrected <- p.adjust(p_values_flat, method = "fdr")
+p_values_corrected_matrix <- matrix(p_values_corrected, nrow = length(cols), ncol = length(cols), dimnames = list(cols, cols))
+
+# Convert correlation matrix and mask into a format suitable for ggplot
+correlation_df <- melt(correlation_matrix)
+
+# Plot heatmap where only significant correlations are colored
+p <- ggplot(data = correlation_df, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", midpoint = 0) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank()) +
+  labs(title = NULL, fill = "Correlation")
+```
