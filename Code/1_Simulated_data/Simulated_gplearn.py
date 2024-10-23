@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pickle
 from sklearn.metrics import root_mean_squared_error
 import sympy as sp
+import time
 
 # Load in data
 with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'rb') as f:
@@ -23,8 +24,12 @@ results_df = pd.DataFrame(columns=["Input", "Operators", "RMSE", "Equation"])
 # Intialize row counting variable for results table
 row = 0
 
+# Start timer 
+start_time = time.time()
+
 # Iterate through operator options
 for i in range(len(operators.index)):
+    print(i)
 
     # Subset to relevant operators
     op_temp = operators.iloc[i, operators.columns.get_loc('operators')]
@@ -47,14 +52,14 @@ for i in range(len(operators.index)):
 
         # Set model parameters - https://gplearn.readthedocs.io/en/stable/reference.html#symbolic-regressor
         est_gp = SymbolicRegressor(population_size=1000,
-                               generations=50,
+                               generations=500,
                                p_crossover=0.9,
                                p_hoist_mutation = 0.05,
                                max_samples = 0.3,
                                metric='rmse',
                                function_set=op_temp,
                                warm_start=True,
-                               parsimony_coefficient= 0.25, 
+                               parsimony_coefficient= 0.5, # cfhanged from 0.25
                                feature_names=x.columns.tolist(), 
                                verbose = 1,
                                random_state= 17)
@@ -66,20 +71,13 @@ for i in range(len(operators.index)):
         sorted_programs = sorted(est_gp._programs[-1], key=lambda program: program.fitness_, reverse=True)
         equations = sorted_programs[:10]
 
-        # Convert equations to sympy readable format and store in a list
-        # converter = {
-        #     'sub': lambda x, y : x - y,
-        #     'div': lambda x, y : x / y,
-        #     'mul': lambda x, y : x * y,
-        #     'add': lambda x, y : x + y,
-        #     'neg': lambda x : -x,
-        #     'pow': lambda x, y : x**y,
-        #     'sqrt': lambda x : sp.sqrt(x),
-        #     'log': lambda x, base=sp.E : sp.log(x, base)
-        # }
         sympy_equations = []
         for program in equations:
-            equation = sp.sympify(program) #, locals = converter)
+            # Extract the string representation of the program
+            equation_str = program.__str__()
+
+            # Convert the string to a sympy expression
+            equation = sp.sympify(equation_str)
             sympy_equations.append(str(equation))
 
         # Convert the equations to a DataFrame
@@ -89,14 +87,6 @@ for i in range(len(operators.index)):
         file_name = f'Models/1_Simulated_data/gplearn/{list(operators.index)[i]}_{list(sim_dict.keys())[j]}_HOF.csv'
         df_equations.to_csv(file_name, index=False)
 
-        # Compare equation predictions to actual
-        pred = mod.predict(x)
-        plt.scatter(data['Response'], pred)
-        plt.xlabel('Equation Output')
-        plt.ylabel('Model Output')
-        plt.title(file_name)
-        # plt.show()
-
         # Calc RMSE
         y_pred = mod.predict(x)
         rmse = root_mean_squared_error(y,y_pred)
@@ -105,6 +95,12 @@ for i in range(len(operators.index)):
         # Save results
         results_df.loc[row]=[list(sim_dict.keys())[j], op_temp, rmse, sympy_equations[1]]
         row = row + 1
+
+# End timer and calculate time taken 
+end_time = time.time()
+time_taken = end_time - start_time
+
+results_df['time'] = time_taken
 
 # Save to csv
 results_df

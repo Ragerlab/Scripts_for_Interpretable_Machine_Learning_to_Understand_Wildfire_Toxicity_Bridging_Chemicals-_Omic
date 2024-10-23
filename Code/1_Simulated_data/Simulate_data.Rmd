@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Simulate_data"
 output: html_document
 date: "2024-08-01"
 ---
@@ -16,6 +16,8 @@ library(reticulate)
 ```
 
 ```{r}
+set.seed(17)
+
 # Set number of samples
 n <- 50
 
@@ -102,7 +104,7 @@ p <- ggplot(data = melted_transformed_corr_matrix, aes(x = Var1, y = Var2, fill 
   ylab(NULL)+
   coord_fixed()
 p
-ggsave(filename = '..\\images\\1_Simulated_data\\Input_data\\Input_correlations.png', p)
+ggsave(filename = 'C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\images\\1_Simulated_data\\Input_data\\Input_correlations.png', p)
 
 # Load the transformed data from the CSV file
 # transformed_data = pd.read_csv("transformed_data.csv")
@@ -154,6 +156,11 @@ sim_dict = r.sim_dict
 with open(r'C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Data_inputs\1_Simulated_data\sim_dict.pkl', 'wb') as f:
     pickle.dump(sim_dict, f)
 
+# with open(r'C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Data_inputs\1_Simulated_data\sim_dict.pkl', 'rb') as f:
+#     sim_dict = pickle.load(f)    
+
+
 ```
+
 
 

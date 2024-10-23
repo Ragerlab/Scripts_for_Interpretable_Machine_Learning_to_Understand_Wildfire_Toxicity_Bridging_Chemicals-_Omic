@@ -58,13 +58,36 @@ Group <- gsub("_.*", "", rownames(test_df))
 # Add 'Group' as a new column to your dataframe
 test_df$Group <- Group
 
+# Define a custom color palette for the groups
+custom_colors <- c(
+  "PineFlaming" = "#1b9e77",
+  "PeatFlaming" = "#d95f02",
+  "RedOakSmoldering" = "#7570b3",
+  "EucalyptusSmoldering" = "#e7298a",
+  "PineNeedlesFlaming" = "#66a61e",
+  "PineNeedlesSmoldering" = "#e6ab02",
+  "RedOakFlaming" = "#a6761d",
+  "EucalyptusFlaming" = "#666666",
+  "PineSmoldering" = "#1f78b4",
+  "PeatSmoldering" = "#b2df8a"
+)
+
+
 # Plot
 p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
   geom_boxplot() +
   geom_point(position = position_jitter(width = 0.2), alpha = 0.5) +
-  labs(x = "Group", y = "Actual - Predicted") +
+    labs(x = "Group", y = "Actual - Predicted") +
   theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis text labels
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title=element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_fill_manual(values = custom_colors) 
 ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p)
 
  # Create the bar and red dash plot

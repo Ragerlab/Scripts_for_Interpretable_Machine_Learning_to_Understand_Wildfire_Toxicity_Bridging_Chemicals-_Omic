@@ -62,7 +62,7 @@ loss_function = """
     end
     """
 
-# Initialize model with warm_start set to True for continuing training
+    # Initialize model with warm_start set to True for continuing training
 discovered_model = pysr.PySRRegressor(
         niterations=1,  
         binary_operators=["-", "+", "*", "/", "^"],
@@ -73,10 +73,10 @@ discovered_model = pysr.PySRRegressor(
         random_state=17, 
         deterministic=True, 
         procs=0, 
-        constraints={'^': (-1, 1)},
+        constraints={'^': (1, 1), 
+                     '/': (-1, 2)},
         complexity_of_variables=2
     )
-
 # Start timer 
 start_time = time.time()
 

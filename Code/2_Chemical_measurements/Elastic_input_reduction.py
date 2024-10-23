@@ -44,10 +44,12 @@ results_df = pd.DataFrame({
 
 # Subset to nonzero coefficients
 nonzero_results = results_df[results_df['Coefficient'] != 0]
+nonzero_results = nonzero_results.sort_values(by='Coefficient', ascending=False)
 train_x_elastic = train_x[nonzero_results['Variable']]
 test_x_elastic = test_x[nonzero_results['Variable']]
 
 # Save reduced dataframes
+nonzero_results.to_csv("Models/2_Chemical_measurements/Elastic/nonzero_coefs.csv")
 train_x_elastic.to_pickle("Data_inputs/2_Chemical_measurements/train_x_elastic")
 test_x_elastic.to_pickle("Data_inputs/2_Chemical_measurements/test_x_elastic")
 

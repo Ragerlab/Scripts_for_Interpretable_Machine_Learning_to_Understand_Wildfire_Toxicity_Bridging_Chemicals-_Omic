@@ -28,7 +28,9 @@ plt.xlabel('Principal Component')
 plt.ylabel('Variance Explained (%)')
 plt.xticks(np.arange(1, len(pca.explained_variance_ratio_) + 1))
 plt.grid(True)
-plt.show()
+# plt.show()
+ # Save the plot for each subdirectory
+plt.savefig(f'Images/2_chemical_measurements/pca/scree_plot.png')
 
 # Transform data to principal components
 pca_scores = pca.transform(pca_sub_scaled)

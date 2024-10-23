@@ -26,11 +26,11 @@ train_y_pred = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_pred
 test_y_pred = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Full")
 train_y_pred_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_PCA")
 test_y_pred_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_PCA")
-train_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_Lasso")
-test_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Lasso")
+train_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_Elastic")
+test_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Elastic")
 
-# Store the inputs (Full, PCA, Lasso) in a list
-input_names = ['Full', 'PCA', 'Lasso']
+# Store the inputs (Full, PCA, Elastic) in a list
+input_names = ['Full', 'PCA', 'Elastic']
 train_preds_list = [train_y_pred, train_y_pred_pca, train_y_pred_lasso]
 test_preds_list = [test_y_pred, test_y_pred_pca, test_y_pred_lasso]
 ```
@@ -44,18 +44,10 @@ test_preds_list <- py$test_preds_list
 train_y <- py$train_y
 test_y <- py$test_y
 
-# Iterate through the input list
-for (i in seq_along(input_names)) {
-  # Get the current input name, training, and test predictions
+# Combine all testing data into a single DataFrame with identifiers for each dataset and input name
+combined_test_dat <- do.call(rbind, lapply(seq_along(input_names), function(i) {
   input_name <- input_names[[i]]
-  train_y_pred <- train_preds_list[[i]]
   test_y_pred <- test_preds_list[[i]]
-  
-  # Combine training data into one DataFrame with 'Actual' and 'Predicted' columns
-  train_combined <- data.frame(
-    Actual = train_y,
-    Predicted = train_y_pred[,1]
-  )
   
   # Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
   test_combined <- data.frame(
@@ -63,7 +55,6 @@ for (i in seq_along(input_names)) {
     Predicted = test_y_pred[,1]
   )
   
-  # Plot testing data
   # Calculate difference between actual and predicted
   test_df <- test_combined %>%
     mutate(Dif = Actual - Predicted)
@@ -71,33 +62,76 @@ for (i in seq_along(input_names)) {
   # Extract the rownames and modify them to contain only the part before the first '_'
   Group <- gsub("_.*", "", rownames(test_df))
   
-  # Add 'Group' as a new column to your dataframe
+  # Add 'Group' and 'input_name' as new columns to the DataFrame
   test_df$Group <- Group
+  test_df$input_name <- input_name
   
-  # Create plot
-  p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
-    geom_boxplot() +
-    geom_point(position = position_jitter(width = 0.2), alpha = 0.5) +
-    labs(x = "Group", y = "Actual - Predicted", title = paste("Prediction Spread -", input_name)) +
-    theme_classic() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  
-  # Save the plot with a unique filename
-  plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/prediction_spread_', input_name, '.png')
-  ggsave(plot_filename, p)
-  
-  # Create the bar and red dash plot for each individual
-  p_bar <- ggplot(test_df, aes(x = rownames(test_df), y = Actual, fill = Group)) +
-    geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
-    geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
-    labs(x = "Individual", y = "Value", title = paste("Actual vs Predicted -", input_name)) +
-    theme_classic() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate individual labels
-  
-  # Save the plot with a unique filename
-  plot_filename_bar <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/actual_vs_predicted_', input_name, '.png')
-  ggsave(plot_filename_bar, p_bar)
-}
+  return(test_df)
+}))
+
+# Define levels
+combined_test_dat$input_name <- factor(combined_test_dat$input_name, levels = c('Full', 'PCA', 'Elastic'))
+
+
+# Define a custom color palette for the groups
+custom_colors <- c(
+  "PineFlaming" = "#1b9e77",
+  "PeatFlaming" = "#d95f02",
+  "RedOakSmoldering" = "#7570b3",
+  "EucalyptusSmoldering" = "#e7298a",
+  "PineNeedlesFlaming" = "#66a61e",
+  "PineNeedlesSmoldering" = "#e6ab02",
+  "RedOakFlaming" = "#a6761d",
+  "EucalyptusFlaming" = "#666666",
+  "PineSmoldering" = "#1f78b4",
+  "PeatSmoldering" = "#b2df8a"
+)
+
+# Set up the box plot using facet_wrap for each input_name
+p <- ggplot(combined_test_dat, aes(x = Group, y = Dif, fill = Group)) +
+  geom_boxplot() +
+  geom_point(position = position_jitter(width = 0.2), alpha = 0.5) +
+  labs(x = "Group", y = "Actual - Predicted") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis text labels
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title=element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE)) +  # Adjust legend to have three rows
+  facet_wrap(~ input_name, scales = "free_x")
+
+
+# Print the combined plot
+print(p)
+# Save
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Prediction_spread_all.png')
+ggsave(plot_filename, p, width = 7, height = 4)
+
+# Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
+p_bar <- ggplot(combined_test_dat, aes(x = rownames(combined_test_dat), y = Actual, fill = Group)) +
+  geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
+  geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
+  labs(x = "Individual", y = "Predicted Injury Protein") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis text labels
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title=element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
+  facet_wrap(~ input_name, scales = "free_x") +
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
+ggsave(plot_filename, p_bar, width = 7, height = 4)
 
 ```
 
