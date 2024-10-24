@@ -72,7 +72,7 @@ p <- heatmap_plot <- ggplot(data = correlation_df, aes(Var1, Var2, fill = value)
   labs(title = "Correlation Matrix", fill = "Correlation")
 
 # Save the plot
-ggsave("Images/2_Chemical_measurements/r_correlation_heatmap.png", plot = heatmap_plot, width = 10, height = 8)
+# ggsave("Images/2_Chemical_measurements/r_correlation_heatmap.png", plot = heatmap_plot, width = 10, height = 8)
 
 ```
 

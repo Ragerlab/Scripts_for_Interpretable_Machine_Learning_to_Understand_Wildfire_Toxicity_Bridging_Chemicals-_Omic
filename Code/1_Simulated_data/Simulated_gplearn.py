@@ -106,3 +106,4 @@ results_df['time'] = time_taken
 results_df
 file_name = f'Models/1_Simulated_data/gplearn/results_gplearn.csv'
 results_df.to_csv(file_name, index=False)
+

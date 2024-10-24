@@ -10,7 +10,7 @@ library(tidyverse)
 
 # Load in data
 ```{r}
-dat <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\partial_deriv.csv')
+dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\partial_deriv.csv')
 ```
 
 # Sum directions and plot
@@ -44,7 +44,7 @@ p <- ggplot(dat_top, aes(x = reorder(gene, -sum_dir), y = sum_dir, fill = Associ
   )
 
 # Save
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
 ggsave(plot_filename, p, width = 3.5, height = 4)
 
 ```

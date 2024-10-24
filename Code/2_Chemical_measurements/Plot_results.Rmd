@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
@@ -132,6 +132,69 @@ p_bar <- ggplot(combined_test_dat, aes(x = rownames(combined_test_dat), y = Actu
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
 plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
 ggsave(plot_filename, p_bar, width = 7, height = 4)
+
+
+# Scatter plot
+p_scatter <- ggplot(combined_test_dat, aes(x = rownames(combined_test_dat), y = Actual, fill = Group)) +
+  geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
+  geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
+  labs(x = "Individual", y = "Predicted Injury Protein") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis text labels
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title=element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
+  facet_wrap(~ input_name, scales = "free_x") +
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
+```
+
+# Sensitivity analysis
+```{r}
+# Load in data
+sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_Full.csv')
+sens_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_PCA.csv')
+sens_elastic <- sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_elastic.csv')
+
+# Put in list
+dat_list <- list(sens_full, sens_pca, sens_elastic)
+names(dat_list) <- c('Full', 'PCA', 'Elastic net')
+
+# Combine and add a column for the dataset name
+dat_all <- bind_rows(
+  lapply(names(dat_list), function(name) {
+    dat_list[[name]] %>%
+      mutate(Dataset = name)
+  })
+)
+
+# Make complexity a factor
+dat_all$Complexity <- as.factor(dat_all$Complexity)
+
+# Iterate through tests and create plots
+tests <- unique(dat_all$Dataset)
+for(i in 1:length(tests)){
+  temp <- dat_all %>%
+    filter(Dataset == tests[i])
+  
+  # Plot
+  p <- ggplot(temp, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
+    geom_point() +
+    theme_classic() + 
+    ggtitle(tests[i]) +
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    theme(legend.position="none")
+  
+  # Save
+  plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/sensitivity', tests[i], '.png')
+  ggsave(plot_filename, p, width = 4, height = 4)
+}
+
 
 ```
 

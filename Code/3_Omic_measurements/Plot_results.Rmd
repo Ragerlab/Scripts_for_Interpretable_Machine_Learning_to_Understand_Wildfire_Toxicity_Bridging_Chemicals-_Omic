@@ -91,14 +91,32 @@ p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
 ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p)
 
  # Create the bar and red dash plot
-p_bar <- ggplot(test_df, aes(x = rownames(test_df), y = Actual, fill = Group)) +
-  geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
-  geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
-  labs(x = "Individual", y = "Value", title = paste("Actual vs Predicted -", input_name)) +
+p_scatter <- ggplot(test_df, aes(x = Actual, y = Predicted, fill = Group)) +
+  geom_point() +  # Bars for 'Actual'
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate individual labels
-ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/actual_vs_predicted.png',p_bar)
+# ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/actual_vs_predicted.png',p_bar)
 
 
+```
+
+# Sensitivity Analysis
+```{r}
+# Load in data
+dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\pysr_RMSE_sensitivity.csv')
+
+# convert complexity to factor
+dat$Complexity <- as.factor(dat$Complexity)
+
+# Plot
+p <- ggplot(dat, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
+  geom_point() +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(legend.position="none")
+
+# Save
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/sensitivity.png')
+  ggsave(plot_filename, p, width = 4, height = 4)
 ```
 

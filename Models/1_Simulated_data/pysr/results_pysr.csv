@@ -1,14 +1,14 @@
 Input,Binary operators,Unary Operators,Level,RMSE,Equation,time
-Noise=0.25,"['-', '+']",['myfunction(x) = x'],2,16.051234995893086,(((((chem6 + (chem6 + (chem6 + (chem6 + chem3)))) + chem6) + chem6) + chem6) + chem6) + chem6,3129.6980304718018
-Noise=0.5,"['-', '+']",['myfunction(x) = x'],2,16.03492883868294,chem6 + (((chem6 + chem6) + chem6) + ((((chem6 + chem6) + chem3) + (chem6 + chem6)) + chem6)),3129.6980304718018
-Noise=0.75,"['-', '+']",['myfunction(x) = x'],3,16.23732486647459,chem6 + ((((chem6 + chem6) + (((chem3 + chem6) + (chem6 + chem6)) + chem6)) + chem6) + chem6),3129.6980304718018
-Noise=1,"['-', '+']",['myfunction(x) = x'],3,16.03462422,(((((chem6 + chem3) + (chem6 + (chem6 + chem6))) + chem6) + (chem6 + chem6)) + chem6) + chem6,3129.6980304718018
-Noise=1.25,"['-', '+']",['myfunction(x) = x'],2,16.19426427702207,(((((chem6 + (chem6 + chem3)) + (chem6 + chem6)) + chem6) + chem6) + chem6) + (chem6 + chem6),3129.6980304718018
-Noise=1.5,"['-', '+']",['myfunction(x) = x'],3,16.03175091,chem6 + (chem6 + (((chem6 + chem6) + ((chem6 + chem6) + (chem6 + chem3))) + (chem6 + chem6))),3129.6980304718018
-Noise=1.75,"['-', '+']",['myfunction(x) = x'],3,15.999385927734675,((chem6 + chem6) + chem3) + (chem6 + ((chem6 + chem6) + ((chem6 + (chem6 + chem6)) + chem6))),3129.6980304718018
-Noise=2,"['-', '+']",['myfunction(x) = x'],3,16.156812505140298,((((((chem6 + chem6) + (chem6 + chem3)) + chem6) + (chem6 + chem6)) + chem6) + chem6) + chem6,3129.6980304718018
-No_noise_all_var,"['-', '+']",['myfunction(x) = x'],3,16.05945319590942,((chem6 + (((chem6 + chem6) + (((chem6 + chem6) + chem6) + chem3)) + chem6)) + chem6) + chem6,3129.6980304718018
-No_noise_rel_var,"['-', '+']",['myfunction(x) = x'],2,19.156577258001818,((((chem6 + (chem6 + chem6)) + chem6) + 26.004435) + chem6) + chem6,3129.6980304718018
+Noise=0.25,"['-', '+']",['myfunction(x) = x'],4,16.051234995893086,(((((chem6 + (chem6 + (chem6 + (chem6 + chem3)))) + chem6) + chem6) + chem6) + chem6) + chem6,3129.6980304718018
+Noise=0.5,"['-', '+']",['myfunction(x) = x'],4,16.03492883868294,chem6 + (((chem6 + chem6) + chem6) + ((((chem6 + chem6) + chem3) + (chem6 + chem6)) + chem6)),3129.6980304718018
+Noise=0.75,"['-', '+']",['myfunction(x) = x'],4,16.23732486647459,chem6 + ((((chem6 + chem6) + (((chem3 + chem6) + (chem6 + chem6)) + chem6)) + chem6) + chem6),3129.6980304718018
+Noise=1,"['-', '+']",['myfunction(x) = x'],4,16.03462422,(((((chem6 + chem3) + (chem6 + (chem6 + chem6))) + chem6) + (chem6 + chem6)) + chem6) + chem6,3129.6980304718018
+Noise=1.25,"['-', '+']",['myfunction(x) = x'],4,16.19426427702207,(((((chem6 + (chem6 + chem3)) + (chem6 + chem6)) + chem6) + chem6) + chem6) + (chem6 + chem6),3129.6980304718018
+Noise=1.5,"['-', '+']",['myfunction(x) = x'],4,16.03175091,chem6 + (chem6 + (((chem6 + chem6) + ((chem6 + chem6) + (chem6 + chem3))) + (chem6 + chem6))),3129.6980304718018
+Noise=1.75,"['-', '+']",['myfunction(x) = x'],4,15.999385927734675,((chem6 + chem6) + chem3) + (chem6 + ((chem6 + chem6) + ((chem6 + (chem6 + chem6)) + chem6))),3129.6980304718018
+Noise=2,"['-', '+']",['myfunction(x) = x'],4,16.156812505140298,((((((chem6 + chem6) + (chem6 + chem3)) + chem6) + (chem6 + chem6)) + chem6) + chem6) + chem6,3129.6980304718018
+No_noise_all_var,"['-', '+']",['myfunction(x) = x'],4,16.05945319590942,((chem6 + (((chem6 + chem6) + (((chem6 + chem6) + chem6) + chem3)) + chem6)) + chem6) + chem6,3129.6980304718018
+No_noise_rel_var,"['-', '+']",['myfunction(x) = x'],3,19.156577258001818,((((chem6 + (chem6 + chem6)) + chem6) + 26.004435) + chem6) + chem6,3129.6980304718018
 Noise=0.25,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0.2178656103341482,(chem13 / chem10) + (2.9993887 * (chem2 * chem6)),3129.6980304718018
 Noise=0.5,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0.4183324993159125,(chem2 * (chem6 * 3.0016744)) + (chem13 / chem10),3129.6980304718018
 Noise=0.75,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0.6431764953476024,(chem13 / chem10) + ((chem2 / 0.33292085) * chem6),3129.6980304718018

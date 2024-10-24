@@ -7,5 +7,5 @@ Equation
 "mul(add(add(chem6, chem6), chem6), add(add(chem6, chem6), chem6))"
 "mul(add(add(chem6, chem6), chem6), add(add(chem6, chem6), chem6))"
 "mul(add(add(chem6, chem6), chem6), add(add(chem6, chem6), chem6))"
-"mul(chem2, add(mul(chem2, add(add(chem6, chem6), chem6)), chem6))"
 "mul(chem2, add(add(chem6, chem6), mul(chem2, add(add(chem6, chem6), chem6))))"
+"mul(chem2, add(mul(chem2, add(add(chem6, chem6), chem6)), chem6))"

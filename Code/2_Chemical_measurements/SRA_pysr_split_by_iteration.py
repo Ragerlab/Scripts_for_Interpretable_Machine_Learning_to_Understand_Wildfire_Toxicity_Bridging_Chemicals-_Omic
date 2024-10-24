@@ -83,7 +83,7 @@ train_clean = {key: clean_column_names(df) for key, df in train_input_dict.items
 test_clean = {key: clean_column_names(df) for key, df in test_input_dict.items()}
 
 # Initialize a DataFrame to store results
-results_pysr_df = pd.DataFrame(columns=["Training RMSE", "Test RMSE", "Time Taken"])
+results_pysr_df = pd.DataFrame(columns=["Training RMSE", "Test RMSE"])
 
 # Define keys for loop
 keys = list(train_clean.keys())
@@ -116,21 +116,24 @@ for i in range(len(train_clean)):
     """
     # Set up model 
     discovered_model = pysr.PySRRegressor(
-        niterations=1,
-        # unary_operators=['exp','log'],
+        niterations=1,  
         binary_operators=["-", "+", "*", "/", "^"],
         loss_function=loss_function,
         **default_pysr_params,
-        temp_equation_file=True, 
-        warm_start= True
+        temp_equation_file=True,
+        warm_start=True,  # Continue training from where the last iteration left off
+        random_state=17, 
+        deterministic=True, 
+        procs=0, 
+        constraints={'^': (1, 1), 
+                     '/': (-1, 2)},
+        complexity_of_variables=2
     )
+
 
     # - https://github.com/MilesCranmer/PySR/discussions/439#discussioncomment-7330778
     # Initialize a DataFrame to store results
     results_rmse = pd.DataFrame(columns=["Iteration", "RMSE", "Complexity", "Equation"])
-
-    # Start timer 
-    start_time = time.time()
 
     # Iterate through generations
     for j in range(500):
@@ -184,10 +187,6 @@ for i in range(len(train_clean)):
     plt.legend()
     plt.savefig(f'images/2_Chemical_measurements/pysr/pysr_rmse_sensitivity_{key}_complete.png')
 
-    # End timer and calculate time taken 
-    end_time = time.time()
-    time_taken = end_time - start_time
-
     # Save RMSE results to csv
     file_name = f'Models/2_Chemical_measurements/pysr/pysr_RMSE_sensitivity_{key}.csv'
     results_rmse.to_csv(file_name, index=False)
@@ -200,11 +199,6 @@ for i in range(len(train_clean)):
     file_name = f'Models/2_Chemical_measurements/pysr/pysr_HOF_{keys[i]}.csv'
     df_equations.to_csv(file_name, index=False)
     
-    # Save the model to a file
-    file_name = f'Models/2_Chemical_measurements/pysr/pysr_model_{keys[i]}.pkl'
-    with open(file_name, 'wb') as model_file:
-        pickle.dump(discovered_model, model_file)
-
     # Pysr Train RMSE 
     y_train = discovered_model.predict(df_train.values)
     train_pysr_rmse = root_mean_squared_error(train_y, y_train)
@@ -232,7 +226,7 @@ for i in range(len(train_clean)):
     plot_regression(test_y, ypredict, filename=file_name)
 
     # Store results in DataFrame
-    results_pysr_df.loc[key] = [train_pysr_rmse, test_pysr_rmse, time_taken]
+    results_pysr_df.loc[key] = [train_pysr_rmse, test_pysr_rmse]
     
 # Print final results  
 results_pysr_df
