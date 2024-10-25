@@ -30,6 +30,12 @@ time_taken = end_time - start_time
 importances = rf_model.feature_importances_
 var_imp_rf_injury = pd.DataFrame({"Feature": train_x.columns, "Importance": importances})
 var_imp_rf_injury = var_imp_rf_injury.sort_values("Importance", ascending=False)
+
+# Save model comparisons to csv
+file_name = f'Models/3_Omic_measurements/rf/rf_var_importance.csv'
+var_imp_rf_injury.to_csv(file_name, index=False)
+
+# Get top 15
 var_imp_rf_injury = var_imp_rf_injury.iloc[:15,]
 
 # Plot variable importance

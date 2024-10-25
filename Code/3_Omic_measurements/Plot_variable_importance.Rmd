@@ -10,14 +10,14 @@ library(tidyverse)
 
 # Load in data
 ```{r}
-dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\partial_deriv.csv')
+dat <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\partial_deriv.csv')
 ```
 
 # Sum directions and plot
 ```{r}
 dat_sum <- dat %>% 
   group_by(gene) %>%
-  mutate(sum_dir = sum(direction)) %>%
+  mutate(sum_dir = sum(integrated_derivative)) %>%
   select(gene, sum_dir) %>%
   unique() 
 
@@ -44,7 +44,7 @@ p <- ggplot(dat_top, aes(x = reorder(gene, -sum_dir), y = sum_dir, fill = Associ
   )
 
 # Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
 ggsave(plot_filename, p, width = 3.5, height = 4)
 
 ```
@@ -112,4 +112,50 @@ p <- ggplot(data = correlation_df, aes(Var1, Var2, fill = value)) +
         axis.title.x = element_blank(),
         axis.title.y = element_blank()) +
   labs(title = NULL, fill = "Correlation")
+```
+
+# RF importance
+```{r}
+dat <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\rf\\rf_var_importance.csv')
+
+# Get top 15 from full
+dat_full <- dat_full %>%
+  arrange(-Importance) %>%
+  .[1:15,]
+
+# Put in list
+dat_list <- list(dat_full, dat_pca, dat_elastic)
+names(dat_list) <- c('Full', 'PCA', 'Elastic net')
+
+# Combine and add a column for the dataset name
+dat_all <- bind_rows(
+  lapply(names(dat_list), function(name) {
+    dat_list[[name]] %>%
+      mutate(Dataset = name)
+  })
+)
+
+# Set order
+dat_all$Dataset <- factor(dat_all$Dataset, levels = c('Full', 'PCA', 'Elastic net'))
+
+p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = Importance)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Chem", y = "Importance") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  facet_grid(. ~ Dataset, scales = "free_x", space = "free") +
+  scale_x_reordered() +  # Handles the reordered factors
+  scale_y_continuous(expand = c(0, 0)) +  # This removes the padding between bars and the x-axis
+  labs(x = 'Chemical')
+
+# Save
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/rf/variable_importance_all.png')
+ggsave(plot_filename, p, width = 7, height = 4)
 ```

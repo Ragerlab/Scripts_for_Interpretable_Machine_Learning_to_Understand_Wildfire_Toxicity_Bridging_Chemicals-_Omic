@@ -81,7 +81,7 @@ discovered_model = pysr.PySRRegressor(
 start_time = time.time()
 
 # Iterate through a set number of iterations
-for iteration in range(500):
+for iteration in range(1500):
     print(f"Iteration {iteration + 1}")
 
     # Fit the model (each iteration performs one step of fitting)

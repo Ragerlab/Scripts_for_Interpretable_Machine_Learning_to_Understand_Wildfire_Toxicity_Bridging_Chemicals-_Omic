@@ -274,7 +274,7 @@ for idx in range(len(keys)):
         range_value = max_value - min_value
 
         # Calculate the var_importance
-        var_importance = sum_integrated_derivative #* (len(chem_rows) / len(combined_hof_df)) #/ range_value
+        var_importance = sum_integrated_derivative #* (len(chem_rows) / len(combined_hof_df)) / range_value
 
         # Append the chemical name and its var_importance to the list
         var_importance_list.append([chem, var_importance])
@@ -301,4 +301,4 @@ for idx in range(len(keys)):
     plt.xticks(rotation=90)  # Rotate chemical names for better readability
     plt.tight_layout()
     plt.show()
-    plt.savefig(f'Images/2_Chemical_measurements/pysr/var_importance_{key}.png')
+    # plt.savefig(f'Images/2_Chemical_measurements/pysr/var_importance_{key}.png')
