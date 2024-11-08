@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Albumin_runs")
 
 # Load in data
 train_y = pd.read_pickle("Data_inputs/3_Omic_measurements/train_y")
@@ -88,14 +88,14 @@ p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
     legend.position = "bottom"
   ) +
   scale_fill_manual(values = custom_colors) 
-ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p)
+ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/3_Omic_measurements/prediction_spread.png',p)
 
  # Create the bar and red dash plot
 p_scatter <- ggplot(test_df, aes(x = Actual, y = Predicted, fill = Group)) +
   geom_point() +  # Bars for 'Actual'
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate individual labels
-# ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/actual_vs_predicted.png',p_bar)
+# ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/actual_vs_predicted.png',p_bar)
 
 
 ```

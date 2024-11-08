@@ -72,7 +72,7 @@ def integrate_over_all_variables(partial_derivative, all_symbols, ranges):
 base_hof_directory = r"Models/2_Chemical_measurements/pysr/HOF_all_iterations"
 
 # Subdirectories for Full, PCA, and Elastic
-subdirectories = ['Full', 'PCA', 'Elastic', 'Albumin']
+subdirectories = ['Full', 'PCA', 'Elastic']
 
 # Initialize a dictionary to store the concatenated DataFrames for each subdirectory
 hof_dataframes = {}
@@ -289,6 +289,10 @@ for idx in range(len(keys)):
 
     # Sort the DataFrame by 'var_importance' in decreasing order
     var_importance_df = var_importance_df.sort_values(by='var_importance', ascending=False)
+    
+    # Save results for each subdirectory
+    var_importance_name = f'Models/2_Chemical_measurements/pysr/variable_importance_{key}.csv'
+    var_importance_df.to_csv(var_importance_name, index=False)
 
     # Sort the DataFrame by the absolute value of 'var_importance' in decreasing order and subset the top 15
     top_15_abs = var_importance_df.reindex(var_importance_df['var_importance'].abs().sort_values(ascending=False).index).head(15)

@@ -25,13 +25,9 @@ test_x_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x_pca")
 train_x_elastic = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_x_elastic")
 test_x_elastic= pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x_elastic")
 
-# Injury albumin instead of injury protein
-train_x_albumin = pd.read_pickle("Data_inputs/2_Chemical_measurements/Albumin/train_x")
-test_x_albumin = pd.read_pickle("Data_inputs/2_Chemical_measurements/Albumin/test_x")
-
 # Create dictionaries containing full input, PCA-reduced input, and elastic-reduced input to iterate through 
-train_input_dict = {'Full': train_x, 'PCA': train_x_pca, 'Elastic': train_x_elastic, 'Albumin' : train_x_albumin}
-test_input_dict = {'Full': test_x, 'PCA': test_x_pca, 'Elastic': test_x_elastic, 'Albumin' : test_x_albumin}
+train_input_dict = {'Full': train_x, 'PCA': train_x_pca, 'Elastic': train_x_elastic}
+test_input_dict = {'Full': test_x, 'PCA': test_x_pca, 'Elastic': test_x_elastic}
 
 # Save dictionaries for future use
 with open('Data_inputs/2_Chemical_measurements/train_input_dict.pkl', 'wb') as f:
@@ -88,7 +84,6 @@ for i in range(len(train_input_dict)):
 
     # Rotate x-axis labels diagonally for readability
     plt.xticks(rotation=45, ha='right')
-    plt.show()
 
     # Save the plot
     plt.tight_layout()

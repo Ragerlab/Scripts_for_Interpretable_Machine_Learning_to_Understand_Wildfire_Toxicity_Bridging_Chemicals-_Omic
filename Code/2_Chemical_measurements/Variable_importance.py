@@ -286,6 +286,10 @@ for idx in range(len(keys)):
     # Sort the DataFrame by 'var_importance' in decreasing order
     var_importance_df = var_importance_df.sort_values(by='var_importance', ascending=False)
 
+    # Save results for each subdirectory
+    var_importance_name = f'Models/2_Chemical_measurements/pysr/variable_importance_{key}.csv'
+    var_importance_df.to_csv(var_importance_name, index=False)
+
     # Sort the DataFrame by the absolute value of 'var_importance' in decreasing order and subset the top 15
     top_15_abs = var_importance_df.reindex(var_importance_df['var_importance'].abs().sort_values(ascending=False).index).head(15)
 
@@ -300,5 +304,5 @@ for idx in range(len(keys)):
     plt.title(f'Variable Importance by Chemical ({key})')
     plt.xticks(rotation=90)  # Rotate chemical names for better readability
     plt.tight_layout()
-    plt.show()
+    # plt.show()
     # plt.savefig(f'Images/2_Chemical_measurements/pysr/var_importance_{key}.png')

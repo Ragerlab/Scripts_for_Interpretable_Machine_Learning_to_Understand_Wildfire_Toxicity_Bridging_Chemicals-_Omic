@@ -21,6 +21,7 @@ pca = PCA(n_components = 10)
 pca.fit(pca_sub_scaled)
 
 # Scree plot
+
 plt.figure(figsize=(10, 6))
 plt.plot(range(1, len(pca.explained_variance_ratio_) + 1), pca.explained_variance_ratio_, marker='o', linestyle='--')
 plt.title('Scree Plot')
@@ -28,7 +29,7 @@ plt.xlabel('Principal Component')
 plt.ylabel('Variance Explained (%)')
 plt.xticks(np.arange(1, len(pca.explained_variance_ratio_) + 1))
 plt.grid(True)
-# plt.show()
+plt.show()
  # Save the plot for each subdirectory
 plt.savefig(f'Images/2_chemical_measurements/pca/scree_plot.png')
 

@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Albumin_runs")
 
 # Load in data
 train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
@@ -27,15 +27,14 @@ train_y_pred = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_pred
 test_y_pred = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Full")
 train_y_pred_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_PCA")
 test_y_pred_pca = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_PCA")
-train_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_Elastic")
-test_y_pred_lasso = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Elastic")
-train_y_pred_albumin = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_Albumin")
-test_y_pred_albumin = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Albumin")
+train_y_pred_elastic = pd.read_pickle("Data_inputs/2_Chemical_measurements/training_predictions_Elastic")
+test_y_pred_elastic = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_predictions_Elastic")
+
 
 # Store the inputs (Full, PCA, Elastic) in a list
-input_names = ['Full', 'PCA', 'Elastic', 'Albumin']
-train_preds_list = [train_y_pred, train_y_pred_pca, train_y_pred_lasso, train_y_pred_albumin]
-test_preds_list = [test_y_pred, test_y_pred_pca, test_y_pred_lasso, test_y_pred_albumin]
+input_names = ['Full', 'PCA', 'Elastic']
+train_preds_list = [train_y_pred, train_y_pred_pca, train_y_pred_elastic]
+test_preds_list = [test_y_pred, test_y_pred_pca, test_y_pred_elastic]
 ```
 
 # Convert to r variables and plot
@@ -46,7 +45,6 @@ train_preds_list <- py$train_preds_list
 test_preds_list <- py$test_preds_list
 train_y <- py$train_y
 test_y <- py$test_y
-test_y_albumin <- py$test_y_albumin
 
 # Combine all testing data into a single DataFrame with identifiers for each dataset and input name
 combined_test_dat <- do.call(rbind, lapply(seq_along(input_names), function(i) {
@@ -58,13 +56,6 @@ combined_test_dat <- do.call(rbind, lapply(seq_along(input_names), function(i) {
     Actual = test_y,
     Predicted = test_y_pred[,1]
   )
-  
-  if(input_name == 'Albumin'){
-    test_combined <- data.frame(
-      Actual = test_y_albumin,
-      Predicted = test_y_pred[,1]
-    )
-  }
   
   # Calculate difference between actual and predicted
   test_df <- test_combined %>%
@@ -81,7 +72,7 @@ combined_test_dat <- do.call(rbind, lapply(seq_along(input_names), function(i) {
 }))
 
 # Define levels
-combined_test_dat$input_name <- factor(combined_test_dat$input_name, levels = c('Full', 'PCA', 'Elastic', 'Albumin'))
+combined_test_dat$input_name <- factor(combined_test_dat$input_name, levels = c('Full', 'PCA', 'Elastic'))
 
 
 # Define a custom color palette for the groups
@@ -120,7 +111,7 @@ p <- ggplot(combined_test_dat, aes(x = Group, y = Dif, fill = Group)) +
 # Print the combined plot
 print(p)
 # Save
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Prediction_spread_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/Prediction_spread_all.png')
 ggsave(plot_filename, p, width = 7, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
@@ -141,7 +132,7 @@ p_bar <- ggplot(combined_test_dat, aes(x = rownames(combined_test_dat), y = Actu
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
   facet_wrap(~ input_name, scales = "free_x") +
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
 ggsave(plot_filename, p_bar, width = 7, height = 4)
 
 ```
@@ -149,9 +140,9 @@ ggsave(plot_filename, p_bar, width = 7, height = 4)
 # Sensitivity analysis
 ```{r}
 # Load in data
-sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_Full.csv')
-sens_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_PCA.csv')
-sens_elastic <- sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_elastic.csv')
+sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_Full.csv')
+sens_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_PCA.csv')
+sens_elastic <- sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_elastic.csv')
 
 # Put in list
 dat_list <- list(sens_full, sens_pca, sens_elastic)
