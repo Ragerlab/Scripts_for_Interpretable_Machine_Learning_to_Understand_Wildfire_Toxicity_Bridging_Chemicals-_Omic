@@ -1,0 +1,11 @@
+Equation
+"sub(chem10, chem15)"
+"add(add(add(chem6, add(chem6, chem6)), add(add(add(chem3, chem6), add(chem6, add(add(add(add(chem6, add(chem6, chem6)), add(add(chem3, chem6), chem6)), chem6), add(add(chem6, chem6), chem6)))), add(chem6, chem6))), add(chem6, chem6))"
+"add(add(chem6, add(add(add(add(add(add(add(chem6, add(chem6, chem6)), add(add(add(add(chem6, chem6), chem6), chem6), chem6)), add(chem6, chem6)), chem6), add(chem6, chem6)), add(chem6, chem6)), add(chem6, chem6))), add(chem6, chem6))"
+"add(add(add(chem6, add(chem6, chem6)), add(chem6, add(chem6, add(chem6, chem6)))), add(add(add(add(chem3, chem6), add(add(chem3, chem6), chem6)), add(add(chem6, chem6), add(chem6, chem6))), add(add(chem6, chem6), chem6)))"
+"add(add(add(chem6, add(add(add(chem3, chem6), add(add(chem3, chem6), add(add(chem6, add(chem6, chem6)), add(chem6, chem6)))), add(chem6, chem6))), add(chem6, add(add(chem6, chem6), add(chem6, chem6)))), add(chem6, chem6))"
+"add(chem3, add(add(add(add(sub(chem14, chem1), add(chem14, chem11)), chem6), chem6), add(add(add(chem3, chem6), chem6), chem6)))"
+"add(add(chem6, chem6), add(add(add(add(chem6, add(add(add(chem3, chem6), add(add(chem3, chem6), add(add(chem6, add(chem6, chem6)), add(chem6, chem6)))), add(chem6, chem6))), add(chem6, chem6)), add(chem6, chem6)), chem6))"
+"sub(add(add(chem3, chem6), add(add(chem3, chem6), chem6)), add(add(chem6, chem6), add(chem6, chem6)))"
+chem6
+"add(add(add(add(add(chem6, add(add(add(chem3, chem6), add(add(chem3, chem6), add(add(chem6, add(chem6, chem6)), add(chem6, chem6)))), add(chem6, chem6))), add(chem6, chem6)), chem6), chem6), add(add(chem6, chem6), chem6))"

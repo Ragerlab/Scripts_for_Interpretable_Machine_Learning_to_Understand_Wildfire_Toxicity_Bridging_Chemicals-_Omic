@@ -1,0 +1,11 @@
+Equation
+"mul(mul((0, chem14), add(chem14, chem11)), chem6)"
+"mul(add(add(chem2, chem2), chem2), mul(add(add(chem2, chem2), chem2), chem6))"
+"mul(add(add(chem2, chem2), chem2), mul(add(add(chem2, chem2), chem2), chem6))"
+"mul(add(add(chem2, chem2), chem2), mul(add(add(chem2, chem2), chem2), chem6))"
+"mul(add(add(chem2, chem2), chem2), mul(add(add(chem2, chem2), chem2), chem6))"
+"mul(add(add(chem2, chem2), chem2), mul(add(add(chem2, chem2), chem2), chem6))"
+"mul(add(add(chem2, chem2), chem2), mul(add(add(chem2, chem2), chem2), chem6))"
+"mul(add(add(chem2, chem2), chem2), mul(add(add(chem2, chem2), chem2), chem6))"
+"mul(add(mul(add(add(chem2, chem2), chem2), chem6), chem2), chem6)"
+"mul(add(mul(add(add(chem2, chem2), chem2), chem6), chem2), chem6)"

@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,85.98262,0.0,0.6363561,0.636356100000000,PySRFunction(X=>0.636356100000000)
+2,84.87943,0.012913403886390904,Vanillin,Vanillin,PySRFunction(X=>Vanillin)
+3,22.632187,1.3218586823182097,1.2132095 - -81.75275,1.2132095 - 1*(-81.75275),PySRFunction(X=>1.2132095 - 1*(-81.75275))
+4,21.897497,0.03300075854894799,Silicon + 77.673935,Silicon + 77.673935,PySRFunction(X=>Silicon + 77.673935)
+6,20.187489,0.04065464098103541,2.579105 + (Silicon / 0.07854578),Silicon/0.07854578 + 2.579105,PySRFunction(X=>Silicon/0.07854578 + 2.579105)
+9,18.615274,0.027026876520783755,(Silicon * 9.750153) + (26.516994 + Methylfluorene),Methylfluorene + Silicon*9.750153 + 26.516994,PySRFunction(X=>Methylfluorene + Silicon*9.750153 + 26.516994)
+11,17.893011,0.019786118426824,(((P * Silicon) + 39.47984) / 0.66639864) + -1.0834565,(P*Silicon + 39.47984)/0.66639864 - 1.0834565,PySRFunction(X=>(P*Silicon + 39.47984)/0.66639864 - 1.0834565)
+12,17.853172,0.0022289941555283434,Acenaphthylene + (((P * Silicon) + 39.47984) / 0.66639864),Acenaphthylene + (P*Silicon + 39.47984)/0.66639864,PySRFunction(X=>Acenaphthylene + (P*Silicon + 39.47984)/0.66639864)
+13,17.4505,0.022812893986491,-2.336603 + ((((P * 12.9616375) + 38.22194) / 0.8356104) - Vanillin),-Vanillin + (P*12.9616375 + 38.22194)/0.8356104 - 2.336603,PySRFunction(X=>-Vanillin + (P*12.9616375 + 38.22194)/0.8356104 - 2.336603)
+16,17.403023,0.0009081249235624151,-1.4045035 + ((((P * (Silicon + 4.950832)) + 38.799026) / 0.7964292) - Vanillin),-Vanillin + (P*(Silicon + 4.950832) + 38.799026)/0.7964292 - 1.4045035,PySRFunction(X=>-Vanillin + (P*(Silicon + 4.950832) + 38.799026)/0.7964292 - 1.4045035)
+18,17.25342,0.004316771033267556,((Silicon * 9.295142) - (((0.15739325 - 1.4344722) - Acenaphthylene) / 0.051701933)) + (-0.19694553 + Methylfluorene),Methylfluorene + Silicon*9.295142 - (-Acenaphthylene - 1*1.4344722 + 0.15739325)/0.051701933 - 0.19694553,PySRFunction(X=>Methylfluorene + Silicon*9.295142 - (-Acenaphthylene - 1*1.4344722 + 0.15739325)/0.051701933 - 0.19694553)
+20,17.113619,0.004067902711480506,((Silicon * 9.455461) - ((((-0.208313 + 1.1049402) - 1.7995743) - Acenaphthylene) / 0.040513664)) + (0.87445396 * Squalane),Silicon*9.455461 + 0.87445396*Squalane - (-Acenaphthylene - 1*1.7995743 - 0.208313 + 1.1049402)/0.040513664,PySRFunction(X=>Silicon*9.455461 + 0.87445396*Squalane - (-Acenaphthylene - 1*1.7995743 - 0.208313 + 1.1049402)/0.040513664)

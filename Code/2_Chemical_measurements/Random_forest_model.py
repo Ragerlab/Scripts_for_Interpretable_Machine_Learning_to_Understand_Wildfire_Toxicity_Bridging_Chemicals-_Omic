@@ -68,8 +68,8 @@ for i in range(len(train_input_dict)):
     plt.title("Variable Importance Plot")
     plt.xlabel("Feature")
     plt.ylabel("Importance")
+    # plt.show()
     plt.savefig(f'images/2_Chemical_measurements/rf/var_importance_{key}.png')
-
 
     # Subset to the top 15 rows if the DataFrame has more than 15 rows
     if len(var_imp_rf_injury) > 15:
@@ -84,6 +84,7 @@ for i in range(len(train_input_dict)):
 
     # Rotate x-axis labels diagonally for readability
     plt.xticks(rotation=45, ha='right')
+    plt.show()
 
     # Save the plot
     plt.tight_layout()

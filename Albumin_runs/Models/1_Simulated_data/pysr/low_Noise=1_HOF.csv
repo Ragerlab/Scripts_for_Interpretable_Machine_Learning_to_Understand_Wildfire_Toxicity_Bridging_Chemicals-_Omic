@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,26.548649,0.0,55.82065,55.8206500000000,PySRFunction(X=>55.8206500000000)
+2,26.548647,7.533340313320147e-08,myfunction(55.82075),55.8207500000000,PySRFunction(X=>55.8207500000000)
+3,25.20615,0.05189077357579315,50.84643 + chem6,chem6 + 50.84643,PySRFunction(X=>chem6 + 50.84643)
+5,23.89674,0.026672982200689404,(chem6 + 45.86851) + chem6,chem6 + chem6 + 45.86851,PySRFunction(X=>chem6 + chem6 + 45.86851)
+7,22.626165,0.027317533993613155,chem6 + (chem6 + (chem6 + 40.898438)),chem6 + chem6 + chem6 + 40.898438,PySRFunction(X=>chem6 + chem6 + chem6 + 40.898438)
+9,21.401344,0.02782662808949645,((chem6 + (chem6 + 35.92273)) + chem6) + chem6,chem6 + chem6 + chem6 + chem6 + 35.92273,PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + 35.92273)
+11,20.230585,0.028129077791583,(((chem6 + chem6) - (-30.948057 - chem6)) + chem6) + chem6,chem6 + chem6 + chem6 + chem6 - (-chem6 - 30.948057),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 - (-chem6 - 30.948057))
+13,19.123821,0.028130418728683777,((chem6 + (25.973803 + chem6)) + (chem6 + chem6)) + (chem6 + chem6),chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 25.973803,PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 25.973803)
+15,18.092802,0.02771027556761744,((chem6 + chem6) + ((chem6 + chem6) - (-20.999065 - chem6))) + (chem6 + chem6),chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - (-chem6 - 20.999065),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - (-chem6 - 20.999065))
+17,17.15119,0.026723310329225505,(chem6 + (((chem6 + chem6) + chem6) - ((-16.026007 - chem6) - chem6))) + (chem6 + chem6),chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - (-chem6 - chem6 - 16.026007),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - (-chem6 - chem6 - 16.026007))
+19,16.034624,0.03365858739779731,(((((chem6 + chem3) + (chem6 + (chem6 + chem6))) + chem6) + (chem6 + chem6)) + chem6) + chem6,chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6,PySRFunction(X=>chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6)

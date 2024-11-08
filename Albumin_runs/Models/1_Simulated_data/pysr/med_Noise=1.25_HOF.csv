@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,55.234352,0.0,chem7,chem7,PySRFunction(X=>chem7)
+2,26.890371,0.7198168114274243,myfunction(55.722935),55.7229350000000,PySRFunction(X=>55.7229350000000)
+3,14.954826,0.5867342100266242,11.482075 * chem6,11.482075*chem6,PySRFunction(X=>11.482075*chem6)
+5,3.7735398,0.688510278592517,(3.1409192 * chem2) * chem6,3.1409192*chem2*chem6,PySRFunction(X=>3.1409192*chem2*chem6)
+7,2.5564077,0.19470523454341554,(chem13 + (chem2 * chem6)) * 2.8870416,(chem13 + chem2*chem6)*2.8870416,PySRFunction(X=>(chem13 + chem2*chem6)*2.8870416)
+9,1.4177941,0.29475040889215276,(chem6 * (2.9992075 * chem2)) + (chem13 / chem10),chem6*2.9992075*chem2 + chem13/chem10,PySRFunction(X=>chem6*2.9992075*chem2 + chem13/chem10)
+11,1.3691901,0.01744140795257473,((chem6 - 0.1139643) * (3.060073 * chem2)) + (chem13 / chem10),(chem6 - 1*0.1139643)*3.060073*chem2 + chem13/chem10,PySRFunction(X=>(chem6 - 1*0.1139643)*3.060073*chem2 + chem13/chem10)
+13,1.3349439,0.01266506432542863,((chem13 / chem10) + (chem6 * (3.0230653 * chem2))) + (chem15 * -0.17921479),chem15*(-0.17921479) + chem6*3.0230653*chem2 + chem13/chem10,PySRFunction(X=>chem15*(-0.17921479) + chem6*3.0230653*chem2 + chem13/chem10)
+15,1.283328,0.019716282359271083,((chem6 * (chem2 * 2.9858747)) + ((chem13 / chem10) - -0.9113106)) - (chem15 / chem6),-chem15/chem6 + chem6*chem2*2.9858747 - 1*(-0.9113106) + chem13/chem10,PySRFunction(X=>-chem15/chem6 + chem6*chem2*2.9858747 - 1*(-0.9113106) + chem13/chem10)
+17,1.2801538,0.0012382384077250404,chem9 + (((chem6 * (3.005243 * chem2)) + ((1.293256 - chem15) / chem6)) + (chem13 / chem10)),chem6*3.005243*chem2 + chem9 + (1.293256 - chem15)/chem6 + chem13/chem10,PySRFunction(X=>chem6*3.005243*chem2 + chem9 + (1.293256 - chem15)/chem6 + chem13/chem10)
+19,1.2561067,0.009481605148135907,(((chem13 / chem10) + (chem6 * (2.9858747 * chem2))) + ((chem6 - chem15) / chem6)) - (chem12 / chem14),-chem12/chem14 + chem6*2.9858747*chem2 + (-chem15 + chem6)/chem6 + chem13/chem10,PySRFunction(X=>-chem12/chem14 + chem6*2.9858747*chem2 + (-chem15 + chem6)/chem6 + chem13/chem10)
