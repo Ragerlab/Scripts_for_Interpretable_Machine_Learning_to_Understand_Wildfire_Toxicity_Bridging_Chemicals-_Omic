@@ -77,11 +77,11 @@ combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 15]
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Load in geneical ranges data 
+# Load in gene ranges data 
 injury_df = pd.read_pickle("Data_inputs/3_Omic_measurements/dat_deg")
 
 # Remove the 'Injury_Protein' column
-injury_df_cleaned = injury_df.drop(columns=['Injury_Albumin'])
+injury_df_cleaned = injury_df.drop(columns=['Injury_Protein'])
 
  # Get all gene names from the equations
 genes = set()
@@ -230,7 +230,7 @@ var_importance_df = var_importance_df.sort_values(by='var_importance', ascending
 
 # Save results 
 var_importance_name = f'Models/3_Omic_Measurements/variable_importance.csv'
-var_importance_df.to_csv(results_file_name, index=False)
+var_importance_df.to_csv(var_importance_name, index=False)
 
 # Create a bar plot for each subdirectory
 plt.figure(figsize=(10, 6))

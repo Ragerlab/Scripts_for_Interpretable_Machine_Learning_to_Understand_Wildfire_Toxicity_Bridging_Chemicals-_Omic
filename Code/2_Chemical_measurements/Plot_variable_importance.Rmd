@@ -61,7 +61,7 @@ combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', '
 p <- ggplot(combined_dat, aes(x = reorder(chem, -var_importance), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
   labs(x = "Chem", y = "Directional importance") +
-  scale_fill_manual(values = c("Positive" = "darkred", "Negative" = "darkblue")) +
+  scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
   theme_classic() +
   theme(
     axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
