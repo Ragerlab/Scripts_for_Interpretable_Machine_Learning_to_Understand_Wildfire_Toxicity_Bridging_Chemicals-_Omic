@@ -75,7 +75,6 @@ combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 # Filter based on RMSE (assuming 'loss' is the relevant column)
 combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 15]
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Load in gene ranges data 
 injury_df = pd.read_pickle("Data_inputs/3_Omic_measurements/dat_deg")
@@ -96,6 +95,7 @@ for equation in combined_hof_df['equation']:
 
 # Convert the set to a list
 genes = list(genes)
+len(genes)
 
 # Calculate ranges for each geneical (min, max)
 gene_ranges = {}

@@ -31,7 +31,7 @@ dataset_names <- c("Full", "PCA", "Elastic")
 combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
   dat <- dat_list[[i]]
   
-  dat_top <- dat%>%
+  dat_top <- dat %>%
     arrange(desc(abs(var_importance))) %>%
     mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
   
