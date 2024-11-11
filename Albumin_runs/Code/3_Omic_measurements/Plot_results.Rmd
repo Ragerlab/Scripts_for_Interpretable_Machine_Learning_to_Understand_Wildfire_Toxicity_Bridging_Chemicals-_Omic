@@ -1,0 +1,162 @@
+---
+title: "Plot_results"
+output: html_document
+date: "2024-09-13"
+---
+
+# Libraries
+```{r}
+library(tidyverse)
+library(reticulate)
+repl_python()
+```
+
+```{python}
+import pandas as pd
+import pickle
+import os
+
+# Set working directory
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+
+# Load in data
+train_y = pd.read_pickle("Data_inputs/3_Omic_measurements/train_y")
+test_y = pd.read_pickle("Data_inputs/3_Omic_measurements/test_y")
+train_y_pred = pd.read_pickle("Data_inputs/3_Omic_measurements/training_predictions")
+test_y_pred = pd.read_pickle("Data_inputs/3_Omic_measurements/test_predictions")
+```
+
+# Convert to r variables and format
+```{r}
+train_y <- py$train_y
+test_y <- py$test_y
+train_y_pred <- py$train_y_pred
+test_y_pred <- py$test_y_pred
+
+# Combine training data into one DataFrame with 'Actual' and 'Predicted' columns
+train_combined <- data.frame(
+  Actual = train_y,
+  Predicted = train_y_pred[,1]
+)
+
+# Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
+test_combined <- data.frame(
+  Actual = test_y,
+  Predicted = test_y_pred[,1]
+)
+```
+
+# Plot testing data
+```{r}
+# Calculate difference between actual and predicted
+test_df <- test_combined %>%
+  mutate(Dif = Actual - Predicted)
+
+# Extract the rownames and modify them to contain only the part before the first '_'
+Group <- gsub("_.*", "", rownames(test_df))
+
+# Add 'Group' as a new column to your dataframe
+test_df$Group <- Group
+
+# Clean up group labels
+test_df$Group <- gsub("Smoldering", "Smold.", test_df$Group)
+test_df$Group <- gsub("Flaming", "Flam.", test_df$Group)
+test_df$Group <- gsub("([a-z])([A-Z])", "\\1 \\2", test_df$Group)
+
+
+# Define a custom color palette for the groups
+custom_colors <- c(
+  "Pine Flam." = "#1b9e77",
+  "Peat Flam." = "#d95f02",
+  "Red Oak Smold." = "#7570b3",
+  "Eucalyptus Smold." = "#e7298a",
+  "Pine Needles Flam." = "#66a61e",
+  "Pine Needles Smold." = "#e6ab02",
+  "Red Oak Flam." = "#a6761d",
+  "Eucalyptus Flam." = "#666666",
+  "Pine Smold." = "#1f78b4",
+  "Peat Smold." = "#b2df8a"
+)
+
+# Plot
+p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
+  geom_boxplot() +
+  geom_point(position = position_jitter(width = 0.2), alpha = 0.5) +
+    labs(x = "Group", y = "Actual - Predicted (ng/mL)") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis text labels
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title=element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_fill_manual(values = custom_colors) +
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE))   # Adjust legend to have three rows
+
+ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p, width = 7, height = 4)
+
+# Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
+p_bar <- ggplot(test_df, aes(x = rownames(test_df), y = Actual, fill = Group)) +
+  geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
+  geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
+  labs(x = "Individual", y = "Measured Injury Protein (ng/mL)") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis text labels
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title=element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Prediction_vs_actual_all.png')
+ggsave(plot_filename, p_bar, width = 7, height = 4)
+
+# Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
+p_bar_two <- ggplot(test_df, aes(x = rownames(test_df), y = Dif, fill = Group)) +
+  geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
+  labs(x = "Individual", y = "Actual - Predicted (ng/mL)") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis text labels
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title=element_blank(),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
+# Save the plot
+plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Actual_vs_Predicted_difference.png')
+ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
+
+
+```
+
+# Sensitivity Analysis
+```{r}
+# Load in data
+dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\pysr_RMSE_sensitivity.csv')
+
+# convert complexity to factor
+dat$Complexity <- as.factor(dat$Complexity)
+
+# Plot
+p <- ggplot(dat, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
+  geom_point() +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(legend.position="none")
+
+# Save
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/sensitivity.png')
+  ggsave(plot_filename, p, width = 4, height = 4)
+```
+
