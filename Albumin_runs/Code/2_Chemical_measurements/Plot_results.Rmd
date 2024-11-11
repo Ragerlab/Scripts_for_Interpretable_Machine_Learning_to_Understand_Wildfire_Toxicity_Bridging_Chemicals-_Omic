@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Albumin_runs")
 
 # Load in data
 train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
@@ -115,7 +115,7 @@ p <- ggplot(combined_test_dat, aes(x = Group, y = Dif, fill = Group)) +
 # Print the combined plot
 print(p)
 # Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Prediction_spread_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/Prediction_spread_all.png')
 ggsave(plot_filename, p, width = 7, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
@@ -136,7 +136,7 @@ p_bar <- ggplot(combined_test_dat, aes(x = rownames(combined_test_dat), y = Actu
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
   facet_wrap(~ input_name, scales = "free_x") +
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
 ggsave(plot_filename, p_bar, width = 7, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
@@ -157,7 +157,7 @@ p_bar_two <- ggplot(combined_test_dat, aes(x = rownames(combined_test_dat), y = 
   facet_wrap(~ input_name, scales = "free_x") +
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
 # Save the plot
-plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/Actual_vs_Predicted_difference.png')
+plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/Actual_vs_Predicted_difference.png')
 ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 
 ```
@@ -199,7 +199,7 @@ for(i in 1:length(tests)){
     theme(legend.position="none")
   
   # Save
-  plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/sensitivity', tests[i], '.png')
+  plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/sensitivity', tests[i], '.png')
   ggsave(plot_filename, p, width = 4, height = 4)
 }
 

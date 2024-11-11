@@ -14,9 +14,9 @@ library(tidytext)
 
 # Load in data
 ```{r}
-dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Full.csv')
-dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\variable_importance_PCA.csv')
-dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Elastic.csv')
+dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Full.csv')
+dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\variable_importance_PCA.csv')
+dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Elastic.csv')
 
 # Put in list
 dat_list <- list(dat_full, dat_pca, dat_elastic)
@@ -79,15 +79,15 @@ p <- ggplot(combined_dat, aes(x = reorder(chem, -var_importance), y = var_import
 print(p)
 
 # Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/variable_importance_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/variable_importance_all.png')
 ggsave(plot_filename, p, width = 7, height = 4)
 ```
 
 # RF importance
 ```{r}
-dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
-dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
-dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
+dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
+dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
+dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
 
 # Get top 15 from full
 dat_full <- dat_full %>%
@@ -127,7 +127,7 @@ p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = 
   labs(x = 'Chemical')
 
 # Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/rf/variable_importance_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/rf/variable_importance_all.png')
 ggsave(plot_filename, p, width = 7, height = 4)
 ```
 

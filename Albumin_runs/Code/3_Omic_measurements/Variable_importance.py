@@ -73,15 +73,15 @@ for file_name in os.listdir(hof_directory):
 combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 
 # Filter based on RMSE (assuming 'loss' is the relevant column)
-combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 15]
+combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 4]
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Load in gene ranges data 
 injury_df = pd.read_pickle("Data_inputs/3_Omic_measurements/dat_deg")
 
-# Remove the 'Injury_Protein' column
-injury_df_cleaned = injury_df.drop(columns=['Injury_Protein'])
+# Remove the 'Injury_Albumin' column
+injury_df_cleaned = injury_df.drop(columns=['Injury_Albumin'])
 
  # Get all gene names from the equations
 genes = set()

@@ -4,7 +4,7 @@ import os
 import re
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Albumin_runs")
 
 # Read in gene expression data
 dat_all = pd.read_csv("Data_inputs/3_Omic_measurements/022821_NormCounts_pslog2_RUV.csv")
@@ -59,9 +59,9 @@ dat_deg.index = dat_deg.index.map(move_prefix_to_suffix)
 dat_deg.index = dat_deg.index.str.replace('Flame', 'Flaming', case=False)
 dat_deg.index = dat_deg.index.str.replace('Smolder', 'Smoldering', case=False)
 
-# Add in injury protein column
+# Add in injury Albumin column
 injury_df = pd.read_pickle("Data_inputs/2_Chemical_measurements/Injury_df")
-prot = injury_df['Injury_Protein']
+prot = injury_df['Injury_Albumin']
 dat_deg = dat_deg.join(prot)
 
 # Load in data split from chemical data
@@ -70,13 +70,13 @@ test_x_chem = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x")
 
 # Subset gene expression data
 train_x = dat_deg.loc[dat_deg.index.isin(train_x_chem.index)]
-train_y = train_x['Injury_Protein']
+train_y = train_x['Injury_Albumin']
 test_x = dat_deg.loc[dat_deg.index.isin(test_x_chem.index)]
-test_y = test_x['Injury_Protein']
+test_y = test_x['Injury_Albumin']
 
-# Drop injury protein from training
-train_x = train_x.drop('Injury_Protein', axis = 1)
-test_x = test_x.drop('Injury_Protein', axis = 1)
+# Drop injury Albumin from training
+train_x = train_x.drop('Injury_Albumin', axis = 1)
+test_x = test_x.drop('Injury_Albumin', axis = 1)
 
 # Save data splits for downstream use
 dat_deg.to_pickle('Data_inputs/3_Omic_measurements/dat_deg')

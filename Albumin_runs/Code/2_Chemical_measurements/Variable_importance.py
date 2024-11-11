@@ -105,7 +105,7 @@ def process_hof_directory(subdirectory):
     combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 
     # Filter based on RMSE (assuming 'loss' is the relevant column)
-    combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 19]
+    combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 4]
 
     return combined_hof_df
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

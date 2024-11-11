@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Albumin_runs")
 
 # Load in data
 train_y = pd.read_pickle("Data_inputs/3_Omic_measurements/train_y")
@@ -95,7 +95,7 @@ p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
   scale_fill_manual(values = custom_colors) +
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))   # Adjust legend to have three rows
 
-ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p, width = 7, height = 4)
+ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/3_Omic_measurements/prediction_spread.png',p, width = 7, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
 p_bar <- ggplot(test_df, aes(x = rownames(test_df), y = Actual, fill = Group)) +
@@ -114,7 +114,7 @@ p_bar <- ggplot(test_df, aes(x = rownames(test_df), y = Actual, fill = Group)) +
   scale_y_continuous(expand = c(0,0)) +
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Prediction_vs_actual_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/3_Omic_measurements/Prediction_vs_actual_all.png')
 ggsave(plot_filename, p_bar, width = 7, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
@@ -134,7 +134,7 @@ p_bar_two <- ggplot(test_df, aes(x = rownames(test_df), y = Dif, fill = Group)) 
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
 # Save the plot
-plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Actual_vs_Predicted_difference.png')
+plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/3_Omic_measurements/Actual_vs_Predicted_difference.png')
 ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 
 
