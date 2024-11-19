@@ -52,6 +52,9 @@ test_combined <- data.frame(
 test_df <- test_combined %>%
   mutate(Dif = Actual - Predicted)
 
+# Calculate normalized RMSE
+nrmse <- rmse(test_df$Actual, test_df$Predicted) / (max(test_df$Actual)- min(test_df$Actual))
+
 # Extract the rownames and modify them to contain only the part before the first '_'
 Group <- gsub("_.*", "", rownames(test_df))
 

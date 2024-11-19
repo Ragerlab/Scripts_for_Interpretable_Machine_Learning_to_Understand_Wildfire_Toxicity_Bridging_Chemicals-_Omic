@@ -14,12 +14,22 @@ library(tidytext)
 
 # Load in data
 ```{r}
+# Load in summed importance values
 dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Full.csv')
 dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\variable_importance_PCA.csv')
 dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Elastic.csv')
 
 # Put in list
 dat_list <- list(dat_full, dat_pca, dat_elastic)
+
+# Load in full importance values
+dat_all_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\partial_deriv_Full.csv')
+dat_all_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\partial_deriv_PCA.csv')
+dat_all_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\2_Chemical_measurements\\pysr\\partial_deriv_Elastic.csv')
+
+# Put in list
+dat_all_list <- list(dat_all_full, dat_all_pca, dat_all_elastic)
+names(dat_all_list) <- c("Full", "PCA", "Elastic")
 ```
 
 # Sum directions and plot
@@ -31,7 +41,7 @@ dataset_names <- c("Full", "PCA", "Elastic")
 combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
   dat <- dat_list[[i]]
   
-  dat_top <- dat%>%
+  dat_top <- dat %>%
     arrange(desc(abs(var_importance))) %>%
     mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
   
@@ -55,13 +65,17 @@ combined_dat <- combined_dat %>%
   mutate(chem = ifelse(chem == 'Methoxymethylphenol', 'Methoxymethyl phenol', chem))
 
 # Set order
-combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic', 'Albumin'))
+combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
 
-# Create the combined plot using facet_wrap and allowing each facet to have its own x-axis
-p <- ggplot(combined_dat, aes(x = reorder(chem, -var_importance), y = var_importance, fill = Association)) +
+# # Subset for presentation 
+# combined_dat <- combined_dat %>%
+#   filter(dataset != 'PCA')
+
+p <- ggplot(combined_dat, aes(x = reorder_within(chem, -var_importance, dataset), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
-  labs(x = "Chem", y = "Directional importance") +
+  labs(x = "Chemical", y = "Directional importance") +
   scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
+  scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
     axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
@@ -71,8 +85,7 @@ p <- ggplot(combined_dat, aes(x = reorder(chem, -var_importance), y = var_import
     legend.text = element_text(size = 10),
     legend.position = "bottom"
   ) +
-  facet_grid(. ~ dataset, scales = "free_x", space = "free") + 
-  labs(x = 'Chemical')
+  facet_grid(. ~ dataset, scales = "free_x", space = "free")
 
 
 # Print the combined plot
@@ -81,6 +94,58 @@ print(p)
 # Save
 plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/variable_importance_all.png')
 ggsave(plot_filename, p, width = 7, height = 4)
+```
+
+
+
+# Importance distribution 
+```{r}
+# Initialize an empty list to store the plots
+plots_list <- list()
+
+# Iterate through lists
+for(i in 1:length(dat_all_list)){
+  
+  # Subset data
+  dat <- dat_all_list[[i]] %>%
+    unique()
+  
+  # Get unique chemicals
+  vars <- unique(dat$chem)
+  
+  # Initialize a list for plots in this iteration
+  iteration_plots <- list()
+  
+  # Iterate through variables
+  for(j in 1:length(vars)){
+    
+    # Subset to relevant chem
+    temp <- dat %>% 
+      filter(chem == vars[j])
+    
+    # Create histogram plot
+    p <- ggplot(temp, aes(x = integrated_derivative)) +
+      geom_histogram(binwidth = 1, color = "black", fill = "blue") +
+      labs(title = paste0(vars[j], " (n=", nrow(temp), ")"),  
+           x = "Variable Importance", 
+           y = "Frequency") +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5)) # Center title
+    
+    # Append the plot to the iteration list
+    iteration_plots[[j]] <- p
+  }
+  
+  # Save the plots for this iteration to the main list
+  plots_list[[i]] <- iteration_plots
+  
+  # Export the plots to a PDF
+  pdf(paste0("C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/2_Chemical_measurements/pysr/variable_importance_distribution_", names(dat_all_list)[i], ".pdf"))
+  for(plot in iteration_plots){
+    print(plot)
+  }
+  dev.off()
+}
 ```
 
 # RF importance

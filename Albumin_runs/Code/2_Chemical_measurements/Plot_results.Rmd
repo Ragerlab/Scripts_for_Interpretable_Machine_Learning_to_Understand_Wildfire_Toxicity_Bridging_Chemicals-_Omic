@@ -36,7 +36,7 @@ train_preds_list = [train_y_pred, train_y_pred_pca, train_y_pred_elastic]
 test_preds_list = [test_y_pred, test_y_pred_pca, test_y_pred_elastic]
 ```
 
-# Convert to r variables and plot
+# Convert to r variables clean
 ```{r}
 # Assign the list from Python to R variables
 input_names <- py$input_names
@@ -61,6 +61,11 @@ combined_test_dat <- do.call(rbind, lapply(seq_along(input_names), function(i) {
   test_df <- test_combined %>%
     mutate(Dif = Actual - Predicted)
   
+  # Calculate % error
+  test_df <- test_df %>%
+    mutate(perc_error = (Predicted - Actual)/ Predicted * 100)
+    
+  
   # Extract the rownames and modify them to contain only the part before the first '_'
   Group <- gsub("_.*", "", rownames(test_df))
   
@@ -71,6 +76,12 @@ combined_test_dat <- do.call(rbind, lapply(seq_along(input_names), function(i) {
   return(test_df)
 }))
 
+# Calculate normalized RMSE
+nrmse <- rmse(combined_test_dat$Actual, combined_test_dat$Predicted) / (max(combined_test_dat$Actual)- min(combined_test_dat$Actual))
+```
+
+# Plot
+```{r}
 # Define levels
 combined_test_dat$input_name <- factor(combined_test_dat$input_name, levels = c('Full', 'PCA', 'Elastic'))
 

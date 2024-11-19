@@ -264,6 +264,7 @@ for idx in range(len(keys)):
 
         # Get rows corresponding to the current chemical
         chem_rows = results_df[results_df['chem'] == chem]
+        chem_rows = chem_rows.drop_duplicates()
 
         # Sum the 'integrated_derivative' for the current chemical
         sum_integrated_derivative = chem_rows['integrated_derivative'].sum()
@@ -274,7 +275,7 @@ for idx in range(len(keys)):
         range_value = max_value - min_value
 
         # Calculate the var_importance
-        var_importance = sum_integrated_derivative / len(chem_rows) / range_value
+        var_importance = sum_integrated_derivative / range_value
 
         # Append the chemical name and its var_importance to the list
         var_importance_list.append([chem, var_importance])
@@ -304,5 +305,5 @@ for idx in range(len(keys)):
     plt.title(f'Variable Importance by Chemical ({key})')
     plt.xticks(rotation=90)  # Rotate chemical names for better readability
     plt.tight_layout()
-    # plt.show()
+    plt.show()
     # plt.savefig(f'Images/2_Chemical_measurements/pysr/var_importance_{key}.png')

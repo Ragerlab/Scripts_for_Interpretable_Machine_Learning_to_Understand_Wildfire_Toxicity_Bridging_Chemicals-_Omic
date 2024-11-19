@@ -52,16 +52,23 @@ combined_dat <- combined_dat %>%
   mutate(chem = ifelse(chem == 'Benzoapyrene', 'Benzo[a]pyrene', chem)) %>%
   mutate(chem = ifelse(chem == 'Dimethylnaphthalene', '2,6-Dimethylnaphthalene', chem)) %>%
   mutate(chem = ifelse(chem == 'Benzaanthracene', 'Benz(a)anthracene', chem)) %>%
-  mutate(chem = ifelse(chem == 'Methoxymethylphenol', 'Methoxymethyl phenol', chem))
+  mutate(chem = ifelse(chem == 'Methoxymethylphenol', 'Methoxymethyl phenol', chem)) %>%
+  mutate(chem = ifelse(chem == 'var35Dimethoxyphenol', '3,5-Dimethoxyphenol', chem))
+
 
 # Set order
-combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic', 'Albumin'))
+combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
+
+# Subset for presentation 
+combined_dat <- combined_dat %>%
+  filter(dataset != 'PCA')
 
 # Create the combined plot using facet_wrap and allowing each facet to have its own x-axis
-p <- ggplot(combined_dat, aes(x = reorder(chem, -var_importance), y = var_importance, fill = Association)) +
+p <- ggplot(combined_dat, aes(x = reorder_within(chem, -var_importance, dataset), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
-  labs(x = "Chem", y = "Directional importance") +
+  labs(x = "Chemical", y = "Directional importance") +
   scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
+  scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
     axis.text.x = element_text(size = 10, angle = 45, hjust = 1),

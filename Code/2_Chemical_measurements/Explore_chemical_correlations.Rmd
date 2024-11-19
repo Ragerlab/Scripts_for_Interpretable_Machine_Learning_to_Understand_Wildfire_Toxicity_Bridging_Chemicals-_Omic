@@ -98,10 +98,11 @@ for (col in columns) {
   p <- ggplot(data, aes(x = .data[[col]], y = Injury_Protein)) +
     geom_point(color = "blue") +
     geom_smooth(method = "lm", se = FALSE, color = "red") +
-    ggtitle(paste("Injury_Protein vs", col)) +
-    labs(x = col, y = "Injury_Protein") +
+    # ggtitle(paste("Injury_Protein vs", col)) +
+    labs(x = col, y = "Injury Protein") +
     annotate("text", x = max(data[[col]]), y = max(data$Injury_Protein), 
-             label = paste("R^2 =", round(r_squared, 2)), hjust = 1)
+             label = paste("R^2 =", round(r_squared, 2)), hjust = 1) +
+    theme_classic()
   
   # Add plot to list
   plot_list[[length(plot_list) + 1]] <- p

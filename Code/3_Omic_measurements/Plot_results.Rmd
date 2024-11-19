@@ -52,6 +52,9 @@ test_combined <- data.frame(
 test_df <- test_combined %>%
   mutate(Dif = Actual - Predicted)
 
+# Calculate normalized RMSE
+nrmse <- rmse(test_df$Actual, test_df$Predicted) / (max(test_df$Actual)- min(test_df$Actual))
+
 # Extract the rownames and modify them to contain only the part before the first '_'
 Group <- gsub("_.*", "", rownames(test_df))
 
@@ -113,7 +116,7 @@ p_bar <- ggplot(test_df, aes(x = rownames(test_df), y = Actual, fill = Group)) +
   ) +
   scale_y_continuous(expand = c(0,0)) +
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
-  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
+  guides(fill = guide_legend(nrow = 4, byrow = TRUE))  # Adjust legend to have three rows
 plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Prediction_vs_actual_all.png')
 ggsave(plot_filename, p_bar, width = 7, height = 4)
 

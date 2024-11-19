@@ -13,6 +13,7 @@ library(tidyverse)
 dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\3_Omic_measurements\\variable_importance.csv')
 degs <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Data_inputs\\3_Omic_measurements\\DEGs.csv') %>%
   .[,4:5]
+genes <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\3_Omic_measurements\\all_genes_in_hof.csv') 
 ```
 
 # Fix gene names
@@ -46,6 +47,12 @@ dat_clean <- left_join(dat, degs_clean, by = 'gene') %>%
   select(-gene) %>%
   unique()
 colnames(dat_clean)[2] <- 'gene'
+
+# Merge with gene names for IPA
+genes_clean <- left_join(genes, degs_clean) %>%
+  select(Gene_Symbol) %>%
+  unique()
+write.csv(genes_clean, file = 'C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\3_Omic_measurements\\all_genes_in_hof_clean.csv' )
 ```
 
 

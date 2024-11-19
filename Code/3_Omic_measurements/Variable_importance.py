@@ -73,7 +73,9 @@ for file_name in os.listdir(hof_directory):
 combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 
 # Filter based on RMSE (assuming 'loss' is the relevant column)
-combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 15]
+# combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 15] # for importance
+combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 30] # for IPA
+
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Load in gene ranges data 
@@ -97,7 +99,12 @@ for equation in combined_hof_df['equation']:
 genes = list(genes)
 len(genes)
 
-# Calculate ranges for each geneical (min, max)
+# Save list of genes
+genes_df = pd.DataFrame({'gene': genes})
+genes_name = f'Models/3_Omic_Measurements/all_genes_in_hof.csv'
+genes_df.to_csv(genes_name, index=False)
+
+# Calculate ranges for each gene(min, max)
 gene_ranges = {}
 for col, gene_name in zip(injury_df_cleaned.columns, genes):
     min_value = injury_df_cleaned[col].min()
@@ -207,6 +214,7 @@ for j in range(len(genes)):
 
     # Get rows corresponding to the current gene
     gene_rows = results_df[results_df['gene'] == gene]
+    gene_rows = gene_rows.drop_duplicates()
 
     # Sum the 'integrated_derivative' for the current gene
     sum_integrated_derivative = gene_rows['integrated_derivative'].sum()
@@ -216,7 +224,7 @@ for j in range(len(genes)):
     range_value = max_value - min_value
 
     # Calculate the var_importance
-    var_importance = sum_integrated_derivative / len(gene_rows) / range_value
+    var_importance = sum_integrated_derivative / range_value #/ len(gene_rows)
 
     # Append the gene name and its var_importance to the list
     var_importance_list.append([gene, var_importance])
