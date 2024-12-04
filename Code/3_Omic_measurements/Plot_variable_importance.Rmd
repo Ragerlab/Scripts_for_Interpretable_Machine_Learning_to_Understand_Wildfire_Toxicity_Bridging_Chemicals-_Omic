@@ -75,18 +75,18 @@ p <- ggplot(dat_top, aes(x = reorder(gene, -var_importance), y = var_importance,
   scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
-    axis.text.y = element_text(size = 10),
-    axis.title.x = element_text(size = 12, face = "bold"),
-    axis.title.y = element_text(size = 12, face = "bold"),
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    axis.text.x = element_text(size = 14, angle = 45, hjust = 1),
+    axis.text.y = element_text(size = 14),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14),
     legend.position = "bottom"
   )
 
-# Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
-ggsave(plot_filename, p, width = 3.5, height = 4)
+# # Save
+# plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
+# ggsave(plot_filename, p, width = 3.5, height = 4)
 
 ```
 

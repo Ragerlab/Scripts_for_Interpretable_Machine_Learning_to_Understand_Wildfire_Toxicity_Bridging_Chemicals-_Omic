@@ -119,7 +119,7 @@ for i in range(len(train_clean)):
     time_taken = end_time - start_time
 
     # Pysr Train RMSE 
-    y_train_predict = discovered_model.predict(df_train.values, 9)
+    y_train_predict = discovered_model.predict(df_train.values, 6)
     train_pysr_rmse = root_mean_squared_error(train_y, y_train_predict)
     print(f"Training RMSE: {train_pysr_rmse:.2f}")
 
@@ -132,7 +132,7 @@ for i in range(len(train_clean)):
     plot_regression(train_y, y_train_predict, filename=file_name)
 
     # Pysr Test RMSE 
-    y_test_predict = discovered_model.predict(df_test.values, 9)
+    y_test_predict = discovered_model.predict(df_test.values, 6)
     test_pysr_rmse = root_mean_squared_error(test_y, y_test_predict)
     print(f"Testing RMSE: {test_pysr_rmse:.2f}")
 

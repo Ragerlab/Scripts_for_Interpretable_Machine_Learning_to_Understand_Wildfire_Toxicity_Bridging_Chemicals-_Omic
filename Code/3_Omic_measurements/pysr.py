@@ -101,7 +101,7 @@ end_time = time.time()
 time_taken = end_time - start_time
 
 # Pysr Train RMSE 
-y_train_predict = discovered_model.predict(df_train.values)
+y_train_predict = discovered_model.predict(df_train.values, 12)
 train_pysr_rmse = root_mean_squared_error(train_y, y_train_predict)
 print(f"Training RMSE: {train_pysr_rmse:.2f}")
 
@@ -114,7 +114,7 @@ file_name = f'images/3_Omic_measurements/pysr_regression_train'
 plot_regression(train_y, y_train_predict, filename=file_name)
 
 # Pysr Test RMSE 
-y_test_predict = discovered_model.predict(df_test.values)
+y_test_predict = discovered_model.predict(df_test.values, 11)
 test_pysr_rmse = root_mean_squared_error(test_y, y_test_predict)
 print(f"Testing RMSE: {test_pysr_rmse:.2f}")
 
