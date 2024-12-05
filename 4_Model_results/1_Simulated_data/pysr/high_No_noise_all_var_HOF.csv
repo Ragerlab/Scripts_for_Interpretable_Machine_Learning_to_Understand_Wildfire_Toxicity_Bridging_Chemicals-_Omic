@@ -1,0 +1,7 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,26.601398,0.0,55.851765,55.8517650000000,PySRFunction(X=>55.8517650000000)
+3,14.849478,0.291499528840932,11.485794 * chem6,11.485794*chem6,PySRFunction(X=>11.485794*chem6)
+5,3.3847773,0.7393382995834356,chem2 * (3.1416786 * chem6),chem2*3.1416786*chem6,PySRFunction(X=>chem2*3.1416786*chem6)
+7,2.0840871,0.24247859815269393,chem13 + (chem2 * (3.0555437 * chem6)),chem13 + chem2*3.0555437*chem6,PySRFunction(X=>chem13 + chem2*3.0555437*chem6)
+9,3.6113922e-06,6.632874063318823,(chem13 / chem10) + (chem2 * (3.0 * chem6)),chem2*3.0*chem6 + chem13/chem10,PySRFunction(X=>chem2*3.0*chem6 + chem13/chem10)
+13,3.090258e-06,0.03895969160008433,((chem13 / chem10) + ((chem2 * (chem6 * 3.0)) - 0.7338157)) + 0.7338157,chem2*chem6*3.0 - 1*0.7338157 + 0.7338157 + chem13/chem10,PySRFunction(X=>chem2*chem6*3.0 - 1*0.7338157 + 0.7338157 + chem13/chem10)

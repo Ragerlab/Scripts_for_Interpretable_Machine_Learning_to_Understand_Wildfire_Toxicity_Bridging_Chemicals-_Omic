@@ -1,0 +1,11 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,26.569393,0.0,55.907364,55.9073640000000,PySRFunction(X=>55.9073640000000)
+3,25.223104,0.025999757154996264,50.930634 + chem6,chem6 + 50.930634,PySRFunction(X=>chem6 + 50.930634)
+5,23.909458,0.026743143506405734,chem6 + (chem6 + 45.954815),chem6 + chem6 + 45.954815,PySRFunction(X=>chem6 + chem6 + 45.954815)
+7,22.63414,0.027407363482128112,(chem6 + chem6) + (chem6 + 40.979427),chem6 + chem6 + chem6 + 40.979427,PySRFunction(X=>chem6 + chem6 + chem6 + 40.979427)
+9,21.404005,0.027940665929606305,chem6 + ((chem6 + (chem6 + chem6)) - -36.004044),chem6 + chem6 + chem6 + chem6 - 1*(-36.004044),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 - 1*(-36.004044))
+11,20.227293,0.02827261149780697,chem6 + ((31.030636 + (chem6 + chem6)) + (chem6 + chem6)),chem6 + chem6 + chem6 + chem6 + chem6 + 31.030636,PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + 31.030636)
+13,19.113878,0.02830908149354505,(chem6 + (((chem6 + chem6) + 26.05662) + (chem6 + chem6))) + chem6,chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 26.05662,PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 26.05662)
+15,18.075459,0.027929753077125176,chem6 + (chem6 + (((chem6 + (chem6 + chem6)) + 21.082172) + (chem6 + chem6))),chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 21.082172,PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + 21.082172)
+17,17.125683,0.026987947674309537,((chem6 + chem6) - (-16.107992 - (chem6 + (chem6 + chem6)))) + (chem6 + (chem6 + chem6)),chem6 + chem6 + chem6 + chem6 + chem6 - (-(chem6 + chem6 + chem6) - 16.107992),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 - (-(chem6 + chem6 + chem6) - 16.107992))
+19,16.03493,0.03290489943982044,((((((chem6 + ((chem3 + chem6) + chem6)) + chem6) + chem6) + chem6) + chem6) + chem6) + chem6,chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6,PySRFunction(X=>chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6)

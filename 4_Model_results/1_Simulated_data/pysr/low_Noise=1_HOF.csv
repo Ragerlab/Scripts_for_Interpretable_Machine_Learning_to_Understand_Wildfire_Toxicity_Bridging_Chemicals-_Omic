@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,26.548647,0.0,55.821907,55.8219070000000,PySRFunction(X=>55.8219070000000)
+3,25.20615,0.025945386787896575,chem6 - -50.84605,chem6 - 1*(-50.84605),PySRFunction(X=>chem6 - 1*(-50.84605))
+5,23.896742,0.026672940353979015,chem6 - (-45.871716 - chem6),chem6 - (-chem6 - 45.871716),PySRFunction(X=>chem6 - (-chem6 - 45.871716))
+6,23.89674,8.369342069890063e-08,myfunction(chem6 - (-45.86851 - chem6)),chem6 - (-chem6 - 45.86851),PySRFunction(X=>chem6 - (-chem6 - 45.86851))
+7,22.626165,0.05463506798722631,chem6 - (-40.89971 - (chem6 + chem6)),chem6 - (-(chem6 + chem6) - 40.89971),PySRFunction(X=>chem6 - (-(chem6 + chem6) - 40.89971))
+9,21.401344,0.02782662808949645,((chem6 + chem6) + chem6) - (-35.92284 - chem6),chem6 + chem6 + chem6 - (-chem6 - 35.92284),PySRFunction(X=>chem6 + chem6 + chem6 - (-chem6 - 35.92284))
+11,20.230585,0.028129077791583,((chem6 + chem6) + chem6) - (-30.948416 - (chem6 + chem6)),chem6 + chem6 + chem6 - (-(chem6 + chem6) - 30.948416),PySRFunction(X=>chem6 + chem6 + chem6 - (-(chem6 + chem6) - 30.948416))
+13,19.123821,0.028130418728683777,(chem6 + (chem6 + (chem6 - (-25.973879 - (chem6 + chem6))))) + chem6,chem6 + chem6 + chem6 + chem6 - (-(chem6 + chem6) - 25.973879),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 - (-(chem6 + chem6) - 25.973879))
+15,18.092802,0.02771027556761744,((chem6 + chem6) + (chem6 + ((chem6 + chem6) + (chem6 + chem6)))) - -20.99902,chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-20.99902),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-20.99902))
+17,17.151188,0.026723368634221145,(((chem6 + chem6) + ((chem6 + chem6) + ((chem6 + chem6) + chem6))) - -16.024654) + chem6,chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-16.024654),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-16.024654))
+19,16.034622,0.03365859145784774,((chem6 + ((chem6 + (chem6 + chem6)) + chem3)) + ((chem6 + chem6) + (chem6 + chem6))) + chem6,chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6,PySRFunction(X=>chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6)

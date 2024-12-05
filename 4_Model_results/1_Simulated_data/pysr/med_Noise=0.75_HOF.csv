@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,54.652092,0.0,chem3,chem3,PySRFunction(X=>chem3)
+2,26.755062,0.7142638047688443,myfunction(55.858753),55.8587530000000,PySRFunction(X=>55.8587530000000)
+3,15.019824,0.5773527605268322,11.492507 * chem6,11.492507*chem6,PySRFunction(X=>11.492507*chem6)
+5,3.4160824,0.740438265571179,(chem2 * 3.145435) * chem6,chem2*3.145435*chem6,PySRFunction(X=>chem2*3.145435*chem6)
+7,2.1534321,0.23071575123382232,((3.0593064 * chem2) * chem6) + chem13,chem13 + 3.0593064*chem2*chem6,PySRFunction(X=>chem13 + 3.0593064*chem2*chem6)
+9,0.64317536,0.6042003826282463,((chem2 / 0.33291894) * chem6) + (chem13 / chem10),chem2*chem6/0.33291894 + chem13/chem10,PySRFunction(X=>chem2*chem6/0.33291894 + chem13/chem10)
+11,0.62376803,0.015319428106835337,((3.0371199 * (chem2 + -0.042488337)) * chem6) + (chem13 / chem10),3.0371199*chem6*(chem2 - 0.042488337) + chem13/chem10,PySRFunction(X=>3.0371199*chem6*(chem2 - 0.042488337) + chem13/chem10)
+13,0.6146519,0.007361230580453147,((chem6 * (3.0163267 * chem2)) + (chem13 / chem10)) - (chem10 / chem5),-chem10/chem5 + chem6*3.0163267*chem2 + chem13/chem10,PySRFunction(X=>-chem10/chem5 + chem6*3.0163267*chem2 + chem13/chem10)
+15,0.59634566,0.01511781295295872,((1.3667837 / chem15) / chem14) + ((chem6 * (2.991692 * chem2)) + (chem13 / chem10)),chem6*2.991692*chem2 + 1.3667837/(chem14*chem15) + chem13/chem10,PySRFunction(X=>chem6*2.991692*chem2 + 1.3667837/(chem14*chem15) + chem13/chem10)
+17,0.586793,0.008074174151054936,((1.6314437 / chem15) / (chem14 * chem14)) + (((2.9938233 * chem2) * chem6) + (chem13 / chem10)),2.9938233*chem2*chem6 + 1.6314437/(chem15*((chem14*chem14))) + chem13/chem10,PySRFunction(X=>2.9938233*chem2*chem6 + 1.6314437/(chem15*((chem14*chem14))) + chem13/chem10)
+19,0.5835455,0.0027748453417477956,((chem5 / chem15) / ((chem14 * chem14) / chem11)) + (((2.9956236 * chem2) * chem6) + (chem13 / chem10)),2.9956236*chem2*chem6 + chem5/(chem15*((chem14*chem14/chem11))) + chem13/chem10,PySRFunction(X=>2.9956236*chem2*chem6 + chem5/(chem15*((chem14*chem14/chem11))) + chem13/chem10)

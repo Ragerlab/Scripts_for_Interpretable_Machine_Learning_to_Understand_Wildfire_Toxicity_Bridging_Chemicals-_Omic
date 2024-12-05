@@ -1,0 +1,11 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,26.75506,0.0,55.86329,55.8632900000000,PySRFunction(X=>55.8632900000000)
+3,25.413103,0.02572935358960382,chem6 - -50.887318,chem6 - 1*(-50.887318),PySRFunction(X=>chem6 - 1*(-50.887318))
+5,24.10401,0.026443345228106187,(45.912746 + chem6) + chem6,chem6 + chem6 + 45.912746,PySRFunction(X=>chem6 + chem6 + 45.912746)
+7,22.833431,0.02707624136681532,((chem6 + chem6) - -40.938057) + chem6,chem6 + chem6 + chem6 - 1*(-40.938057),PySRFunction(X=>chem6 + chem6 + chem6 - 1*(-40.938057))
+9,21.608166,0.02757721758125261,chem6 + ((chem6 + (chem6 + chem6)) - -35.9637),chem6 + chem6 + chem6 + chem6 - 1*(-35.9637),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 - 1*(-35.9637))
+11,20.436367,0.027877644494390164,(chem6 + ((chem6 + chem6) - (-30.989378 - chem6))) + chem6,chem6 + chem6 + chem6 + chem6 - (-chem6 - 30.989378),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 - (-chem6 - 30.989378))
+13,19.327759,0.02788682854709325,((((chem6 + chem6) - -26.016865) + chem6) + chem6) + (chem6 + chem6),chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-26.016865),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-26.016865))
+15,18.293833,0.027489172100637657,(((chem6 + (chem6 + (chem6 + (chem6 - -21.039997)))) + chem6) + chem6) + chem6,chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-21.039997),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - 1*(-21.039997))
+17,17.347948,0.02654489000574734,(chem6 + ((chem6 + ((chem6 + chem6) + (chem6 - (-16.069183 - chem6)))) + chem6)) + chem6,chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - (-chem6 - 16.069183),PySRFunction(X=>chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 - (-chem6 - 16.069183))
+19,16.237324,0.03308084283698684,(((chem6 + chem6) + ((chem6 + chem6) + (chem6 + chem6))) + ((chem3 + chem6) + chem6)) + chem6,chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6,PySRFunction(X=>chem3 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6 + chem6)
