@@ -172,7 +172,7 @@ ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 # Sensitivity Analysis
 ```{r}
 # Load in data
-dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\pysr_RMSE_sensitivity.csv')
+dat <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr_RMSE_sensitivity.csv')
 
 # convert complexity to factor
 dat$Complexity <- as.factor(dat$Complexity)
@@ -279,19 +279,41 @@ p <- ggplot(top_15_pathways, aes(x = reorder(Ingenuity.Canonical.Pathways, p_tra
 
 ```
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+# Variable importance
 # Libraries
 ```{r}
 library(tidyverse)
+library(reticulate)
+library(tidytext)
+library(gridExtra)
 ```
 
 # Load in data
 ```{r}
-dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\variable_importance.csv')
-dat_all <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\partial_deriv.csv')
+# Load in summed importance values
+dat_full <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\variable_importance_Full.csv')
+dat_pca <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\variable_importance_PCA.csv')
+dat_elastic <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\variable_importance_Elastic.csv')
 
-degs <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Data_inputs\\3_Omic_measurements\\DEGs.csv') %>%
+# Put in list
+dat_list <- list(dat_full, dat_pca, dat_elastic)
+names(dat_list) <- c("Full", "PCA", "Elastic")
+
+# Load in full importance values
+dat_all_full <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\partial_deriv_Full.csv')
+dat_all_pca <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\partial_deriv_PCA.csv')
+dat_all_elastic <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\partial_deriv_Elastic.csv')
+
+# Put in list
+dat_all_list <- list(dat_all_full, dat_all_pca, dat_all_elastic)
+names(dat_all_list) <- c("Full", "PCA", "Elastic")
+
+
+# read in gene names
+degs <- read.csv('..\\..\\1_Data_inputs\\3_Omic_measurements\\DEGs.csv') %>%
   .[,4:5]
-genes <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\all_genes_in_hof.csv') 
+genes <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\all_genes_in_hof.csv') 
 ```
 
 # Fix gene names
@@ -320,56 +342,97 @@ clean_column_values <- function(df, column_name) {
 degs_clean <- clean_column_values(degs, "BioSpyder_Identifier")
 colnames(degs_clean)[1] <- 'gene'
 
-# Merge with data
-dat_clean <- left_join(dat, degs_clean, by = 'gene') %>%
+
+
+# Clean names in dat_list
+colnames(dat_list[[1]])[1] <- 'gene'
+colnames(dat_list[[2]])[1] <- 'Gene_Symbol'
+dat_list[[1]] <- left_join(dat_list[[1]], degs_clean, by = 'gene') %>%
   select(-gene) %>%
   unique()
-colnames(dat_clean)[2] <- 'gene'
+colnames(dat_list[[3]])[1] <- 'gene'
+dat_list[[3]] <- left_join(dat_list[[3]], degs_clean, by = 'gene') %>%
+  select(-gene) %>%
+  unique()
 
 # Merge with gene names for IPA
 genes_clean <- left_join(genes, degs_clean) %>%
   select(Gene_Symbol) %>%
   unique()
-write.csv(genes_clean, file = 'C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\all_genes_in_hof_clean.csv' )
+write.csv(genes_clean, file = '..\\..\\4_Model_results\\3_Omic_measurements\\all_genes_in_hof_clean.csv' )
 ```
 
 
 # Sum directions and plot
 ```{r}
-# Add directionality
-dat_top <- dat_clean %>%
-  arrange(desc(abs(var_importance))) %>%
-  mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
+scale_to_range <- function(x, min_range = -1, max_range = 1) {
+  min_x <- min(x, na.rm = TRUE)
+  max_x <- max(x, na.rm = TRUE)
+  (x - min_x) / (max_x - min_x) * (max_range - min_range) + min_range
+}
 
-# Subset to top 15
-dat_top <- dat_top[1:15,]
+# Names for the datasets
+dataset_names <- c("Full", "PCA", "Elastic")
 
-# Create bar chart
-p <- ggplot(dat_top, aes(x = reorder(gene, -var_importance), y = var_importance, fill = Association)) +
+# Combine all data into a single DataFrame with an identifier for each dataset
+combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
+  dat <- dat_list[[i]]
+  
+  dat_top <- dat %>%
+    # mutate(var_importance = var_importance / max(abs(var_importance))) %>%
+    # mutate(var_importance = scale_to_range(var_importance, -1, 1)) %>%
+    arrange(desc(abs(var_importance))) %>%
+    mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
+
+  
+  # Subset only the top 15 for the first dataset
+  if (i == 1 | i ==3) {
+    dat_top <- dat_top[1:15, ]
+  }
+
+  # Add a column indicating the dataset name
+  dat_top$dataset <- dataset_names[i]
+  return(dat_top)
+}))
+
+# Set order
+combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
+
+# Subset 
+combined_dat <- combined_dat %>%
+  filter(dataset != 'Full')
+
+
+p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, dataset), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
-  labs(x = "Gene", y = "Directional importance") +
+  labs(x = "Gene_Symbol", y = "Directional importance") +
   scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
+  scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 14, angle = 45, hjust = 1),
-    axis.text.y = element_text(size = 14),
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold"),
-    legend.title = element_text(size = 16, face = "bold"),
-    legend.text = element_text(size = 14),
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
     legend.position = "bottom"
-  )
+  ) +
+  facet_grid(. ~ dataset, scales = "free_x", space = "free")
+
+
+# Print the combined plot
+print(p)
 
 # # Save
-# plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
-# ggsave(plot_filename, p, width = 3.5, height = 4)
+# plot_filename <- paste0('..\\..\\5_Plots\\3_Omic_measurements/variable_importance_all.png')
+# ggsave(plot_filename, p, width = 7, height = 4)
 
 ```
 
 
 # RF importance
 ```{r}
-dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\rf\\rf_var_importance.csv')
+dat <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\rf\\rf_var_importance.csv')
 
 # Apply to biospyder IDs
 colnames(degs)[1] <- 'Feature'

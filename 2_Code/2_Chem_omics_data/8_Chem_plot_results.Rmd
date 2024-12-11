@@ -248,11 +248,14 @@ for(i in 1:length(tests)){
 
 ```
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+# Variable importance
 # Libraries
 ```{r}
 library(tidyverse)
 library(reticulate)
 library(tidytext)
+library(gridExtra)
 ```
 
 # Load in data
@@ -345,6 +348,12 @@ p <- ggplot(class_count, aes(x = reorder(Var1, -Freq), y = Freq, fill = Var1)) +
 
 # Sum directions and plot
 ```{r}
+scale_to_range <- function(x, min_range = -1, max_range = 1) {
+  min_x <- min(x, na.rm = TRUE)
+  max_x <- max(x, na.rm = TRUE)
+  (x - min_x) / (max_x - min_x) * (max_range - min_range) + min_range
+}
+
 # Names for the datasets
 dataset_names <- c("Full", "PCA", "Elastic")
 
@@ -353,8 +362,11 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
   dat <- dat_list[[i]]
   
   dat_top <- dat %>%
+    # mutate(var_importance = var_importance / max(abs(var_importance))) %>%
+    # mutate(var_importance = scale_to_range(var_importance, -1, 1)) %>%
     arrange(desc(abs(var_importance))) %>%
     mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
+
   
   # Subset only the top 15 for the first dataset
   if (i == 1) {
@@ -375,9 +387,10 @@ combined_dat <- combined_dat %>%
 # Set order
 combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
 
-# subset for presentation 
+# Subset 
 combined_dat <- combined_dat %>%
-  filter(dataset == 'Full')
+  filter(dataset != 'PCA')
+
 
 p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, dataset), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
@@ -386,14 +399,14 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, data
   scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 14, angle = 45, hjust = 1),
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold"),
-    legend.title = element_text(size = 16, face = "bold"),
-    legend.text = element_text(size = 14),
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
     legend.position = "bottom"
   ) +
-  grid(. ~ dataset, scales = "free_x", space = "free")
+  facet_grid(. ~ dataset, scales = "free_x", space = "free")
 
 
 # Print the combined plot
@@ -401,7 +414,7 @@ print(p)
 
 # Save
 plot_filename <- paste0('..\\..\\5_Plots/2_Chemical_measurements/pysr/variable_importance_all.png')
-#ggsave(plot_filename, p, width = 7, height = 4)
+ggsave(plot_filename, p, width = 7, height = 4)
 ```
 
 # by chemical class
@@ -457,9 +470,9 @@ p <- ggplot(combined_dat, aes(x = reorder(Chemical.Category, -Class_imp), y = Cl
 
 ```
 
-
 # Importance distribution 
 ```{r}
+
 # Initialize an empty list to store the plots
 plots_list <- list()
 
@@ -496,23 +509,35 @@ for(i in 1:length(dat_all_list)){
     iteration_plots[[j]] <- p
   }
   
-  # Save the plots for this iteration to the main list
-  plots_list[[i]] <- iteration_plots
+  # Define the dimensions for wider pages
+  pdf_width <- 14  # Set to a wider width
+  pdf_height <- 8  # Adjust height as needed
   
-  # Export the plots to a PDF
-  pdf(paste0("C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/variable_importance_distribution_", names(dat_all_list)[i], ".pdf"))
-  for(plot in iteration_plots){
-    print(plot)
+  # Export the plots to a PDF with 6 plots per page (3 columns x 2 rows)
+  pdf(paste0("..\\..\\5_Plots/2_Chemical_measurements/pysr/variable_importance_distribution_uniq_", names(dat_all_list)[i], ".pdf"),
+      width = pdf_width, height = pdf_height)
+  
+  # Split the plots into groups of 6
+  plot_groups <- split(iteration_plots, ceiling(seq_along(iteration_plots) / 6))
+  
+  # Loop through each group of 6 plots
+  for (group in plot_groups) {
+    # Arrange the plots into a 3x2 grid
+    grid <- marrangeGrob(group, ncol = 3, nrow = 2)
+    # Print the grid to the PDF
+    print(grid)
   }
+  
+  # Close the PDF device
   dev.off()
 }
 ```
 
 # RF importance
 ```{r}
-dat_full <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
-dat_pca <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
-dat_elastic <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
+dat_full <- read.csv('..\\..\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
+dat_pca <- read.csv('..\\..\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
+dat_elastic <- read.csv('..\\..\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
 
 # Get top 15 from full
 dat_full <- dat_full %>%
