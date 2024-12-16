@@ -83,7 +83,7 @@ datasets = [
     },
     {
         "prefix": "Omic",
-        "train_x": "3_Data_intermediates/3_Omic_measurements/Omic_train_x",
+        "train_x": "3_Data_intermediates/3_Omic_measurements/Omic_train_x_deg",
         "train_x_pca": "3_Data_intermediates/3_Omic_measurements/Omic_train_x_pca",
         "train_x_elastic": "3_Data_intermediates/3_Omic_measurements/Omic_train_x_elastic",
         "base_hof_directory": "4_Model_results/3_Omic_measurements/pysr/HOF_all_iterations",
@@ -92,8 +92,6 @@ datasets = [
     }
 ]
 
-# Subdirectories for Full, PCA, and Elastic
-subdirectories = ['Full', 'PCA', 'Elastic']
 
 # Process each dataset
 for dataset in datasets:
@@ -101,6 +99,12 @@ for dataset in datasets:
     base_hof_directory = dataset["base_hof_directory"]
     results_directory = dataset["results_directory"]
     images_directory = dataset["images_directory"]
+
+    # Subdirectories 
+    if prefix == 'Chem':
+        subdirectories = ['Full', 'PCA', 'Elastic']
+    else:
+        subdirectories = ['DEG', 'PCA', 'Elastic']
 
     # Initialize a dictionary to store the concatenated DataFrames for each subdirectory
     hof_dataframes = {}
@@ -133,7 +137,7 @@ for dataset in datasets:
         combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 
         # Filter based on RMSE (assuming 'loss' is the relevant column)
-        combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 19]
+        combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 18]
 
         return combined_hof_df
 
@@ -147,12 +151,15 @@ for dataset in datasets:
     # Load in chemical ranges data 
     train_x = pd.read_pickle(dataset["train_x"])
     train_x_pca = pd.read_pickle(dataset["train_x_pca"])
-    # Do not load 'train_x_elastic' for ranges, as per your request
 
     # Clean the column names
     train_x_clean = clean_column_names(train_x)
     train_x_clean_pca = clean_column_names(train_x_pca)
-    # Do not clean 'train_x_elastic' for ranges
+    
+    # Need to load in full dataset for omics
+    if prefix == 'Omic':
+        temp = pd.read_pickle('3_Data_intermediates/3_Omic_measurements/Omic_train_x')
+        train_x_clean = clean_column_names(temp)
 
     # Merge the DataFrames by row names (indices) for ranges
     merged_df = pd.merge(train_x_clean, train_x_clean_pca, left_index=True, right_index=True)
@@ -290,28 +297,32 @@ for dataset in datasets:
 
             # Get rows corresponding to the current chemical
             chem_rows = results_df[results_df['chem'] == chem]
-            chem_rows = chem_rows.drop_duplicates()
+
+            # Drop duplicate equations
+            chem_uniq = chem_rows.drop_duplicates()
 
             # Sum the 'integrated_derivative' for the current chemical
-            sum_integrated_derivative = chem_rows['integrated_derivative'].sum()
+            sum_integrated_derivative = chem_uniq['integrated_derivative'].sum()
 
             # Get chemical concentrations
             chem = str(chem)
-            if chem in chemical_ranges:
-                min_value, max_value = chemical_ranges[chem]
-                range_value = max_value - min_value
+            min_value, max_value = chemical_ranges[chem]
+            range_value = max_value - min_value
 
-                # Calculate the var_importance
-                var_importance = sum_integrated_derivative / range_value
-            else:
-                # If range is not available, set var_importance to NaN
-                var_importance = np.nan
+            # Calculate the var_importance
+            var_importance = sum_integrated_derivative / range_value
 
-            # Append the chemical name and its var_importance to the list
-            var_importance_list.append([chem, var_importance])
+            # Append the chemical name, its var_importance, and instance counts to the list
+            var_importance_list.append([
+                chem,
+                var_importance,
+                len(chem_rows),  # Total instances
+                len(chem_uniq)   # Unique instances
+            ])
 
         # Create a new DataFrame for var_importance
-        var_importance_df = pd.DataFrame(var_importance_list, columns=['chem', 'var_importance'])
+        var_importance_df = pd.DataFrame(var_importance_list, 
+                                         columns=['chem', 'var_importance', 'tot_instances', 'uniq_instances'])
         var_importance_df['chem'] = var_importance_df['chem'].astype(str)
 
         # Sort the DataFrame by 'var_importance' in decreasing order
@@ -338,6 +349,3 @@ for dataset in datasets:
         plt.title(f'Variable Importance by Chemical ({key}) - {prefix}')
         plt.xticks(rotation=90)  # Rotate chemical names for better readability
         plt.tight_layout()
-        plt.show()
-        # Save the plot
-        plt.savefig(os.path.join(images_directory, f'var_importance_{key}.png'))

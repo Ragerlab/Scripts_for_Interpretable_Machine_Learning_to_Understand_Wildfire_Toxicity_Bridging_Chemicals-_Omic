@@ -292,22 +292,22 @@ library(gridExtra)
 # Load in data
 ```{r}
 # Load in summed importance values
-dat_full <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\variable_importance_Full.csv')
+dat_DEG <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\variable_importance_DEG.csv')
 dat_pca <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\variable_importance_PCA.csv')
 dat_elastic <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\variable_importance_Elastic.csv')
 
 # Put in list
-dat_list <- list(dat_full, dat_pca, dat_elastic)
-names(dat_list) <- c("Full", "PCA", "Elastic")
+dat_list <- list(dat_DEG, dat_pca, dat_elastic)
+names(dat_list) <- c("DEG", "PCA", "Elastic")
 
 # Load in full importance values
-dat_all_full <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\partial_deriv_Full.csv')
+dat_all_DEG <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\partial_deriv_DEG.csv')
 dat_all_pca <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\partial_deriv_PCA.csv')
 dat_all_elastic <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\partial_deriv_Elastic.csv')
 
 # Put in list
-dat_all_list <- list(dat_all_full, dat_all_pca, dat_all_elastic)
-names(dat_all_list) <- c("Full", "PCA", "Elastic")
+dat_all_list <- list(dat_all_DEG, dat_all_pca, dat_all_elastic)
+names(dat_all_list) <- c("DEG", "PCA", "Elastic")
 
 
 # read in gene names
@@ -342,24 +342,22 @@ clean_column_values <- function(df, column_name) {
 degs_clean <- clean_column_values(degs, "BioSpyder_Identifier")
 colnames(degs_clean)[1] <- 'gene'
 
-
-
 # Clean names in dat_list
 colnames(dat_list[[1]])[1] <- 'gene'
 colnames(dat_list[[2]])[1] <- 'Gene_Symbol'
 dat_list[[1]] <- left_join(dat_list[[1]], degs_clean, by = 'gene') %>%
   select(-gene) %>%
   unique()
-colnames(dat_list[[3]])[1] <- 'gene'
-dat_list[[3]] <- left_join(dat_list[[3]], degs_clean, by = 'gene') %>%
-  select(-gene) %>%
-  unique()
+colnames(dat_list[[3]])[1] <- 'Gene_Symbol'
+# dat_list[[3]] <- left_join(dat_list[[3]], degs_clean, by = 'gene') %>%
+#   select(-gene) %>%
+#   unique()
 
 # Merge with gene names for IPA
 genes_clean <- left_join(genes, degs_clean) %>%
   select(Gene_Symbol) %>%
   unique()
-write.csv(genes_clean, file = '..\\..\\4_Model_results\\3_Omic_measurements\\all_genes_in_hof_clean.csv' )
+#write.csv(genes_clean, file = '..\\..\\4_Model_results\\3_Omic_measurements\\all_genes_in_hof_clean.csv' )
 ```
 
 
@@ -372,7 +370,7 @@ scale_to_range <- function(x, min_range = -1, max_range = 1) {
 }
 
 # Names for the datasets
-dataset_names <- c("Full", "PCA", "Elastic")
+dataset_names <- c("DEG", "PCA", "Elastic")
 
 # Combine all data into a single DataFrame with an identifier for each dataset
 combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
@@ -386,7 +384,7 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
 
   
   # Subset only the top 15 for the first dataset
-  if (i == 1 | i ==3) {
+  if (i == 1 | i == 3) {
     dat_top <- dat_top[1:15, ]
   }
 
@@ -396,11 +394,11 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
 }))
 
 # Set order
-combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
+combined_dat$dataset <- factor(combined_dat$dataset, levels = c('DEG', 'PCA', 'Elastic'))
 
 # Subset 
 combined_dat <- combined_dat %>%
-  filter(dataset != 'Full')
+  filter(dataset == 'Elastic')
 
 
 p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, dataset), y = var_importance, fill = Association)) +
@@ -424,8 +422,8 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, d
 print(p)
 
 # # Save
-# plot_filename <- paste0('..\\..\\5_Plots\\3_Omic_measurements/variable_importance_all.png')
-# ggsave(plot_filename, p, width = 7, height = 4)
+plot_filename <- paste0('..\\..\\5_Plots\\3_Omic_measurements/variable_importance_all.png')
+ggsave(plot_filename, p, width = 7, height = 4)
 
 ```
 

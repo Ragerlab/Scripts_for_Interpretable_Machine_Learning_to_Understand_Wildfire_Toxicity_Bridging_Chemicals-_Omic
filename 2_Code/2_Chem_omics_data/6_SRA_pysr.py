@@ -87,6 +87,10 @@ for i in range(len(datasets)):
         df_train = train_clean[key]
         df_test = test_clean[key]
 
+        # Remove Csrnp1 gene
+        # df_train = df_train.loc[:, ~df_train.columns.str.contains('Csrnp_1')]
+        # df_test = df_test.loc[:, ~df_test.columns.str.contains('Csrnp_1')]
+
         # Define parameters
         default_pysr_params = dict(
             populations=15,  # default number
@@ -147,12 +151,35 @@ for i in range(len(datasets)):
         end_time = time.time()
         time_taken = end_time - start_time
 
-        # Evaluate model
-        y_train_predict = discovered_model.predict(df_train.values)
-        train_rmse = root_mean_squared_error(train_y, y_train_predict)
+        # Initialize lists to store RMSE values
+        x_values = list(range(2, 13))
+        # if key == 'PCA':
+        #     x_values = list(range(1, 4))
+        train_rmse_values = []
+        test_rmse_values = []
 
-        y_test_predict = discovered_model.predict(df_test.values)
-        test_rmse = root_mean_squared_error(test_y, y_test_predict)
+        # Loop through x values from 1 to 12
+        for x in x_values:
+            # Predict and calculate RMSE for training data
+            y_train_predict = discovered_model.predict(df_train.values, x)
+            train_rmse = root_mean_squared_error(train_y, y_train_predict)
+            train_rmse_values.append(train_rmse)
+
+            # Predict and calculate RMSE for testing data
+            y_test_predict = discovered_model.predict(df_test.values, x)
+            test_rmse = root_mean_squared_error(test_y, y_test_predict)
+            test_rmse_values.append(test_rmse)
+
+        # Plot the RMSE values for train and test data
+        plt.figure(figsize=(10, 6))
+        plt.plot(x_values, train_rmse_values, marker='o', label='Train RMSE')
+        plt.plot(x_values, test_rmse_values, marker='o', label='Test RMSE')
+        plt.xlabel('x')
+        plt.ylabel('RMSE')
+        plt.title('x vs RMSE for Train and Test Data')
+        plt.legend()
+        plt.grid()
+        plt.savefig(f'5_Plots/{dataset["path"]}/pysr/rmse_by_model_{key}.png')
 
         # Save results
         results_pysr_df.loc[j] = [key, train_rmse, test_rmse, time_taken]

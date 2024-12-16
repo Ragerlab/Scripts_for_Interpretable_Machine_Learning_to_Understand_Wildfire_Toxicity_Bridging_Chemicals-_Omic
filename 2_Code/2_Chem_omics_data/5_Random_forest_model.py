@@ -30,9 +30,9 @@ datasets = [
     {
         "prefix": "Omic",
         "path": "3_Omic_measurements",
-        "train_x": "3_Data_intermediates/3_Omic_measurements/Omic_train_x",
+        "train_x_deg": "3_Data_intermediates/3_Omic_measurements/Omic_train_x_deg", 
         "train_y": "3_Data_intermediates/3_Omic_measurements/Omic_train_y",
-        "test_x": "3_Data_intermediates/3_Omic_measurements/Omic_test_x",
+        "test_x_deg": "3_Data_intermediates/3_Omic_measurements/Omic_test_x_deg",
         "test_y": "3_Data_intermediates/3_Omic_measurements/Omic_test_y",
         "train_x_pca": "3_Data_intermediates/3_Omic_measurements/Omic_train_x_pca",
         "test_x_pca": "3_Data_intermediates/3_Omic_measurements/Omic_test_x_pca",
@@ -45,21 +45,35 @@ datasets = [
 for i in range(len(datasets)):
     dataset = datasets[i]
     print(f"Processing {dataset['prefix']} dataset...")
-    
+
     # Load all inputs
     train_y = pd.read_pickle(dataset["train_y"])
     test_y = pd.read_pickle(dataset["test_y"])
     
-    train_input_dict = {
-        'Full': pd.read_pickle(dataset["train_x"]),
-        'PCA': pd.read_pickle(dataset["train_x_pca"]),
-        'Elastic': pd.read_pickle(dataset["train_x_elastic"])
-    }
-    test_input_dict = {
-        'Full': pd.read_pickle(dataset["test_x"]),
-        'PCA': pd.read_pickle(dataset["test_x_pca"]),
-        'Elastic': pd.read_pickle(dataset["test_x_elastic"])
-    }
+    if dataset["prefix"] == "Chem":
+        # For the Chem dataset
+        train_input_dict = {
+            'Full': pd.read_pickle(dataset["train_x"]),
+            'PCA': pd.read_pickle(dataset["train_x_pca"]),
+            'Elastic': pd.read_pickle(dataset["train_x_elastic"])
+        }
+        test_input_dict = {
+            'Full': pd.read_pickle(dataset["test_x"]),
+            'PCA': pd.read_pickle(dataset["test_x_pca"]),
+            'Elastic': pd.read_pickle(dataset["test_x_elastic"])
+        }
+    elif dataset["prefix"] == "Omic":
+        # For the Omic dataset
+        train_input_dict = {
+            'DEG': pd.read_pickle(dataset["train_x_deg"]),
+            'PCA': pd.read_pickle(dataset["train_x_pca"]),
+            'Elastic': pd.read_pickle(dataset["train_x_elastic"])
+        }
+        test_input_dict = {
+            'DEG': pd.read_pickle(dataset["test_x_deg"]),
+            'PCA': pd.read_pickle(dataset["test_x_pca"]),
+            'Elastic': pd.read_pickle(dataset["test_x_elastic"])
+        }
 
     # Save dictionaries for future use
     output_data_path = f'3_Data_intermediates/{dataset["path"]}'
@@ -73,9 +87,7 @@ for i in range(len(datasets)):
     results_rf_df = pd.DataFrame(columns=["Training RMSE", "Test RMSE", "Time Taken"])
 
     # Iterate through inputs and run random forest model
-    for j in range(len(train_input_dict)):
-        key = list(train_input_dict.keys())[j]
-        train_x = train_input_dict[key]
+    for key, train_x in train_input_dict.items():
         test_x = test_input_dict[key]
         
         # Model parameters
