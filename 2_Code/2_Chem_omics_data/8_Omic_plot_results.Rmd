@@ -344,14 +344,14 @@ colnames(degs_clean)[1] <- 'gene'
 
 # Clean names in dat_list
 colnames(dat_list[[1]])[1] <- 'gene'
+colnames(dat_list[[3]])[1] <- 'gene'
 colnames(dat_list[[2]])[1] <- 'Gene_Symbol'
 dat_list[[1]] <- left_join(dat_list[[1]], degs_clean, by = 'gene') %>%
   select(-gene) %>%
   unique()
-colnames(dat_list[[3]])[1] <- 'Gene_Symbol'
-# dat_list[[3]] <- left_join(dat_list[[3]], degs_clean, by = 'gene') %>%
-#   select(-gene) %>%
-#   unique()
+dat_list[[3]] <- left_join(dat_list[[3]], degs_clean, by = 'gene') %>%
+  select(-gene) %>%
+  unique()
 
 # Merge with gene names for IPA
 genes_clean <- left_join(genes, degs_clean) %>%
@@ -363,12 +363,6 @@ genes_clean <- left_join(genes, degs_clean) %>%
 
 # Sum directions and plot
 ```{r}
-scale_to_range <- function(x, min_range = -1, max_range = 1) {
-  min_x <- min(x, na.rm = TRUE)
-  max_x <- max(x, na.rm = TRUE)
-  (x - min_x) / (max_x - min_x) * (max_range - min_range) + min_range
-}
-
 # Names for the datasets
 dataset_names <- c("DEG", "PCA", "Elastic")
 
@@ -377,8 +371,8 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
   dat <- dat_list[[i]]
   
   dat_top <- dat %>%
-    # mutate(var_importance = var_importance / max(abs(var_importance))) %>%
-    # mutate(var_importance = scale_to_range(var_importance, -1, 1)) %>%
+    # mutate(var_importance = var_importance / uniq_instances) %>%
+    mutate(var_importance = var_importance / max(abs(var_importance))) %>%
     arrange(desc(abs(var_importance))) %>%
     mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
 
@@ -403,7 +397,7 @@ combined_dat <- combined_dat %>%
 
 p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, dataset), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
-  labs(x = "Gene_Symbol", y = "Directional importance") +
+  labs(x = "Gene Symbol", y = "Directional importance") +
   scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
   scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
@@ -414,8 +408,7 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, d
     legend.title = element_text(size = 12, face = "bold"),
     legend.text = element_text(size = 10),
     legend.position = "bottom"
-  ) +
-  facet_grid(. ~ dataset, scales = "free_x", space = "free")
+  ) 
 
 
 # Print the combined plot
@@ -423,10 +416,47 @@ print(p)
 
 # # Save
 plot_filename <- paste0('..\\..\\5_Plots\\3_Omic_measurements/variable_importance_all.png')
-ggsave(plot_filename, p, width = 7, height = 4)
+ggsave(plot_filename, p, width = 4, height = 4)
 
 ```
 
+# Train-test RMSE
+```{r}
+df <- read.csv('..\\..\\3_Data_intermediates\\3_Omic_measurements\\Omic_rmse_values_pysr_Elastic.csv')
+
+# Reshape the data to long format
+df_long <- df %>%
+  pivot_longer(cols = c(Train.RMSE, Test.RMSE), 
+               names_to = "Type", 
+               values_to = "RMSE") %>%
+  filter(HOF.equation > 2)
+
+
+# Create the plot
+p <- ggplot(df_long, aes(x = HOF.equation, y = RMSE, color = Type, group = Type)) +
+  geom_line(size = 1.2) + 
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Train.RMSE" = "#1f77b4", "Test.RMSE" = "#ff7f0e")) + # Better colors
+  theme_classic() +
+  labs(
+    x = "HOF Equation",
+    y = "RMSE",
+    color = "Type"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 10, angle = 0, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_x_discrete(limits = unique(df_long$HOF.equation)) # Ensure all x-axis ticks are labeled
+
+# Save
+plot_filename <- paste0('..\\..\\5_Plots/3_Omic_measurements/pysr/RMSE_by_HOF.png')
+ggsave(plot_filename, p, width = 4, height = 4)
+```
 
 # RF importance
 ```{r}

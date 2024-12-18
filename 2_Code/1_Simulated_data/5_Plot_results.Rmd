@@ -76,10 +76,17 @@ rownames(rmse_wide) <- rows
 colnames(rmse_wide) <- 1:10
 
 # Plot heatmap
-p <- pheatmap(as.matrix(rmse_wide), cluster_rows = FALSE, cluster_cols = FALSE, 
-         border_color = "white", cellwidth = 20, cellheight = 20, 
-         gaps_row = seq(3, length(row_order), by = 3), # Thicker lines every 3 rows)
-           main = "Variation in RMSE")  # Add title) 
+p <- pheatmap(
+  as.matrix(rmse_wide), 
+  cluster_rows = FALSE, 
+  cluster_cols = FALSE, 
+  border_color = "white", 
+  cellwidth = 20, 
+  cellheight = 20, 
+  gaps_row = seq(3, length(row_order), by = 3), # Thicker lines every 3 rows
+  main = "Variation in RMSE",  # Add title
+  angle_col = 0  # Make x-axis labels vertical
+)
 
 ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\rmse_heatmap.png', p, width = 4, height = 4)
 ```
@@ -112,7 +119,8 @@ p <- pheatmap(as.matrix(acc_wide),
               cellheight = 20, 
               gaps_row = seq(3, length(row_order), by = 3),  # Thicker lines every 3 rows
               main = 'Variation in Accuracy',
-              color = colorRampPalette(c("#000066","#0000FF", "#6666FF", "#CCCCFF"))(4)) # Light red to red color scale
+              color = colorRampPalette(c("#000066","#0000FF", "#6666FF", "#CCCCFF"))(4), 
+              angle_col = 0) # Light red to red color scale
 ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\accuracy_heatmap.png', p, width = 4, height = 4)
 ```
 

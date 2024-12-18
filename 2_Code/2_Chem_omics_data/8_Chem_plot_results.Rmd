@@ -348,12 +348,6 @@ p <- ggplot(class_count, aes(x = reorder(Var1, -Freq), y = Freq, fill = Var1)) +
 
 # Sum directions and plot
 ```{r}
-scale_to_range <- function(x, min_range = -1, max_range = 1) {
-  min_x <- min(x, na.rm = TRUE)
-  max_x <- max(x, na.rm = TRUE)
-  (x - min_x) / (max_x - min_x) * (max_range - min_range) + min_range
-}
-
 # Names for the datasets
 dataset_names <- c("Full", "PCA", "Elastic")
 
@@ -362,8 +356,8 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
   dat <- dat_list[[i]]
   
   dat_top <- dat %>%
+    mutate(var_importance = var_importance / uniq_instances) %>%
     # mutate(var_importance = var_importance / max(abs(var_importance))) %>%
-    # mutate(var_importance = scale_to_range(var_importance, -1, 1)) %>%
     arrange(desc(abs(var_importance))) %>%
     mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
 
@@ -389,7 +383,7 @@ combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', '
 
 # Subset 
 combined_dat <- combined_dat %>%
-  filter(dataset != 'PCA')
+  filter(dataset == 'Full')
 
 
 p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, dataset), y = var_importance, fill = Association)) +
@@ -405,16 +399,15 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, data
     legend.title = element_text(size = 12, face = "bold"),
     legend.text = element_text(size = 10),
     legend.position = "bottom"
-  ) +
-  facet_grid(. ~ dataset, scales = "free_x", space = "free")
+  ) 
 
 
 # Print the combined plot
 print(p)
 
 # Save
-plot_filename <- paste0('..\\..\\5_Plots/2_Chemical_measurements/pysr/variable_importance_all.png')
-ggsave(plot_filename, p, width = 7, height = 4)
+plot_filename <- paste0('..\\..\\5_Plots/2_Chemical_measurements/pysr/variable_importance_avg.png')
+ggsave(plot_filename, p, width = 4, height = 4)
 ```
 
 # by chemical class
@@ -532,6 +525,45 @@ for(i in 1:length(dat_all_list)){
   dev.off()
 }
 ```
+
+# Train-test RMSE
+```{r}
+df <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\Chem_rmse_values_pysr_Full.csv')
+
+# Reshape the data to long format
+df_long <- df %>%
+  pivot_longer(cols = c(Train.RMSE, Test.RMSE), 
+               names_to = "Type", 
+               values_to = "RMSE") %>%
+  filter(HOF.equation > 2)
+
+
+# Create the plot
+p <- ggplot(df_long, aes(x = HOF.equation, y = RMSE, color = Type, group = Type)) +
+  geom_line(size = 1.2) + 
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Train.RMSE" = "#1f77b4", "Test.RMSE" = "#ff7f0e")) + # Better colors
+  theme_classic() +
+  labs(
+    x = "HOF Equation",
+    y = "RMSE",
+    color = "Type"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 10, angle = 0, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_x_discrete(limits = unique(df_long$HOF.equation)) # Ensure all x-axis ticks are labeled
+
+# Save
+plot_filename <- paste0('..\\..\\5_Plots/2_Chemical_measurements/pysr/RMSE_by_HOF.png')
+ggsave(plot_filename, p, width = 4, height = 4)
+```
+
 
 # RF importance
 ```{r}
