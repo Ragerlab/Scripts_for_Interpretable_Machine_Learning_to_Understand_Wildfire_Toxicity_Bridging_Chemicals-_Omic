@@ -33,6 +33,14 @@ datasets = [
         "train_input_dict": "3_Data_intermediates/3_Omic_measurements/train_input_dict.pkl",
         "test_input_dict": "3_Data_intermediates/3_Omic_measurements/test_input_dict.pkl",
         "iterations": 1500
+    },     {   
+        "prefix": "Combined",
+        "path": "4_ChemOmics_measurements",
+        "train_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_y",
+        "test_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_y", 
+        "train_input_dict": "3_Data_intermediates/4_ChemOmics_measurements/train_input_dict.pkl",
+        "test_input_dict": "3_Data_intermediates/4_ChemOmics_measurements/test_input_dict.pkl",
+        "iterations": 1500
     }
 ]
 
@@ -86,10 +94,6 @@ for i in range(len(datasets)):
         key = keys[j]
         df_train = train_clean[key]
         df_test = test_clean[key]
-
-        # Remove Csrnp1 gene
-        # df_train = df_train.loc[:, ~df_train.columns.str.contains('Csrnp_1')]
-        # df_test = df_test.loc[:, ~df_test.columns.str.contains('Csrnp_1')]
 
         # Define parameters
         default_pysr_params = dict(
@@ -151,42 +155,61 @@ for i in range(len(datasets)):
         end_time = time.time()
         time_taken = end_time - start_time
 
-        # Initialize lists to store RMSE values
-        x_values = list(range(2, 13))
-        # if key == 'PCA':
-        #     x_values = list(range(1, 4))
+        # Initialize lists to store RMSE values and predictions
         train_rmse_values = []
         test_rmse_values = []
+        y_train_predictions = []
+        y_test_predictions = []
 
-        # Loop through x values from 1 to 12
-        for x in x_values:
+        # Loop through x values (1-based indexing for the labels)
+        for x in range(len(df_equations)):
             # Predict and calculate RMSE for training data
             y_train_predict = discovered_model.predict(df_train.values, x)
             train_rmse = root_mean_squared_error(train_y, y_train_predict)
             train_rmse_values.append(train_rmse)
+            y_train_predictions.append((x, y_train_predict))
 
             # Predict and calculate RMSE for testing data
             y_test_predict = discovered_model.predict(df_test.values, x)
             test_rmse = root_mean_squared_error(test_y, y_test_predict)
             test_rmse_values.append(test_rmse)
+            y_test_predictions.append((x, y_test_predict))
+
+        # Create x-axis labels as "HOF equation"
+        x_labels = [f"{x + 1}" for x in range(len(df_equations))]
 
         # Plot the RMSE values for train and test data
         plt.figure(figsize=(10, 6))
-        plt.plot(x_values, train_rmse_values, marker='o', label='Train RMSE')
-        plt.plot(x_values, test_rmse_values, marker='o', label='Test RMSE')
-        plt.xlabel('x')
+        plt.plot(x_labels, train_rmse_values, marker='o', label='Train RMSE')
+        plt.plot(x_labels, test_rmse_values, marker='o', label='Test RMSE')
+        plt.xlabel('HOF equation')
         plt.ylabel('RMSE')
-        plt.title('x vs RMSE for Train and Test Data')
+        plt.title('HOF Equation vs RMSE for Train and Test Data')
+        plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
         plt.legend()
         plt.grid()
+        plt.tight_layout()
+        plt.show()
         plt.savefig(f'5_Plots/{dataset["path"]}/pysr/rmse_by_model_{key}.png')
+        plt.show()
 
-        # Save results
-        results_pysr_df.loc[j] = [key, train_rmse, test_rmse, time_taken]
+        # Save RMSE values
+        pd.DataFrame({
+            "HOF equation": x_labels,
+            "Train RMSE": train_rmse_values,
+            "Test RMSE": test_rmse_values
+        }).to_csv(f'{output_data_path}/{dataset["prefix"]}_rmse_values_pysr_{key}.csv', index=False)
 
         # Save predictions
-        pd.DataFrame(y_train_predict).to_pickle(f'{output_data_path}/{dataset["prefix"]}_training_predictions_pysr_{key}')
-        pd.DataFrame(y_test_predict).to_pickle(f'{output_data_path}/{dataset["prefix"]}_test_predictions_pysr_{key}')
+        pd.DataFrame({
+            "HOF equation": [x for x, _ in y_train_predictions],
+            "Predictions": [pred.tolist() for _, pred in y_train_predictions]
+        }).to_pickle(f'{output_data_path}/{dataset["prefix"]}_training_predictions_pysr_{key}')
+
+        pd.DataFrame({
+            "HOF equation": [x for x, _ in y_test_predictions],
+            "Predictions": [pred.tolist() for _, pred in y_test_predictions]
+        }).to_pickle(f'{output_data_path}/{dataset["prefix"]}_test_predictions_pysr_{key}')
 
     # Save final results
     results_path = f'4_Model_results/{dataset["path"]}/pysr'

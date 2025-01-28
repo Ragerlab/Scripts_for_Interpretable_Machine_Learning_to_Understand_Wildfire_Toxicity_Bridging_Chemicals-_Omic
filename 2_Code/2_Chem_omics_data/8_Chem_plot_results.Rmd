@@ -46,51 +46,36 @@ train_preds_list <- py$train_preds_list
 test_preds_list <- py$test_preds_list
 train_y <- py$train_y
 test_y <- py$test_y
+  
+# Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
+test_combined <- data.frame(
+  Predicted = test_preds_list[[1]][14, 'Predictions'][[1]],
+  Actual = test_y
+)
 
-# Combine all testing data into a single DataFrame with identifiers for each dataset and input name
-combined_test_dat <- do.call(rbind, lapply(seq_along(input_names), function(i) {
-  input_name <- input_names[[i]]
-  test_y_pred <- test_preds_list[[i]]
-  
-  # Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
-  test_combined <- data.frame(
-    Actual = test_y,
-    Predicted = test_y_pred[,1]
-  )
-  
-  
-  # Calculate difference between actual and predicted
-  test_df <- test_combined %>%
-    mutate(Dif = Actual - Predicted)
-  
-  # Calculate % error
-  test_df <- test_df %>%
-    mutate(perc_error = (Predicted - Actual)/ Predicted * 100)
-    
-  
-  # Extract the rownames and modify them to contain only the part before the first '_'
-  Group <- gsub("_.*", "", rownames(test_df))
-  
-  # Add 'Group' and 'input_name' as new columns to the DataFrame
-  test_df$Group <- Group
-  test_df$input_name <- input_name
-  
-  return(test_df)
-}))
 
-# Calculate normalized RMSE
-nrmse <- rmse(combined_test_dat$Actual, combined_test_dat$Predicted) / (max(combined_test_dat$Actual)- min(combined_test_dat$Actual))
+# Calculate difference between actual and predicted
+test_df <- test_combined %>%
+  mutate(Dif = Actual - Predicted)
+
+# Calculate % error
+test_df <- test_df %>%
+  mutate(perc_error = (Predicted - Actual)/ Predicted * 100)
+  
+
+# Extract the rownames and modify them to contain only the part before the first '_'
+Group <- gsub("_.*", "", rownames(test_df))
+
+# Add 'Group' and 'input_name' as new columns to the DataFrame
+test_df$Group <- Group
 ```
 
 # Plot SRA results
 ```{r}
-# Define levels
-combined_test_dat$input_name <- factor(combined_test_dat$input_name, levels = c('Full', 'PCA', 'Elastic', 'RF'))
-
 # Clean up group labels
-combined_test_dat$Group <- gsub("Smoldering", "Smold.", combined_test_dat$Group)
-combined_test_dat$Group <- gsub("Flaming", "Flam.", combined_test_dat$Group)
-combined_test_dat$Group <- gsub("([a-z])([A-Z])", "\\1 \\2", combined_test_dat$Group)
+test_df$Group <- gsub("Smoldering", "Smold.", test_df$Group)
+test_df$Group <- gsub("Flaming", "Flam.", test_df$Group)
+test_df$Group <- gsub("([a-z])([A-Z])", "\\1 \\2", test_df$Group)
 
 # Define the custom group order
 custom_order <- c("Red Oak Flam.", "Pine Flam.", "Peat Flam.", 
@@ -100,19 +85,14 @@ custom_order <- c("Red Oak Flam.", "Pine Flam.", "Peat Flam.",
 custom_order <- rev(custom_order)  # Reverse the order
 
 # Update the Group variable with the custom order
-combined_test_dat$Group <- factor(combined_test_dat$Group, levels = custom_order)
+test_df$Group <- factor(test_df$Group, levels = custom_order)
 
 # Arrange the data by 'Group' and then by 'Actual' in descending order
-combined_test_dat <- combined_test_dat %>%
+test_df <- test_df %>%
   arrange(desc(Group), desc(Actual))
 
 # Update the x-axis with the reordered factor levels
-combined_test_dat$rownames <- factor(rownames(combined_test_dat), levels = rownames(combined_test_dat))
-
-# Subset
-combined_test_dat <- combined_test_dat %>%
-  filter(input_name == 'Full')
-
+test_df$rownames <- factor(rownames(test_df), levels = rownames(test_df))
 
 # Define a custom color palette for the groups
 custom_colors <- c(
@@ -129,7 +109,7 @@ custom_colors <- c(
 )
 
 # Set up the box plot using facet_wrap for each input_name
-p <- ggplot(combined_test_dat, aes(x = Group, y = Dif, fill = Group)) +
+p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
   geom_boxplot() +
   geom_point(position = position_jitter(width = 0.2), alpha = 0.5) +
   labs(x = "Group", y = "Actual - Predicted (mg/mL)") +
@@ -143,8 +123,7 @@ p <- ggplot(combined_test_dat, aes(x = Group, y = Dif, fill = Group)) +
     legend.position = "bottom"
   ) +
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
-  guides(fill = guide_legend(nrow = 3, byrow = TRUE)) +  # Adjust legend to have three rows
-  facet_wrap(~ input_name, scales = "free_x")
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
 
 # Print the combined plot
 print(p)
@@ -152,29 +131,31 @@ print(p)
 plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Prediction_spread_all.png')
 # ggsave(plot_filename, p, width = 7, height = 4)
 
-# Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
-p_bar <- ggplot(combined_test_dat, aes(x = combined_test_dat$rownames, y = Actual, fill = Group)) +
+p <- ggplot(test_df, aes(x = test_df$rownames, y = Actual, fill = Group)) +
   geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
-  geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
-  labs(x = "Individual", y = "Measured Injury Protein (ng/mL)") +
+  labs(x = "Individual", y = "Measured Injury Protein (mg/mL)") +
+  geom_point(aes(y = Predicted), color = "red", size = 5, shape = 95) +  # Red dash for 'Predicted'
   theme_classic() +
   theme(
     axis.text.x = element_blank(),  # Remove x-axis text labels
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold"),
-    legend.title=element_blank(),
-    legend.text = element_text(size = 14),
-    legend.position = "bottom"
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 8),
+    legend.position = "bottom", 
+    legend.spacing.y = unit(0.2, "cm"),
+    legend.justification = c(0, 0), # Moves the legend to the left
+    legend.box.just = "left"        # Aligns the legend within the box
   ) +
-  scale_y_continuous(expand = c(0,0)) +
-  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
-  facet_wrap(~ input_name, scales = "free_x") +
-  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_fill_manual(values = custom_colors) +
+  guides(fill = guide_legend(nrow = 4))
+
 plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
-# ggsave(plot_filename, p_bar, width = 7, height = 4)
+ggsave(plot_filename, p, width = 4, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
-p_bar_two <- ggplot(combined_test_dat, aes(x = combined_test_dat$rownames, y = perc_error, fill = Group)) +
+p_bar_two <- ggplot(test_df, aes(x = test_df$rownames, y = Dif, fill = Group)) +
   geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
   labs(x = "Individual", y = "Percent error") +
   theme_classic() +
@@ -187,13 +168,30 @@ p_bar_two <- ggplot(combined_test_dat, aes(x = combined_test_dat$rownames, y = p
     legend.position = "bottom"
   ) +
   scale_y_continuous(expand = c(0,0)) +
-  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
-  facet_wrap(~ input_name, scales = "free_x") +
-  guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
+  scale_fill_manual(values = custom_colors)
 # Save the plot
 plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Actual_vs_Predicted_difference.png')
 # ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 
+
+p_scatter <- ggplot(test_df, aes(x = Actual, y = Predicted, color = Group)) +
+  geom_point(size = 4, alpha = 0.8) +  # Scatter points with size and transparency
+  labs(
+    x = "Measured Injury Protein (Actual)",
+    y = "Predicted Injury Protein",
+    color = "Group"
+  ) +
+  theme_classic() +
+  theme(
+    axis.text = element_text(size = 12),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14),
+    legend.title = element_text(size = 14),
+    legend.position = "bottom"
+  ) +
+  scale_color_manual(values = custom_colors) +  # Use custom colors for groups
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray50")  # Add diagonal for reference
 ```
 
 
@@ -356,8 +354,8 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
   dat <- dat_list[[i]]
   
   dat_top <- dat %>%
-    mutate(var_importance = var_importance / uniq_instances) %>%
-    # mutate(var_importance = var_importance / max(abs(var_importance))) %>%
+    # mutate(var_importance = var_importance / uniq_instances) %>%
+    mutate(var_importance = var_importance / max(abs(var_importance))) %>%
     arrange(desc(abs(var_importance))) %>%
     mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
 
@@ -386,9 +384,9 @@ combined_dat <- combined_dat %>%
   filter(dataset == 'Full')
 
 
-p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, dataset), y = var_importance, fill = Association)) +
+p <- ggplot(plz3, aes(x = reorder_within(Chemical, -var_importance, dataset), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
-  labs(x = "Chemical", y = "Directional importance") +
+  labs(x = "Predictor", y = "Directional importance") +
   scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
   scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
@@ -399,7 +397,9 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, data
     legend.title = element_text(size = 12, face = "bold"),
     legend.text = element_text(size = 10),
     legend.position = "bottom"
-  ) 
+  ) +
+   facet_grid(~dataset, scales = "free", space = "free")  # Ensure each facet scales independently
+
 
 
 # Print the combined plot
@@ -407,7 +407,7 @@ print(p)
 
 # Save
 plot_filename <- paste0('..\\..\\5_Plots/2_Chemical_measurements/pysr/variable_importance_avg.png')
-ggsave(plot_filename, p, width = 4, height = 4)
+ggsave(plot_filename, p, width = 7, height = 4)
 ```
 
 # by chemical class

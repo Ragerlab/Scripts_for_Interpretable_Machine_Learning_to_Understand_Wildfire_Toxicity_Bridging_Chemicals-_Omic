@@ -38,6 +38,18 @@ datasets = [
         "test_x_pca": "3_Data_intermediates/3_Omic_measurements/Omic_test_x_pca",
         "train_x_elastic": "3_Data_intermediates/3_Omic_measurements/Omic_train_x_elastic",
         "test_x_elastic": "3_Data_intermediates/3_Omic_measurements/Omic_test_x_elastic"
+    }, 
+    {   
+        "prefix": "Combined",
+        "path": "4_ChemOmics_measurements",
+        "train_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x",
+        "train_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_y",
+        "test_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x",
+        "test_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_y", 
+        "train_x_pca": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_pca",
+        "test_x_pca": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x_pca",
+        "train_x_elastic": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_elastic",
+        "test_x_elastic": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x_elastic"
     }
 ]
 
@@ -50,7 +62,7 @@ for i in range(len(datasets)):
     train_y = pd.read_pickle(dataset["train_y"])
     test_y = pd.read_pickle(dataset["test_y"])
     
-    if dataset["prefix"] == "Chem":
+    if dataset["prefix"] != "Omic":
         # For the Chem dataset
         train_input_dict = {
             'Full': pd.read_pickle(dataset["train_x"]),

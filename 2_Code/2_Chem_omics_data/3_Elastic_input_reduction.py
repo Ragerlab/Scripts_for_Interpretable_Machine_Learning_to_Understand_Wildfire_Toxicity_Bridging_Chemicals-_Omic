@@ -27,6 +27,13 @@ datasets = [
         "train_y": "3_Data_intermediates/3_Omic_measurements/Omic_train_y",
         "test_x": "3_Data_intermediates/3_Omic_measurements/Omic_test_x_deg",
         "test_y": "3_Data_intermediates/3_Omic_measurements/Omic_test_y"
+    }, 
+    {   "prefix": "Comb",
+        "path": "4_ChemOmics_measurements",
+        "train_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x",
+        "train_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_y",
+        "test_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x",
+        "test_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_y"
     }
 ]
 
@@ -45,7 +52,7 @@ for i in range(len(datasets)):
     elastic_net_cv = ElasticNetCV(cv=3, l1_ratio=0.5, max_iter=1000).fit(train_x, train_y)
 
     # If omic data, run Lasso instead 
-    if i ==1:
+    if i == 1:
         elastic_net_cv = ElasticNetCV(cv=3, l1_ratio=1, max_iter=1000).fit(train_x, train_y)
 
     # Output the best alpha and l1_ratio

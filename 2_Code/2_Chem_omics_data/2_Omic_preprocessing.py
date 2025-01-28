@@ -110,3 +110,15 @@ train_x_deg.to_pickle("3_Data_intermediates/3_Omic_measurements/Omic_train_x_deg
 test_x_deg.to_pickle("3_Data_intermediates/3_Omic_measurements/Omic_test_x_deg")
 train_y_deg.to_pickle("3_Data_intermediates/3_Omic_measurements/Omic_train_y_deg")
 test_y_deg.to_pickle("3_Data_intermediates/3_Omic_measurements/Omic_test_y_deg")
+
+# Merged for combined analysis
+train_x_comb = pd.merge(train_x_deg, train_x_chem, left_index = True, right_index = True)
+train_y_comb = train_y_deg
+test_x_comb = pd.merge(test_x_deg, test_x_chem, left_index = True, right_index = True)
+test_y_comb = test_y_deg
+
+# Save combined form
+train_x_comb.to_pickle("3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x")
+test_x_comb.to_pickle("3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x")
+train_y_comb.to_pickle("3_Data_intermediates/4_ChemOmics_measurements/Comb_train_y")
+test_y_comb.to_pickle("3_Data_intermediates/4_ChemOmics_measurements/Comb_test_y")

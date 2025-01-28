@@ -89,6 +89,15 @@ datasets = [
         "base_hof_directory": "4_Model_results/3_Omic_measurements/pysr/HOF_all_iterations",
         "results_directory": "4_Model_results/3_Omic_measurements/pysr",
         "images_directory": "5_Plots/3_Omic_measurements/pysr"
+    }, 
+    {
+        "prefix": "Comb",
+        "train_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x",
+        "train_x_pca": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_pca",
+        "train_x_elastic": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_elastic",
+        "base_hof_directory": "4_Model_results/4_ChemOmics_measurements/pysr/HOF_all_iterations",
+        "results_directory": "4_Model_results/4_ChemOmics_measurements/pysr",
+        "images_directory": "5_Plots/4_ChemOmics_measurements/pysr"
     }
 ]
 
@@ -101,7 +110,7 @@ for dataset in datasets:
     images_directory = dataset["images_directory"]
 
     # Subdirectories 
-    if prefix == 'Chem':
+    if prefix != 'Omic':
         subdirectories = ['Full', 'PCA', 'Elastic']
     else:
         subdirectories = ['DEG', 'PCA', 'Elastic']
@@ -137,7 +146,11 @@ for dataset in datasets:
         combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 
         # Filter based on RMSE (assuming 'loss' is the relevant column)
-        combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 18]
+        combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 19]
+
+        # Adjust filter for omic data
+        if prefix == 'omic':
+            combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 17]
 
         return combined_hof_df
 
@@ -349,3 +362,4 @@ for dataset in datasets:
         plt.title(f'Variable Importance by Chemical ({key}) - {prefix}')
         plt.xticks(rotation=90)  # Rotate chemical names for better readability
         plt.tight_layout()
+        plt.show()

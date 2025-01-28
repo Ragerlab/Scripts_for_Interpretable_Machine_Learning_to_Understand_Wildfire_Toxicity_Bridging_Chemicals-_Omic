@@ -21,6 +21,11 @@ datasets = [
         "path": "3_Omic_measurements",
         "train_x": "3_Data_intermediates/3_Omic_measurements/Omic_train_x",
         "test_x": "3_Data_intermediates/3_Omic_measurements/Omic_test_x"
+    }, 
+    {   "prefix": "Comb",
+        "path": "4_ChemOmics_measurements",
+        "train_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x",
+        "test_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x",
     }
 ]
 
@@ -66,9 +71,7 @@ for i in range(len(datasets)):
     plt.title('Scores Plot')
     plt.xlabel('Principal Component 1')
     plt.ylabel('Principal Component 2')
-    plt.grid(True)
     plt.savefig(f'{output_dir}/scores_plot.png')
-    plt.close()
 
     # Retain the top 4 principal components for training data
     train_x_pca = pd.DataFrame(train_pca_scores[:, 0:4], columns=['PC1', 'PC2', 'PC3', 'PC4'], index=train_x.index)

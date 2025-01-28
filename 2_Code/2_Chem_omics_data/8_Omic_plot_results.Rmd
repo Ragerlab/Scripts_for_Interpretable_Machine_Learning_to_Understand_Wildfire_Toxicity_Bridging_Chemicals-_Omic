@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("3_Data_intermediates/3_Omic_measurements/Omic_train_y")
@@ -43,6 +43,13 @@ train_y <- py$train_y
 test_y <- py$test_y
 train_y_pred <- py$train_y_pred
 test_y_pred <- py$test_y_pred
+test_preds_list <- py$test_preds_list
+
+# Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
+test_combined <- data.frame(
+  Predicted = test_preds_list[[3]][9, 'Predictions'][[1]],
+  Actual = test_y
+)
 
 # Combine training data into one DataFrame with 'Actual' and 'Predicted' columns
 train_combined <- data.frame(
@@ -50,11 +57,6 @@ train_combined <- data.frame(
   Predicted = train_y_pred[,1]
 )
 
-# Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
-test_combined <- data.frame(
-  Actual = test_y,
-  Predicted = test_y_pred[,1]
-)
 ```
 
 # Plot testing data
@@ -124,27 +126,27 @@ p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
   scale_fill_manual(values = custom_colors) +
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))   # Adjust legend to have three rows
 
-ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p, width = 7, height = 4)
+# ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p, width = 7, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
 p_bar <- ggplot(test_df, aes(x = test_df$rownames, y = Actual, fill = Group)) +
   geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
-  geom_point(aes(y = Predicted), color = "red", size = 3, shape = 95) +  # Red dash for 'Predicted'
-  labs(x = "Individual", y = "Measured Injury Protein (ng/mL)") +
+  geom_point(aes(y = Predicted), color = "red", size = 5, shape = 95) +  # Red dash for 'Predicted'
+  labs(x = "Individual", y = "Measured Injury Protein (mg/mL)") +
   theme_classic() +
   theme(
     axis.text.x = element_blank(),  # Remove x-axis text labels
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold"),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
     legend.title=element_blank(),
-    legend.text = element_text(size = 14),
+    legend.text = element_text(size = 8),
     legend.position = "bottom"
   ) +
   scale_y_continuous(expand = c(0,0)) +
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
   guides(fill = guide_legend(nrow = 4, byrow = TRUE))  # Adjust legend to have three rows
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Prediction_vs_actual_all.png')
-ggsave(plot_filename, p_bar, width = 7, height = 4)
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/Prediction_vs_actual_all.png')
+ggsave(plot_filename, p_bar, width = 4, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
 p_bar_two <- ggplot(test_df, aes(x = test_df$rownames, y = Dif, fill = Group)) +
@@ -163,7 +165,7 @@ p_bar_two <- ggplot(test_df, aes(x = test_df$rownames, y = Dif, fill = Group)) +
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
 # Save the plot
-plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Actual_vs_Predicted_difference.png')
+plot_filename_scatter <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Actual_vs_Predicted_difference.png')
 ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 
 
@@ -192,13 +194,13 @@ p <- ggplot(dat, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
   guides(color = guide_legend(nrow = 2)) 
 
 # Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/sensitivity.png')
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/sensitivity.png')
   ggsave(plot_filename, p, width = 4, height = 4)
 ```
 
 # Plot pathways
 ```{r}
-top_diseases <- read.table('C://Users//Jessie PC//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//Data_inputs//3_Omic_measurements//top_diseases.txt', header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+top_diseases <- read.table('C://Users//jrchapp3//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//Data_inputs//3_Omic_measurements//top_diseases.txt', header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 # Function to extract the minimum p-value from the p.value string
 extract_min_pval <- function(pvalue_str) {
@@ -249,7 +251,7 @@ p <- ggplot(top_15_diseases, aes(x = reorder(Category, p_transformed), y = p_tra
 
 # Read the data
 top_pathways <- read.table(
-  'C://Users//Jessie PC//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//Data_inputs//3_Omic_measurements//top_pathways.txt',
+  'C://Users//jrchapp3//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//Data_inputs//3_Omic_measurements//top_pathways.txt',
   header = TRUE, sep = "\t", stringsAsFactors = FALSE
 )
 colnames(top_pathways)[2] <- 'p_transformed'
@@ -394,21 +396,21 @@ combined_dat$dataset <- factor(combined_dat$dataset, levels = c('DEG', 'PCA', 'E
 combined_dat <- combined_dat %>%
   filter(dataset == 'Elastic')
 
-
+# Plot
 p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, dataset), y = var_importance, fill = Association)) +
   geom_bar(stat = "identity") +
   labs(x = "Gene Symbol", y = "Directional importance") +
   scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
-  scale_x_reordered() +  # Add this line to clean up x-axis labels
+  scale_x_reordered() +  # Clean up x-axis labels
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1, face = "italic"), # Italicize x-axis labels
     axis.title.x = element_text(size = 12, face = "bold"),
     axis.title.y = element_text(size = 12, face = "bold"),
     legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    legend.text = element_text(size = 8),
     legend.position = "bottom"
-  ) 
+  )
 
 
 # Print the combined plot
@@ -416,7 +418,7 @@ print(p)
 
 # # Save
 plot_filename <- paste0('..\\..\\5_Plots\\3_Omic_measurements/variable_importance_all.png')
-ggsave(plot_filename, p, width = 4, height = 4)
+ggsave(plot_filename, p, width = 3.8, height = 4)
 
 ```
 
@@ -491,7 +493,7 @@ p <- ggplot(dat_full, aes(x = reorder(Feature, -Importance), y = Importance)) +
   ) +
   scale_y_continuous(expand = c(0, 0)) 
 # Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/rf/variable_importance_all.png')
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/rf/variable_importance_all.png')
 ggsave(plot_filename, p, width = 4, height = 4)
 ```
  
