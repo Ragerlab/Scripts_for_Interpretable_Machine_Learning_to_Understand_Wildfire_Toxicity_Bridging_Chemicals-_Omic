@@ -195,12 +195,12 @@ p <- ggplot(dat, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
 
 # Save
 plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/sensitivity.png')
-  ggsave(plot_filename, p, width = 4, height = 4)
+ggsave(plot_filename, p, width = 4, height = 4)
 ```
 
 # Plot pathways
 ```{r}
-top_diseases <- read.table('C://Users//jrchapp3//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//Data_inputs//3_Omic_measurements//top_diseases.txt', header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+top_diseases <- read.table('C://Users//Jessie PC//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//4_Model_results//3_Omic_measurements//top_pathways.txt', header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 # Function to extract the minimum p-value from the p.value string
 extract_min_pval <- function(pvalue_str) {
@@ -250,10 +250,7 @@ p <- ggplot(top_15_diseases, aes(x = reorder(Category, p_transformed), y = p_tra
   scale_y_continuous(expand = c(0, 0))  
 
 # Read the data
-top_pathways <- read.table(
-  'C://Users//jrchapp3//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//Data_inputs//3_Omic_measurements//top_pathways.txt',
-  header = TRUE, sep = "\t", stringsAsFactors = FALSE
-)
+top_pathways <- read.table('C://Users//Jessie PC//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI//4_Model_results//3_Omic_measurements//top_pathways.txt', header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 colnames(top_pathways)[2] <- 'p_transformed'
 
 # Subset the top 15 pathways by the smallest p-value
@@ -272,12 +269,14 @@ p <- ggplot(top_15_pathways, aes(x = reorder(Ingenuity.Canonical.Pathways, p_tra
   ) +
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 12),
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold")
+    axis.text.x = element_text(size = 8),
+    axis.text.y = element_text(size = 8),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold")
   ) +
   scale_y_continuous(expand = c(0, 0))  # Remove padding to make bars touch x-axi
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/pathways.png')
+ggsave(plot_filename, p, width = 7, height = 4)
 
 ```
 
@@ -418,7 +417,7 @@ print(p)
 
 # # Save
 plot_filename <- paste0('..\\..\\5_Plots\\3_Omic_measurements/variable_importance_all.png')
-ggsave(plot_filename, p, width = 3.8, height = 4)
+# ggsave(plot_filename, p, width = 3.8, height = 4)
 
 ```
 

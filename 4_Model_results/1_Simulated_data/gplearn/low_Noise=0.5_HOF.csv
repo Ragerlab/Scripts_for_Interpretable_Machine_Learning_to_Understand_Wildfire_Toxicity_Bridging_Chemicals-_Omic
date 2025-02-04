@@ -1,11 +1,11 @@
 Equation
-"sub(chem10, chem15)"
-"add(add(add(add(chem6, add(chem6, chem6)), add(add(add(chem6, chem6), chem6), add(add(chem6, add(add(chem6, chem6), chem6)), chem6))), add(chem6, add(chem6, chem6))), add(add(add(chem6, chem6), add(add(chem3, chem6), chem6)), chem6))"
-"add(add(chem6, chem6), add(add(chem3, chem6), add(add(add(chem6, chem6), add(add(add(add(add(chem6, add(chem6, chem6)), chem6), add(add(add(chem6, chem6), chem6), add(chem3, chem6))), chem6), chem6)), add(chem6, chem6))))"
-"add(add(add(chem6, add(chem6, chem6)), add(add(chem6, add(chem6, chem6)), add(add(chem3, chem6), add(add(chem6, add(add(chem6, chem6), chem6)), add(chem6, chem6))))), add(add(add(add(add(chem6, chem6), chem6), chem6), chem6), add(chem6, chem6)))"
-"add(add(chem3, chem6), add(chem6, add(sub(chem14, chem1), add(chem14, chem11))))"
-chem6
-"add(add(chem3, chem6), add(add(add(chem6, add(add(chem6, chem6), add(add(chem6, chem6), add(add(add(chem6, chem6), chem6), add(add(chem3, chem6), chem6))))), add(chem6, add(chem6, add(add(chem6, chem6), chem6)))), add(chem6, chem6)))"
-"add(add(chem6, add(add(chem6, chem6), add(add(chem6, chem6), add(add(add(add(chem6, chem6), chem6), chem6), add(chem3, chem6))))), add(add(chem3, chem6), add(add(chem6, add(add(chem6, chem6), chem6)), add(chem6, chem6))))"
-"add(add(add(chem14, chem6), chem6), add(add(chem6, add(chem6, add(add(chem6, chem8), chem3))), chem6))"
-"add(add(chem6, add(add(chem6, chem6), add(add(chem6, add(add(add(add(chem3, chem6), chem6), chem6), chem6)), add(chem6, add(chem6, chem6))))), add(add(chem3, chem6), add(chem6, add(chem6, add(add(chem6, chem6), chem6)))))"
+"sub(var10, var15)"
+"add(add(var6, var3), add(add(add(var6, var6), add(add(var6, var6), var6)), add(add(var2, add(add(add(var6, var6), var6), add(add(add(var6, var6), var6), add(add(add(var6, var6), var6), add(var6, var3))))), var6)))"
+"add(add(add(var6, add(var6, add(add(add(var6, add(add(var6, add(var6, var6)), add(add(var6, var6), var3))), add(var6, add(var6, var6))), add(var2, add(var6, var6))))), add(var6, var6)), add(add(var6, var6), var6))"
+"add(add(add(var6, var6), var6), add(add(add(var6, add(var6, var6)), add(add(var6, add(var6, add(add(var6, var6), var6))), add(var6, add(var3, var6)))), add(var6, add(add(var6, add(add(var6, var6), var6)), var3))))"
+var6
+"add(add(add(var6, var6), var6), add(sub(var14, var1), add(var14, var11)))"
+"add(add(add(var6, var6), var6), add(add(add(add(add(add(var6, var3), add(var6, var6)), add(add(add(var6, var6), var6), add(add(var6, var6), add(var6, var3)))), add(add(var6, var6), var6)), var6), var3))"
+"add(add(add(var6, var6), var6), add(add(add(var6, var6), add(var6, add(var6, add(add(var6, var6), add(add(add(var6, var6), var6), var6))))), add(var6, add(add(var6, add(add(var6, var6), var6)), var3))))"
+"add(add(add(add(var6, var6), var6), add(add(var6, var6), add(var6, add(add(var2, add(add(var6, var6), var6)), var3)))), add(add(var2, add(var6, var6)), add(var6, add(add(add(var6, var6), var2), add(var6, var6)))))"
+"add(add(add(add(add(var6, add(add(var6, var6), add(add(var6, var6), var6))), var3), add(add(var6, add(var6, var6)), var6)), add(var2, add(var6, var13))), add(add(var6, var6), add(var6, add(add(var6, var3), var3))))"

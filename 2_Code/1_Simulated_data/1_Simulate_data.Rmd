@@ -78,12 +78,12 @@ transformed_data[, 15] <- qlnorm(pnorm(normal_data[, 15]), meanlog = 1, sdlog = 
 # Convert to data frame
 transformed_data <- as.data.frame(transformed_data)
 
-# Name the columns chem1 to chem15
-colnames(transformed_data) <- paste0("chem", 1:15)
+# Name the columns var1 to var15
+colnames(transformed_data) <- paste0("var", 1:15)
 
 # Add the response column
-Response <-3 * transformed_data$chem2 * transformed_data$chem6 + 
-                            (transformed_data$chem13 / transformed_data$chem10)
+Response <-3 * transformed_data$var2 * transformed_data$var6 + 
+                            (transformed_data$var13 / transformed_data$var10)
 transformed_data$Response <- Response
 
 # Compute the correlation matrix of the transformed data
@@ -112,8 +112,8 @@ ggsave(filename = "../../5_Plots/1_Simulated_data/Input_data/Input_correlations.
 
 
 # Create dataframe only containing variables included in the equation
-sim_dat_rel = transformed_data %>%
-  select(chem2, chem6, chem10, chem13, Response)
+sim_dat_rel <- transformed_data %>%
+  dplyr::select(var2, var6, var10, var13, Response)
 
 # Save the simulated dataframes
 # transformed_data.to_pickle("Data_inputs/1_Simulated_data/sim_dat_all.pkl")

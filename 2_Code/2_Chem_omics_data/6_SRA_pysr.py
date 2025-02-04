@@ -40,7 +40,7 @@ datasets = [
         "test_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_y", 
         "train_input_dict": "3_Data_intermediates/4_ChemOmics_measurements/train_input_dict.pkl",
         "test_input_dict": "3_Data_intermediates/4_ChemOmics_measurements/test_input_dict.pkl",
-        "iterations": 1500
+        "iterations": 5000
     }
 ]
 
@@ -134,7 +134,9 @@ for i in range(len(datasets)):
         start_time = time.time()
 
         # Run specified iterations
-        for k in range(dataset["iterations"]):
+        # for k in range(dataset["iterations"]):
+        for k in range(0, 5000):
+
             print(f"Iteration {k + 1} for {key}")
 
             # Fit model
@@ -190,7 +192,7 @@ for i in range(len(datasets)):
         plt.grid()
         plt.tight_layout()
         plt.show()
-        plt.savefig(f'5_Plots/{dataset["path"]}/pysr/rmse_by_model_{key}.png')
+        # plt.savefig(f'5_Plots/{dataset["path"]}/pysr/rmse_by_model_{key}.png')
         plt.show()
 
         # Save RMSE values

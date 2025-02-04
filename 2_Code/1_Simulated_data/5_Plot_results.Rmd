@@ -17,9 +17,9 @@ library(ggpubr)
 setwd("C://Users//Jessie PC//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI")
 
 # Read in results
-results_pysr <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\pysr\\results.csv')
-results_gplearn <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\gplearn\\results.csv')
-results_feyn <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\feyn\\results.csv')
+results_pysr <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\pysr\\results_pysr.csv')
+results_gplearn <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\gplearn\\results_gplearn.csv')
+results_feyn <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\feyn\\results_feyn.csv')
 
 # Combine results into one data frame
 results_list <- list(results_gplearn, results_pysr, results_feyn)
@@ -33,7 +33,7 @@ for(i in 1:length(results_list)){
   if(i==2){
     temp <- temp %>%
       mutate(Operators = paste0(Binary.operators, Unary.Operators)) %>%
-      select(-Binary.operators, -Unary.Operators)
+      dplyr::select(-Binary.operators, -Unary.Operators)
   }
   
   # Add complexity level
@@ -57,7 +57,7 @@ results_all$Comp_Level <- paste0(results_all$Package, results_all$Operator_compl
 ```{r}
 # Convert to wide format for RMSE heatmap
 rmse_wide <- results_all %>%
-  select(Input, Comp_Level, RMSE) %>%
+  dplyr::select(Input, Comp_Level, RMSE) %>%
   pivot_wider(names_from = Input, values_from = RMSE) 
 
 # Define the desired order for rows and columns
@@ -71,7 +71,7 @@ rmse_wide <- rmse_wide[, c("Comp_Level", column_order), with = FALSE]
 # Set row names for pheatmap
 rows <- c('gplearn', 'PySR', 'feyn', 'gplearn ', 'PySR ', 'feyn ', 'gplearn  ', 'PySR  ', 'feyn  ')
 rmse_wide <- rmse_wide %>%
-  select(-Comp_Level)
+  dplyr::select(-Comp_Level)
 rownames(rmse_wide) <- rows
 colnames(rmse_wide) <- 1:10
 
@@ -95,7 +95,7 @@ ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\rmse_heatmap.png'
 ```{r}
 # Convert to wide format for RMSE heatmap
 acc_wide <- results_all %>%
-  select(Input, Comp_Level, Level) %>%
+  dplyr::select(Input, Comp_Level, Level) %>%
   pivot_wider(names_from = Input, values_from = Level) 
 
 # Reorder rows and columns
@@ -105,7 +105,7 @@ acc_wide <- acc_wide[, c("Comp_Level", column_order), with = FALSE]
 # Set row names for pheatmap
 rows <- c('gplearn', 'PySR', 'feyn', 'gplearn ', 'PySR ', 'feyn ', 'gplearn  ', 'PySR  ', 'feyn  ')
 acc_wide <- acc_wide %>%
-  select(-Comp_Level)
+  dplyr::select(-Comp_Level)
 rownames(acc_wide) <- rows
 colnames(acc_wide) <- 1:10
 

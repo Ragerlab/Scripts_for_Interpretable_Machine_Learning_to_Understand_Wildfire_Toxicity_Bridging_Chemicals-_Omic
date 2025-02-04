@@ -374,31 +374,45 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
 combined_dat <- left_join(combined_dat, class, by = 'chem') 
 combined_dat <- combined_dat %>%
   mutate(Chemical = ifelse(is.na(Chemical), chem, Chemical)) %>%
-  select(-chem)
+  dplyr::select(-chem)
 
 # Set order
 combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
+colnames(combined_dat)[6] <- 'Chemical Class'
 
 # Subset 
 combined_dat <- combined_dat %>%
   filter(dataset == 'Full')
 
+new_palette <- c(
+  "Inorganics" = "#d67e00",      # Burnt orange (warmer and deeper than the original soft orange)
+  "Methoxyphenols" = "#5a9f88",  # Deep sea green (a distinct but natural teal)
+  "PAHs" = "#b7472a",            # Rosewood (a warmer pink, distinct from soft pink)
+  "Ions" = "#7f6aa8",            # Grape purple (more vibrant than pale purple)
+  "n-Alkanes" = "#c96b7d"        # Brick red (an earthy, deeper coral variant)
+)
 
-p <- ggplot(plz3, aes(x = reorder_within(Chemical, -var_importance, dataset), y = var_importance, fill = Association)) +
+p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, dataset), y = var_importance, fill = `Chemical Class`)) +
   geom_bar(stat = "identity") +
-  labs(x = "Predictor", y = "Directional importance") +
-  scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
+  labs(y = "DECS") +  # Removed x-axis title
+  scale_fill_manual(values = new_palette, 
+                    breaks = c("n-Alkanes", "Ions", "PAHs", "Inorganics", "Methoxyphenols")) + 
   scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
     axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
-    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.x = element_blank(),  # Remove x-axis title
     axis.title.y = element_text(size = 12, face = "bold"),
     legend.title = element_text(size = 12, face = "bold"),
     legend.text = element_text(size = 10),
     legend.position = "bottom"
   ) +
-   facet_grid(~dataset, scales = "free", space = "free")  # Ensure each facet scales independently
+  guides(fill = guide_legend(nrow = 2, title = "Chemical Class",
+                             title.position = "top",
+                             byrow = TRUE,
+                             override.aes = list(
+                               label = c("Chemical Class", "", "", "", "")
+                             )))
 
 
 
@@ -407,7 +421,7 @@ print(p)
 
 # Save
 plot_filename <- paste0('..\\..\\5_Plots/2_Chemical_measurements/pysr/variable_importance_avg.png')
-ggsave(plot_filename, p, width = 7, height = 4)
+ggsave(plot_filename, p, width = 4, height = 4)
 ```
 
 # by chemical class
@@ -432,7 +446,7 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
 combined_dat <- left_join(combined_dat, class, by = 'chem') 
 combined_dat <- combined_dat %>%
   mutate(Chemical = ifelse(is.na(Chemical), chem, Chemical)) %>%
-  select(-chem)
+  dplyr::select(-chem)
 
 # Set order
 combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
