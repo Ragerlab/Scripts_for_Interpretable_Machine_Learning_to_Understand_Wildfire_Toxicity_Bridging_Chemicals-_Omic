@@ -44,6 +44,7 @@ test_y <- py$test_y
 train_y_pred <- py$train_y_pred
 test_y_pred <- py$test_y_pred
 test_preds_list <- py$test_preds_list
+train_preds_list <- py$train_preds_list
 
 # Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
 test_combined <- data.frame(
@@ -64,9 +65,6 @@ train_combined <- data.frame(
 # Calculate difference between actual and predicted
 test_df <- test_combined %>%
   mutate(Dif = Actual - Predicted)
-
-# Calculate normalized RMSE
-nrmse <- rmse(test_df$Actual, test_df$Predicted) / (max(test_df$Actual)- min(test_df$Actual))
 
 # Extract the rownames and modify them to contain only the part before the first '_'
 Group <- gsub("_.*", "", rownames(test_df))
@@ -93,7 +91,6 @@ test_df <- test_df %>%
 
 # Update the x-axis with the reordered factor levels
 test_df$rownames <- factor(rownames(test_df), levels = rownames(test_df))
-
 
 # Define a custom color palette for the groups
 custom_colors <- c(

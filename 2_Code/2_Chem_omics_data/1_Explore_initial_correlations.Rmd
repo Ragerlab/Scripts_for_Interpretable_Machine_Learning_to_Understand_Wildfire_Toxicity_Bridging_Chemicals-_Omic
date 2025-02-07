@@ -18,7 +18,7 @@ library(gridExtra)
 import pickle
 import pandas as pd
 
-injury_df = pd.read_pickle("C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Data_inputs/2_Chemical_measurements/injury_df")
+injury_df = pd.read_pickle("C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/3_Data_intermediates/2_Chemical_measurements/Chem_Injury_df")
 ```
 
 ```{r}
@@ -197,15 +197,15 @@ for (col in columns) {
     geom_point(color = "blue") +
     geom_smooth(method = "lm", se = FALSE, color = "red") +
     # ggtitle(paste("Injury_Protein vs", col)) +
-    labs(x = col, y = "Injury Protein") +
+    labs(x = paste0('log[', col, ']'), y = "Total Protein (TP) (mg/mL)") +
     # annotate("text", x = max(data[[col]]), y = max(data$Injury_Protein), 
     #          label = paste("R^2 =", round(r_squared, 2)), hjust = 1) +
     theme_classic() +
     theme(
-      axis.text.x = element_text(size = 14, angle = 45, hjust = 1), 
-      axis.text.y = element_text(size = 14), 
-      axis.title.x = element_text(size = 16, face = "bold"),
-      axis.title.y = element_text(size =16, face = "bold"), 
+      axis.text.x = element_text(size = 8, hjust = 1), 
+      axis.text.y = element_text(size = 8), 
+      axis.title.x = element_text(size = 10, face = "bold"),
+      axis.title.y = element_text(size =10, face = "bold"), 
       legend.position = "bottom"
     ) 
   
@@ -214,7 +214,7 @@ for (col in columns) {
 }
 
 # Save plots to a PDF file
-pdf("C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\images\\2_Chemical_measurements\\Data_distributions\\scatter_plots.pdf", width = 11, height = 8.5)
+pdf("C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\5_Plots\\2_Chemical_measurements\\Data_distributions\\scatter_plots.pdf", width = 11, height = 8.5)
 for (i in seq(1, length(plot_list), by = 6)) {
   do.call(grid.arrange, c(plot_list[i:min(i+5, length(plot_list))], ncol = 2))
 }

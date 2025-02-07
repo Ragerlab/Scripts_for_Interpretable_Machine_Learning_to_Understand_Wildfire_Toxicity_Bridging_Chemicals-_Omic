@@ -56,7 +56,6 @@ for i in range(len(datasets)):
     plt.ylabel('Variance Explained (%)')
     plt.xticks(np.arange(1, len(pca.explained_variance_ratio_) + 1))
     plt.grid(True)
-    plt.show()
     plt.savefig(f'{output_dir}/scree_plot.png')
     plt.close()
 

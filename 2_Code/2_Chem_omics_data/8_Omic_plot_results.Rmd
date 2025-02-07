@@ -17,7 +17,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("3_Data_intermediates/3_Omic_measurements/Omic_train_y")
@@ -47,7 +47,7 @@ test_preds_list <- py$test_preds_list
 
 # Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
 test_combined <- data.frame(
-  Predicted = test_preds_list[[3]][9, 'Predictions'][[1]],
+  Predicted = test_preds_list[[3]][6, 'Predictions'][[1]],
   Actual = test_y
 )
 
@@ -126,27 +126,31 @@ p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
   scale_fill_manual(values = custom_colors) +
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))   # Adjust legend to have three rows
 
-# ggsave('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p, width = 7, height = 4)
+# ggsave('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/prediction_spread.png',p, width = 7, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
 p_bar <- ggplot(test_df, aes(x = test_df$rownames, y = Actual, fill = Group)) +
-  geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
+ geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
+  labs(x = "Individual", y = "Total Protein (TP) (mg/mL)") +
   geom_point(aes(y = Predicted), color = "red", size = 5, shape = 95) +  # Red dash for 'Predicted'
-  labs(x = "Individual", y = "Measured Injury Protein (mg/mL)") +
   theme_classic() +
   theme(
     axis.text.x = element_blank(),  # Remove x-axis text labels
-    axis.title.x = element_text(size = 12, face = "bold"),
-    axis.title.y = element_text(size = 12, face = "bold"),
-    legend.title=element_blank(),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_text(size = 10, face = "bold"),  # Ensure the title appears
     legend.text = element_text(size = 8),
-    legend.position = "bottom"
+    legend.position = "bottom", 
+    legend.spacing.y = unit(0.2, "cm"),
+    legend.justification = c(0, 0), # Moves the legend to the left
+    legend.box.just = "left"        # Aligns the legend within the box
   ) +
-  scale_y_continuous(expand = c(0,0)) +
-  scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
-  guides(fill = guide_legend(nrow = 4, byrow = TRUE))  # Adjust legend to have three rows
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/Prediction_vs_actual_all.png')
-ggsave(plot_filename, p_bar, width = 4, height = 4)
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_fill_manual(values = custom_colors) +
+  guides(fill = guide_legend(title = "Exposure Group", nrow = 2))  # Ensure the legend title appears
+ # Adjust legend to have three rows
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/Prediction_vs_actual_all.png')
+ggsave(plot_filename, p_bar, width = 8, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
 p_bar_two <- ggplot(test_df, aes(x = test_df$rownames, y = Dif, fill = Group)) +
@@ -165,7 +169,7 @@ p_bar_two <- ggplot(test_df, aes(x = test_df$rownames, y = Dif, fill = Group)) +
   scale_fill_manual(values = custom_colors) +  # Apply the custom color palette
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))  # Adjust legend to have three rows
 # Save the plot
-plot_filename_scatter <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Actual_vs_Predicted_difference.png')
+plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/Actual_vs_Predicted_difference.png')
 ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 
 
@@ -174,28 +178,46 @@ ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 # Sensitivity Analysis
 ```{r}
 # Load in data
-dat <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr_RMSE_sensitivity.csv')
+dat_DEG <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\pysr_RMSE_sensitivity_DEG.csv')
+dat_Lasso <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\pysr_RMSE_sensitivity_Elastic.csv')
+dat_PCA <-  read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\pysr\\pysr_RMSE_sensitivity_PCA.csv')
 
-# convert complexity to factor
-dat$Complexity <- as.factor(dat$Complexity)
+# Put in list
+dat_list <- list(dat_DEG, dat_Lasso, dat_PCA)
+names(dat_list) <- c('DEGs', 'Lasso', 'PCA')
 
+# Combine and add a column for the dataset name
+dat_all <- bind_rows(
+  lapply(names(dat_list), function(name) {
+    dat_list[[name]] %>%
+      mutate(Dataset = name)
+  })
+)
+
+# Make complexity a factor
+dat_all$Complexity <- as.factor(dat_all$Complexity)
+
+# Iterate through tests and create plots
 # Plot
-p <- ggplot(dat, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
-  geom_point() +
-  theme_classic() + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(legend.position = "none") +
-  theme(
-    axis.text.x = element_text(size = 14),  
-    axis.text.y = element_text(size = 14),  
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold")
-  ) +
-  guides(color = guide_legend(nrow = 2)) 
+p <- ggplot(dat_all, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
+    geom_point() +
+    theme_classic() + 
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    # theme(legend.position="bottom") +
+    guides(color = guide_legend(ncol = 2)) +
+    theme(
+      axis.text.x = element_text(size = 8), 
+      axis.text.y = element_text(size = 8), 
+      axis.title.x = element_text(size = 10, face = "bold"),
+      axis.title.y = element_text(size =10, face = "bold")
+    ) +
+    facet_grid(. ~ Dataset, scales = "free_x", space = "free") 
 
-# Save
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/sensitivity.png')
-ggsave(plot_filename, p, width = 4, height = 4)
+  
+  # Save
+  plot_filename <- 'C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/pysr/sensitivity.png'
+  ggsave(plot_filename, p, width = 8, height = 4)
+
 ```
 
 # Plot pathways
@@ -396,20 +418,20 @@ combined_dat <- combined_dat %>%
   filter(dataset == 'Elastic')
 
 # Plot
-p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, dataset), y = var_importance, fill = Association)) +
+p <- ggplot(combined_dat, aes(x = reorder_within(Gene_Symbol, -var_importance, dataset), y = var_importance)) +
   geom_bar(stat = "identity") +
-  labs(x = "Gene Symbol", y = "Directional importance") +
-  scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
+  labs(x = "Gene Symbol", y = "DECS") +
   scale_x_reordered() +  # Clean up x-axis labels
   theme_classic() +
   theme(
     axis.text.x = element_text(size = 10, angle = 45, hjust = 1, face = "italic"), # Italicize x-axis labels
-    axis.title.x = element_text(size = 12, face = "bold"),
-    axis.title.y = element_text(size = 12, face = "bold"),
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 8),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 10),
     legend.position = "bottom"
-  )
+  ) + 
+  scale_y_continuous(breaks = c(-0.25, 0, 0.25, 0.5,  0.75, 1))  # Set custom y-axis breaks
 
 
 # Print the combined plot
@@ -417,7 +439,7 @@ print(p)
 
 # # Save
 plot_filename <- paste0('..\\..\\5_Plots\\3_Omic_measurements/variable_importance_all.png')
-# ggsave(plot_filename, p, width = 3.8, height = 4)
+ggsave(plot_filename, p, width = 4, height = 4)
 
 ```
 
@@ -430,14 +452,15 @@ df_long <- df %>%
   pivot_longer(cols = c(Train.RMSE, Test.RMSE), 
                names_to = "Type", 
                values_to = "RMSE") %>%
-  filter(HOF.equation > 2)
+  filter(HOF.equation > 2) %>%
+  mutate(Type = ifelse(Type == 'Train.RMSE', 'Train RMSE', 'Test RMSE'))
 
 
 # Create the plot
 p <- ggplot(df_long, aes(x = HOF.equation, y = RMSE, color = Type, group = Type)) +
-  geom_line(size = 1.2) + 
-  geom_point(size = 3) +
-  scale_color_manual(values = c("Train.RMSE" = "#1f77b4", "Test.RMSE" = "#ff7f0e")) + # Better colors
+  geom_line(size = 1) + 
+  geom_point(size = 2) +
+  scale_color_manual(values = c("Train RMSE" = "grey", "Test RMSE" = "black")) + 
   theme_classic() +
   labs(
     x = "HOF Equation",
@@ -445,14 +468,14 @@ p <- ggplot(df_long, aes(x = HOF.equation, y = RMSE, color = Type, group = Type)
     color = "Type"
   ) +
   theme(
-    axis.text.x = element_text(size = 10, angle = 0, hjust = 1),
-    axis.title.x = element_text(size = 12, face = "bold"),
-    axis.title.y = element_text(size = 12, face = "bold"),
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    axis.text.x = element_text(size = 8),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 8),
     legend.position = "bottom"
   ) +
-  scale_x_discrete(limits = unique(df_long$HOF.equation)) # Ensure all x-axis ticks are labeled
+  scale_x_discrete(limits = unique(df_long$HOF.equation))
 
 # Save
 plot_filename <- paste0('..\\..\\5_Plots/3_Omic_measurements/pysr/RMSE_by_HOF.png')
@@ -461,7 +484,7 @@ ggsave(plot_filename, p, width = 4, height = 4)
 
 # RF importance
 ```{r}
-dat <- read.csv('..\\..\\4_Model_results\\3_Omic_measurements\\rf\\rf_var_importance.csv')
+dat <- read.csv('..\\..\\3_Data_intermediates\\3_Omic_measurements\\rf_variable_importance_Elastic.csv')
 
 # Apply to biospyder IDs
 colnames(degs)[1] <- 'Feature'
@@ -480,19 +503,19 @@ dat_full <- dat_clean %>%
 # Plot
 p <- ggplot(dat_full, aes(x = reorder(Feature, -Importance), y = Importance)) +
   geom_bar(stat = "identity") +
-  labs(x = "Gene", y = "Importance") +
+  labs(x = "Gene", y = "Importance (MDI)") +
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
-    axis.title.x = element_text(size = 12, face = "bold"),
-    axis.title.y = element_text(size = 12, face = "bold"),
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    axis.text.x = element_text(size = 8, angle = 45, hjust = 1, face = "italic"),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 8),
     legend.position = "bottom"
   ) +
   scale_y_continuous(expand = c(0, 0)) 
 # Save
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/rf/variable_importance_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/rf/variable_importance_all.png')
 ggsave(plot_filename, p, width = 4, height = 4)
 ```
  

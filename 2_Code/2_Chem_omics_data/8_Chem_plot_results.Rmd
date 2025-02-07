@@ -133,14 +133,14 @@ plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carol
 
 p <- ggplot(test_df, aes(x = test_df$rownames, y = Actual, fill = Group)) +
   geom_bar(stat = "identity", alpha = 0.7) +  # Bars for 'Actual'
-  labs(x = "Individual", y = "Measured Injury Protein (mg/mL)") +
+  labs(x = "Individual", y = "Total Protein (TP) (mg/mL)") +
   geom_point(aes(y = Predicted), color = "red", size = 5, shape = 95) +  # Red dash for 'Predicted'
   theme_classic() +
   theme(
     axis.text.x = element_blank(),  # Remove x-axis text labels
     axis.title.x = element_text(size = 10, face = "bold"),
     axis.title.y = element_text(size = 10, face = "bold"),
-    legend.title = element_blank(),
+    legend.title = element_text(size = 10, face = "bold"),  # Ensure the title appears
     legend.text = element_text(size = 8),
     legend.position = "bottom", 
     legend.spacing.y = unit(0.2, "cm"),
@@ -149,10 +149,11 @@ p <- ggplot(test_df, aes(x = test_df$rownames, y = Actual, fill = Group)) +
   ) +
   scale_y_continuous(expand = c(0, 0)) +
   scale_fill_manual(values = custom_colors) +
-  guides(fill = guide_legend(nrow = 4))
+  guides(fill = guide_legend(title = "Exposure Group", nrow = 2))  # Ensure the legend title appears
+
 
 plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
-ggsave(plot_filename, p, width = 4, height = 4)
+ggsave(plot_filename, p, width = 8, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
 p_bar_two <- ggplot(test_df, aes(x = test_df$rownames, y = Dif, fill = Group)) +
@@ -218,30 +219,26 @@ dat_all <- bind_rows(
 dat_all$Complexity <- as.factor(dat_all$Complexity)
 
 # Iterate through tests and create plots
-tests <- unique(dat_all$Dataset)
-for(i in 1:length(tests)){
-  temp <- dat_all %>%
-    filter(Dataset == tests[i])
-  
-  # Plot
-  p <- ggplot(temp, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
+# Plot
+p <- ggplot(dat_all, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
     geom_point() +
     theme_classic() + 
-    ggtitle(tests[i]) +
     theme(plot.title = element_text(hjust = 0.5)) + 
-    # theme(legend.position="bottom") + 
+    # theme(legend.position="bottom") +
     guides(color = guide_legend(ncol = 2)) +
     theme(
-      axis.text.x = element_text(size = 14), 
-      axis.text.y = element_text(size = 14), 
-      axis.title.x = element_text(size = 16, face = "bold"),
-      axis.title.y = element_text(size =16, face = "bold")
-    )
+      axis.text.x = element_text(size = 8), 
+      axis.text.y = element_text(size = 8), 
+      axis.title.x = element_text(size = 10, face = "bold"),
+      axis.title.y = element_text(size =10, face = "bold")
+    ) +
+    facet_grid(. ~ Dataset, scales = "free_x", space = "free") 
+
   
   # Save
-  plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/sensitivity', tests[i], '.png')
+  plot_filename <- 'C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/sensitivity.png'
   ggsave(plot_filename, p, width = 8, height = 4)
-}
+
 
 
 ```
@@ -400,16 +397,18 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, data
   scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
     axis.title.x = element_blank(),  # Remove x-axis title
-    axis.title.y = element_text(size = 12, face = "bold"),
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 8),
     legend.position = "bottom"
   ) +
-  guides(fill = guide_legend(nrow = 2, title = "Chemical Class",
+  guides(fill = guide_legend(nrow = 1, title = "Chemical Class",
                              title.position = "top",
                              byrow = TRUE,
+                             keywidth = 0.5,
+                             keyheight = 0.5,
                              override.aes = list(
                                label = c("Chemical Class", "", "", "", "")
                              )))
@@ -549,14 +548,15 @@ df_long <- df %>%
   pivot_longer(cols = c(Train.RMSE, Test.RMSE), 
                names_to = "Type", 
                values_to = "RMSE") %>%
-  filter(HOF.equation > 2)
+  filter(HOF.equation > 2) %>%
+  mutate(Type = ifelse(Type == 'Train.RMSE', 'Train RMSE', 'Test RMSE'))
 
 
 # Create the plot
 p <- ggplot(df_long, aes(x = HOF.equation, y = RMSE, color = Type, group = Type)) +
-  geom_line(size = 1.2) + 
-  geom_point(size = 3) +
-  scale_color_manual(values = c("Train.RMSE" = "#1f77b4", "Test.RMSE" = "#ff7f0e")) + # Better colors
+  geom_line(size = 1) + 
+  geom_point(size = 2) +
+  scale_color_manual(values = c("Train RMSE" = "grey", "Test RMSE" = "black")) + 
   theme_classic() +
   labs(
     x = "HOF Equation",
@@ -564,11 +564,11 @@ p <- ggplot(df_long, aes(x = HOF.equation, y = RMSE, color = Type, group = Type)
     color = "Type"
   ) +
   theme(
-    axis.text.x = element_text(size = 10, angle = 0, hjust = 1),
-    axis.title.x = element_text(size = 12, face = "bold"),
-    axis.title.y = element_text(size = 12, face = "bold"),
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
+    axis.text.x = element_text(size = 8, angle = 0, hjust = 1),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 8),
     legend.position = "bottom"
   ) +
   scale_x_discrete(limits = unique(df_long$HOF.equation)) # Ensure all x-axis ticks are labeled
@@ -623,11 +623,11 @@ p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = 
   labs(x = "Chem", y = "Importance (MDI)") +
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 14, angle = 45, hjust = 1),
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold"),
-    legend.title = element_text(size = 16, face = "bold"),
-    legend.text = element_text(size = 14),
+    axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 8),
     legend.position = "bottom"
   ) +
   # facet_grid(. ~ Dataset, scales = "free_x", space = "free") +
@@ -635,10 +635,18 @@ p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = 
   scale_y_continuous(expand = c(0, 0)) +  # This removes the padding between bars and the x-axis
   labs(x = 'Chemical') + 
   scale_fill_manual(values = new_palette) +
-  guides(fill=guide_legend(title="Chemical Class"))
+  guides(fill = guide_legend(nrow = 1, title = "Chemical Class",
+                             title.position = "top",
+                             byrow = TRUE,
+                             keywidth = 0.5,
+                             keyheight = 0.5,
+                             override.aes = list(
+                               label = c("Chemical Class", "", "", "", "")
+                             )))
+
 
 # Save
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/rf/variable_importance_all.png')
-ggsave(plot_filename, p, width = 7, height = 4)
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/rf/variable_importance_all.png')
+ggsave(plot_filename, p, width = 4, height = 4)
 ```
 

@@ -32,7 +32,7 @@ datasets = [
         "test_y": "3_Data_intermediates/3_Omic_measurements/Omic_test_y",
         "train_input_dict": "3_Data_intermediates/3_Omic_measurements/train_input_dict.pkl",
         "test_input_dict": "3_Data_intermediates/3_Omic_measurements/test_input_dict.pkl",
-        "iterations": 1500
+        "iterations": 3000
     },     {   
         "prefix": "Combined",
         "path": "4_ChemOmics_measurements",
@@ -134,8 +134,7 @@ for i in range(len(datasets)):
         start_time = time.time()
 
         # Run specified iterations
-        # for k in range(dataset["iterations"]):
-        for k in range(0, 5000):
+        for k in range(dataset["iterations"]):
 
             print(f"Iteration {k + 1} for {key}")
 
@@ -191,9 +190,7 @@ for i in range(len(datasets)):
         plt.legend()
         plt.grid()
         plt.tight_layout()
-        plt.show()
         # plt.savefig(f'5_Plots/{dataset["path"]}/pysr/rmse_by_model_{key}.png')
-        plt.show()
 
         # Save RMSE values
         pd.DataFrame({
@@ -217,4 +214,3 @@ for i in range(len(datasets)):
     results_path = f'4_Model_results/{dataset["path"]}/pysr'
     os.makedirs(results_path, exist_ok=True)
     results_pysr_df.to_csv(f'{results_path}/pysr_model_comparison.csv', index=False)
-

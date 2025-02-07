@@ -4,59 +4,65 @@ import pandas as pd
 import numpy as np
 import pickle
 import time
-from sklearn.metrics import root_mean_squared_error
+import os
 import re
-from feyn.plots import plot_regression
-from feyn.plots import plot_residuals
+from sklearn.metrics import root_mean_squared_error
+from feyn.plots import plot_regression, plot_residuals
 import matplotlib.pyplot as plt
 
-# Set seed
-np.random.seed(17)
+# Set working directory
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
-# Load in input dictionaries and response variables
-with open('Data_inputs/2_Chemical_measurements/train_input_dict.pkl', 'rb') as f:
-    train_input_dict = pickle.load(f)    
-with open('Data_inputs/2_Chemical_measurements/test_input_dict.pkl', 'rb') as f:
-    test_input_dict = pickle.load(f)    
-train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
-test_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_y")
+# Define dataset paths
+datasets = [
+    {
+        "prefix": "Chem",
+        "path": "2_Chemical_measurements",
+        "train_y": "3_Data_intermediates/2_Chemical_measurements/Chem_train_y",
+        "test_y": "3_Data_intermediates/2_Chemical_measurements/Chem_test_y",
+        "train_input_dict": "3_Data_intermediates/2_Chemical_measurements/train_input_dict.pkl",
+        "test_input_dict": "3_Data_intermediates/2_Chemical_measurements/test_input_dict.pkl",
+        "iterations": 1000
+    },
+    {
+        "prefix": "Omic",
+        "path": "3_Omic_measurements",
+        "train_y": "3_Data_intermediates/3_Omic_measurements/Omic_train_y",
+        "test_y": "3_Data_intermediates/3_Omic_measurements/Omic_test_y",
+        "train_input_dict": "3_Data_intermediates/3_Omic_measurements/train_input_dict.pkl",
+        "test_input_dict": "3_Data_intermediates/3_Omic_measurements/test_input_dict.pkl",
+        "iterations": 3000
+    }
+]
 
-
-# Run SRA using pysr
-# Define function to clean up names for pysr
+# Function to clean column names for PySR
 def clean_column_names(df):
     new_columns = []
     for col in df.columns:
-        if col == 'S':
-            new_columns.append('Sulphur')
-        elif col == 'Si':
-            new_columns.append('Silicon')
-        else:
-            cleaned_col = re.sub(r'\W+', '', col)
-            cleaned_col = re.sub(r'([a-zA-Z])(\d)', r'\1_\2', cleaned_col)
-            cleaned_col = re.sub(r'(\d)([a-zA-Z])', r'\1_\2', cleaned_col)
-            if cleaned_col[0].isdigit():
-                cleaned_col = 'var' + cleaned_col
-            new_columns.append(cleaned_col)
+        cleaned_col = re.sub(r'\W+', '', col)
+        cleaned_col = re.sub(r'([a-zA-Z])(\d)', r'\1_\2', cleaned_col)
+        cleaned_col = re.sub(r'(\d)([a-zA-Z])', r'\1_\2', cleaned_col)
+        if cleaned_col in ['S', 'Si']:
+            cleaned_col += "_var"
+        if cleaned_col[0].isdigit():
+            cleaned_col = 'var' + cleaned_col
+        new_columns.append(cleaned_col)
     df.columns = new_columns
     return df
 
+# Update function to check and replace problematic names
+def assert_valid_sympy_symbol(var_name):
+    invalid_names = {'S', 'Si'}
+    if var_name in invalid_names:
+        return var_name + "_var"
+    return var_name
 
-# Function to extract column names from a lambda_format equation
+# Update extract_variables function to apply name correction
 def extract_variables(equation):
-    # Define the pattern to match variable names, including underscores
     pattern = r'\b[A-Za-z_][A-Za-z0-9_]*\b'
-    
-    # Find all matches of the pattern in the equation
     matches = re.findall(pattern, equation)
-    
-    # Filter out common keywords that are not variable names
     keywords = {'X', 'PySRFunction', 'X=>'}
-    
-    # Remove duplicates and filter keywords
-    variables = list({match for match in matches if match not in keywords})
-    
-    return variables
+    return [assert_valid_sympy_symbol(match) for match in matches if match not in keywords]
 
 # Function to evaluate lambda_format equation
 def evaluate_equation(equation, df):
@@ -78,159 +84,71 @@ def evaluate_equation(equation, df):
     
     return y_pred
 
-# Clean names
-train_clean = {key: clean_column_names(df) for key, df in train_input_dict.items()}
-test_clean = {key: clean_column_names(df) for key, df in test_input_dict.items()}
-
-# Initialize a DataFrame to store results
-results_pysr_df = pd.DataFrame(columns=["Training RMSE", "Test RMSE"])
-
-# Define keys for loop
-keys = list(train_clean.keys())
-
-# Iterate through relevant inputs
-for i in range(len(train_clean)):
-    # Subset to relevant input
-    key = keys[i]
-    df_train = train_clean[key]
-    df_test = test_clean[key]
-
-    # Define parameters - https://astroautomata.com/PySR/api/
-    default_pysr_params = dict(
-        populations = 15, # default number
-        population_size = 33, #default number
-        model_selection = "best",
-        parsimony = 0.0032 # Multiplicative factor for how much to punish complexity - default value
-    )
-
-    # Define loss function - note triple quotes in julia allows line breaks 
-    loss_function = """
-    function f(tree, dataset::Dataset{T,L}, options) where {T,L}
-        ypred, completed = eval_tree_array(tree, dataset.X, options)
-        if !completed
-            return L(Inf)
-        end
-        y = dataset.y
-        return sqrt( (1 / length(y)) * sum(i -> (ypred[i] - y[i])^2, eachindex(y)))
-    end
-    """
-    # Set up model 
-    discovered_model = pysr.PySRRegressor(
-        niterations=1,  
-        binary_operators=["-", "+", "*", "/", "^"],
-        loss_function=loss_function,
-        **default_pysr_params,
-        temp_equation_file=True,
-        warm_start=True,  # Continue training from where the last iteration left off
-        random_state=17, 
-        deterministic=True, 
-        procs=0, 
-        constraints={'^': (1, 1), 
-                     '/': (-1, 2)},
-        complexity_of_variables=2
-    )
-
-
-    # - https://github.com/MilesCranmer/PySR/discussions/439#discussioncomment-7330778
-    # Initialize a DataFrame to store results
-    results_rmse = pd.DataFrame(columns=["Iteration", "RMSE", "Complexity", "Equation"])
-
-    # Iterate through generations
-    for j in range(500):
-
-        # Fit model
-        discovered_model.fit(df_train.values, 
-                        train_y.values,
-                        variable_names=df_train.columns.tolist()
-                        ) 
+# Loop through datasets
+for dataset in datasets:
+    print(f"Processing {dataset['prefix']} dataset...")
+    
+    # Load data
+    train_y = pd.read_pickle(dataset['train_y'])
+    test_y = pd.read_pickle(dataset['test_y'])
+    with open(dataset['train_input_dict'], 'rb') as f:
+        train_input_dict = pickle.load(f)
+    with open(dataset['test_input_dict'], 'rb') as f:
+        test_input_dict = pickle.load(f)
+    
+    # Clean names for PySR
+    train_clean = {key: clean_column_names(df) for key, df in train_input_dict.items()}
+    test_clean = {key: clean_column_names(df) for key, df in test_input_dict.items()}
+    
+    output_data_path = f'3_Data_intermediates/{dataset["path"]}'
+    os.makedirs(output_data_path, exist_ok=True)
+    
+    results_pysr_df = pd.DataFrame(columns=["Input", "Training RMSE", "Test RMSE", "Time Taken"])
+    
+    for key, df_train in train_clean.items():
+        df_test = test_clean[key]
         
-        # Extract equations
-        equations = discovered_model.equations_
-    
-        # Evaluate RMSE for each equation
-        for k in range(len(equations)):
-            # Filter to the kth equation
-            cur_eq = equations.iloc[k]['lambda_format']
+        default_pysr_params = dict(
+            populations=15,
+            population_size=33,
+            model_selection="best",
+            parsimony=0.0032
+        )
 
-            # Note complexity
-            comp = equations.iloc[k]['complexity']
+        discovered_model = pysr.PySRRegressor(
+            niterations=1,
+            binary_operators=["-", "+", "*", "/", "^"],
+            **default_pysr_params,
+            temp_equation_file=True,
+            warm_start=True,
+            random_state=17,
+            deterministic=True,
+            procs=0,
+            constraints={'^': (1, 1), '/': (-1, 2)},
+            complexity_of_variables=2
+        )
+        
+        results_rmse = pd.DataFrame(columns=["Iteration", "RMSE", "Complexity", "Equation"])
+        for j in range(dataset['iterations']):
+            discovered_model.fit(df_train.values, train_y.values, variable_names=df_train.columns.tolist())
+            equations = discovered_model.equations_
+                        
+            for k in range(len(equations)):
+                cur_eq = equations.iloc[k]['lambda_format']
+                comp = equations.iloc[k]['complexity']
+                cols = extract_variables(str(cur_eq))
+                df_subset = df_train[cols]
+                df_subset = df_subset.loc[:, ~df_subset.columns.duplicated()]
+                y_pred = evaluate_equation(str(cur_eq), df_subset)
+                rmse = root_mean_squared_error(y_pred, train_y)
+                
+                results_rmse = results_rmse._append({
+                    "Iteration": j + 1,
+                    "RMSE": rmse,
+                    "Complexity": comp,
+                    "Equation": str(cur_eq)
+                }, ignore_index=True)
             
-            # Subset training data to only retain the variables in the kth equation 
-            cur_eq_str = str(cur_eq)
-            cols = extract_variables(cur_eq_str)
-            df_subset = df_train[cols]
-
-            # Predict the outcome
-            y_pred = evaluate_equation(cur_eq_str, df_subset)
-
-            # Calculate RMSE
-            rmse = root_mean_squared_error(y_pred, train_y)
-
-            # Update results
-            results_rmse = results_rmse._append({
-                "Iteration": j + 1,
-                "RMSE": rmse,
-                "Complexity": comp,
-                "Equation": cur_eq_str
-            }, ignore_index=True)
-
-    # Save the complete plot with all iterations
-    results_rmse['RMSE'] = np.log(results_rmse['RMSE'])
-    plt.figure()
-    for comp in results_rmse['Complexity'].unique():
-        subset = results_rmse[results_rmse['Complexity'] == comp]
-        plt.plot(subset['Iteration'], subset['RMSE'], marker='.', linestyle='', label=f'Complexity {comp}')
-
-    plt.xlabel('Iteration')
-    plt.ylabel('log(RMSE)')
-    plt.title(f'{key} - RMSE Sensitivity')
-    plt.legend()
-    plt.savefig(f'images/2_Chemical_measurements/pysr/pysr_rmse_sensitivity_{key}_complete.png')
-
-    # Save RMSE results to csv
-    file_name = f'Models/2_Chemical_measurements/pysr/pysr_RMSE_sensitivity_{key}.csv'
-    results_rmse.to_csv(file_name, index=False)
-
-    # Get top 10 models
-    equations = discovered_model.equations_
-    df_equations = pd.DataFrame(equations) # Convert the equations to a DataFrame
-
-    # Save the DataFrame to a CSV file
-    file_name = f'Models/2_Chemical_measurements/pysr/pysr_HOF_{keys[i]}.csv'
-    df_equations.to_csv(file_name, index=False)
+        results_rmse.to_csv(f'4_Model_results/{dataset["path"]}/pysr/pysr_RMSE_sensitivity_{key}.csv', index=False)
     
-    # Pysr Train RMSE 
-    y_train = discovered_model.predict(df_train.values)
-    train_pysr_rmse = root_mean_squared_error(train_y, y_train)
-    print(f"Training RMSE: {train_pysr_rmse:.2f}")
 
-    # Plot training residuals
-    file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_train_{keys[i]}'
-    plot_residuals(train_y, y_train, filename=file_name)
-
-    # Plot training regression plot
-    file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_train_{keys[i]}'
-    plot_regression(train_y, y_train, filename=file_name)
-
-    # Pysr Test RMSE 
-    ypredict = discovered_model.predict(df_test.values)
-    test_pysr_rmse = root_mean_squared_error(test_y, ypredict)
-    print(f"Testing RMSE: {test_pysr_rmse:.2f}")
-
-    # Plot testing residuals
-    file_name = f'images/2_Chemical_measurements/pysr/pysr_residuals_test_{keys[i]}'
-    plot_residuals(test_y, ypredict, filename=file_name)
-
-    # Plot testing regression plot
-    file_name = f'images/2_Chemical_measurements/pysr/pysr_regression_test_{keys[i]}'
-    plot_regression(test_y, ypredict, filename=file_name)
-
-    # Store results in DataFrame
-    results_pysr_df.loc[key] = [train_pysr_rmse, test_pysr_rmse]
-    
-# Print final results  
-results_pysr_df
-
-# Save model comparisons to csv
-file_name = f'Models/2_Chemical_measurements/pysr/pysr_model_comparison.csv'
-results_pysr_df.to_csv(file_name, index=False)

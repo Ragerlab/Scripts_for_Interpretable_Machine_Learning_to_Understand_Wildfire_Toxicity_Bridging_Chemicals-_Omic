@@ -156,8 +156,14 @@ for(i in 1:length(tests)){
     geom_point() +
     theme_classic() + 
     ggtitle(tests[i]) +
-    theme(plot.title = element_text(hjust = 0.5))  # Center the title
-  
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme(
+      axis.text.x = element_text(size = 8), 
+      axis.text.y = element_text(size = 8), 
+      axis.title.x = element_text(size = 10, face = "bold"),
+      axis.title.y = element_text(size =10, face = "bold")
+    ) 
+
   # Add plot to the list
   plot_list[[i]] <- p
 }
