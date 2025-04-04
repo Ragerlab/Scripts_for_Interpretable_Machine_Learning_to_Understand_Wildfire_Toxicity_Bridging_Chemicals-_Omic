@@ -1,0 +1,11 @@
+Equation
+"mul(mul(var2, add(add(var6, var6), var6)), add(add(var6, var6), var6))"
+"mul(mul(var2, add(add(var6, var6), var6)), add(add(var6, var6), var6))"
+"mul(mul(var2, add(add(var6, var6), var6)), add(add(var6, var6), var6))"
+"mul(mul(var2, add(add(var6, var6), var6)), add(add(var6, var6), var6))"
+"mul(add(add(var6, var6), var6), add(add(var6, var6), var6))"
+"mul(add(add(var6, var6), var6), add(add(var6, var6), var6))"
+"mul(add(add(var6, var6), var6), add(add(var6, var6), var6))"
+"mul(add(add(var6, var6), var6), add(add(var6, var6), var6))"
+"mul(var2, add(add(var6, var6), mul(var2, add(add(var6, var6), var6))))"
+"mul(var2, add(mul(var2, add(add(var6, var6), var6)), var6))"

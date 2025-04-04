@@ -1,0 +1,11 @@
+Equation
+"add(add(var6, add(var6, var6)), add(add(var3, add(add(add(var6, add(var3, add(var6, add(var6, var6)))), add(add(var6, add(var6, add(var6, var6))), add(var6, var6))), add(var6, var6))), add(var6, add(var6, var6))))"
+"sub(var10, var15)"
+"add(add(var6, add(add(var6, add(var6, var6)), add(add(add(var6, var6), add(add(var6, add(var6, var6)), var6)), add(var6, var6)))), add(add(add(var6, var6), add(add(var6, add(var6, var6)), var6)), add(var6, var6)))"
+"add(add(var6, add(var3, add(var6, add(var6, add(add(var6, var6), add(add(add(var3, var6), var6), add(add(add(var6, var6), var6), add(var6, var6)))))))), add(add(var6, add(var6, add(var6, var6))), add(var6, var6)))"
+"add(add(var6, var6), add(var6, add(add(var6, var6), add(var3, add(add(add(add(var6, var6), add(var6, var6)), add(add(var3, add(var6, var6)), add(var6, add(add(var6, var6), var6)))), add(var6, add(var6, add(var6, var6))))))))"
+"add(add(var6, var6), add(add(sub(var14, var1), add(var14, var11)), var3))"
+"add(add(var6, var6), add(add(add(add(var6, add(var3, add(var6, add(var6, var6)))), add(add(var6, add(var6, var6)), add(var6, var6))), add(var6, add(var3, var6))), add(add(var6, add(var6, var6)), var6)))"
+"sub(add(var6, add(var3, add(var6, add(var6, var6)))), add(var6, add(var3, var6)))"
+"add(var6, add(add(var6, var6), add(add(var3, add(var6, add(var6, add(var6, var6)))), add(add(var6, add(var3, add(var6, var6))), add(add(add(var6, var6), var6), add(var6, add(var6, add(var6, var6))))))))"
+"add(add(var6, add(var3, add(var6, add(add(var3, add(var6, add(var6, add(var6, var6)))), add(var3, add(var6, add(var6, var6))))))), add(add(var6, add(var6, var6)), add(add(var6, var6), var6)))"

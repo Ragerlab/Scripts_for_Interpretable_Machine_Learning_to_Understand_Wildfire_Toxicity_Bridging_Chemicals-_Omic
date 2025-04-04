@@ -1,0 +1,113 @@
+---
+title: "Regression_predictions"
+output: html_document
+date: "2024-11-19"
+---
+
+# Libraries
+```{r}
+library(tidyverse)
+library(reticulate)
+library(glmnet)
+repl_python()
+```
+
+
+```{python}
+# libraries 
+import pickle
+import pandas as pd
+import os
+
+# Set working directory
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+
+# Full input
+train_x = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_x")
+train_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/train_y")
+test_x = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_x")
+test_y = pd.read_pickle("Data_inputs/2_Chemical_measurements/test_y")
+
+# Combine train_x and train_y for R usage
+train_data = train_x.copy()
+train_data['target'] = train_y
+
+# Combine test_x and test_y for R usage
+test_data = test_x.copy()
+test_data['target'] = test_y
+```
+
+# Run linear model
+```{r}
+# Convert to R variables
+x_train <- py$train_x
+y_train <- py$train_y %>%
+  as.vector()
+x_test <- py$test_x
+y_test <- py$test_y %>%
+  as.vector()
+
+# Fit a Lasso regression model
+lasso_model <- cv.glmnet(as.matrix(x_train), y_train, alpha = 1)
+
+# Extract the best lambda (penalty term)
+best_lambda <- lasso_model$lambda.min
+
+# Refit the model using the best lambda
+final_model <- glmnet(x_train, y_train, alpha = 1, lambda = best_lambda)
+
+# Extract beta coefficients
+beta_coefficients <- as.matrix(coef(final_model))
+coefficients_df <- data.frame(Variable = rownames(beta_coefficients), Beta = beta_coefficients[, 1]) %>%
+  filter(Beta != 0 & Variable != '(Intercept)')
+
+# Plot beta coefficients
+p <- ggplot(coefficients_df, aes(x = reorder(Variable, Beta), y = Beta)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  coord_flip() +
+  labs(title = "Beta Coefficients from Lasso Regression", x = "Variable", y = "Beta Coefficient") +
+  theme_minimal()
+
+# Predict on the test data
+predictions <- predict(final_model, s = best_lambda, newx = as.matrix(x_test))
+
+# Calculate RMSE
+rmse <- sqrt(mean((predictions - y_test)^2))
+print(paste("Root Mean Square Error (RMSE):", round(rmse, 2)))
+
+# Fit an Elastic Net regression model
+# Set alpha to a value between 0 and 1 (e.g., 0.5 for equal L1 and L2 penalties)
+elastic_net_model <- cv.glmnet(as.matrix(x_train), y_train, alpha = 0.5)
+
+# Extract the best lambda (penalty term)
+best_lambda <- elastic_net_model$lambda.min
+
+# Refit the model using the best lambda
+final_model <- glmnet(as.matrix(x_train), y_train, alpha = 0.5, lambda = best_lambda)
+
+# Extract beta coefficients
+beta_coefficients <- as.matrix(coef(final_model))
+coefficients_df <- data.frame(
+  Variable = rownames(beta_coefficients),
+  Beta = beta_coefficients[, 1]
+) %>%
+  filter(Beta != 0 & Variable != '(Intercept)')
+
+# Plot beta coefficients
+p2<- ggplot(coefficients_df, aes(x = reorder(Variable, Beta), y = Beta)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  coord_flip() +
+  labs(title = "Beta Coefficients from Elastic Net Regression", 
+       x = "Variable", 
+       y = "Beta Coefficient") +
+  theme_minimal()
+
+# Predict on the test data
+predictions <- predict(final_model, s = best_lambda, newx = as.matrix(x_test))
+
+# Calculate RMSE
+rmse <- sqrt(mean((predictions - y_test)^2))
+print(paste("Root Mean Square Error (RMSE):", round(rmse, 2)))
+
+```
+

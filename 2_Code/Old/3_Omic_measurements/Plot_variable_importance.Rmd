@@ -1,0 +1,129 @@
+---
+title: "Plot_variable_importance"
+output: html_document
+date: "2024-10-15"
+---
+# Libraries
+```{r}
+library(tidyverse)
+```
+
+# Load in data
+```{r}
+dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\variable_importance.csv')
+dat_all <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\partial_deriv.csv')
+
+degs <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Data_inputs\\3_Omic_measurements\\DEGs.csv') %>%
+  .[,4:5]
+genes <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\all_genes_in_hof.csv') 
+```
+
+# Fix gene names
+```{r}
+# Rewrite cleaning function from python
+clean_column_values <- function(df, column_name) {
+  df[[column_name]] <- sapply(df[[column_name]], function(name) {
+    if (name == "S") {
+      "Sulphur"
+    } else if (name == "Si") {
+      "Silicon"
+    } else {
+      cleaned_name <- gsub("\\W+", "", name) # Remove non-alphanumeric characters
+      cleaned_name <- gsub("([a-zA-Z])(\\d)", "\\1_\\2", cleaned_name) # Insert underscore between letters and digits
+      cleaned_name <- gsub("(\\d)([a-zA-Z])", "\\1_\\2", cleaned_name) # Insert underscore between digits and letters
+      if (grepl("^[0-9]", cleaned_name)) { # Check if the name starts with a digit
+        cleaned_name <- paste0("var", cleaned_name)
+      }
+      cleaned_name
+    }
+  })
+  return(df)
+}
+
+# Apply to biospyder IDs
+degs_clean <- clean_column_values(degs, "BioSpyder_Identifier")
+colnames(degs_clean)[1] <- 'gene'
+
+# Merge with data
+dat_clean <- left_join(dat, degs_clean, by = 'gene') %>%
+  select(-gene) %>%
+  unique()
+colnames(dat_clean)[2] <- 'gene'
+
+# Merge with gene names for IPA
+genes_clean <- left_join(genes, degs_clean) %>%
+  select(Gene_Symbol) %>%
+  unique()
+write.csv(genes_clean, file = 'C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\all_genes_in_hof_clean.csv' )
+```
+
+
+# Sum directions and plot
+```{r}
+# Add directionality
+dat_top <- dat_clean %>%
+  arrange(desc(abs(var_importance))) %>%
+  mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
+
+# Subset to top 15
+dat_top <- dat_top[1:15,]
+
+# Create bar chart
+p <- ggplot(dat_top, aes(x = reorder(gene, -var_importance), y = var_importance, fill = Association)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Gene", y = "Directional importance") +
+  scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 14, angle = 45, hjust = 1),
+    axis.text.y = element_text(size = 14),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14),
+    legend.position = "bottom"
+  )
+
+# # Save
+# plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/variable_importance_all.png')
+# ggsave(plot_filename, p, width = 3.5, height = 4)
+
+```
+
+
+# RF importance
+```{r}
+dat <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Models\\3_Omic_measurements\\rf\\rf_var_importance.csv')
+
+# Apply to biospyder IDs
+colnames(degs)[1] <- 'Feature'
+
+# Merge with data
+dat_clean <- left_join(dat, degs, by = 'Feature') %>%
+  select(-Feature) %>%
+  unique()
+colnames(dat_clean)[2] <- 'Feature'
+
+# Get top 15 from full
+dat_full <- dat_clean %>%
+  arrange(-Importance) %>%
+  .[1:15,]
+
+# Plot
+p <- ggplot(dat_full, aes(x = reorder(Feature, -Importance), y = Importance)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Gene", y = "Importance") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  scale_y_continuous(expand = c(0, 0)) 
+# Save
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/images/3_Omic_measurements/rf/variable_importance_all.png')
+ggsave(plot_filename, p, width = 4, height = 4)
+```

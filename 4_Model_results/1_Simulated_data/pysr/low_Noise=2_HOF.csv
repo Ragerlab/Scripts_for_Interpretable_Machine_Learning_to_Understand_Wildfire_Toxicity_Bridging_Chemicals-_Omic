@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,26.097052,0.0,56.102234,56.1022340000000,PySRFunction(X=>56.1022340000000)
+2,26.09705,7.663701167567125e-08,myfunction(56.1031),56.1031000000000,PySRFunction(X=>56.1031000000000)
+3,24.760519,0.052571872296213414,var6 + 51.13225,var6 + 51.13225,PySRFunction(X=>var6 + 51.13225)
+5,23.45838,0.027011310845963095,var6 - (-46.153103 - var6),var6 - (-var6 - 46.153103),PySRFunction(X=>var6 - (-var6 - 46.153103))
+7,22.196682,0.027642484441988073,((var6 + var6) + var6) - -41.17869,var6 + var6 + var6 - 1*(-41.17869),PySRFunction(X=>var6 + var6 + var6 - 1*(-41.17869))
+9,20.982725,0.02812166905475587,var6 + (((36.20466 + var6) + var6) + var6),var6 + var6 + var6 + var6 + 36.20466,PySRFunction(X=>var6 + var6 + var6 + var6 + 36.20466)
+11,19.82528,0.028370794568286548,((var6 + (31.229685 + var6)) + (var6 + var6)) + var6,var6 + var6 + var6 + var6 + var6 + 31.229685,PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + 31.229685)
+13,18.734825,0.02828689980323225,(((((var6 + var6) + var6) + var6) - -26.257692) + var6) + var6,var6 + var6 + var6 + var6 + var6 + var6 - 1*(-26.257692),PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 - 1*(-26.257692))
+15,17.723728,0.02773989229974539,((var6 + (var6 + 21.280787)) + (((var6 + var6) + var6) + var6)) + var6,var6 + var6 + var6 + var6 + var6 + var6 + var6 + 21.280787,PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 + var6 + 21.280787)
+17,16.80632,0.02657465032652434,(var6 + (((((var6 + var6) + var6) + var6) + var6) + var6)) + (var6 + 16.306108),var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + 16.306108,PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + 16.306108)
+18,16.806318,1.1900285832073093e-07,(var6 + ((((((var6 + var6) + var6) + var6) + myfunction(var6)) + var6) + var6)) + 16.306877,var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + 16.306877,PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + 16.306877)
+19,15.784272,0.06274088592816657,(((var6 + (var6 + var6)) + var3) + ((var6 + var6) + ((var6 + var6) + var6))) + var6,var3 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6,PySRFunction(X=>var3 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6)

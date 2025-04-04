@@ -1,0 +1,31 @@
+Input,Binary operators,Unary Operators,Level,RMSE,Equation,time
+Noise=0.25,"['-', '+']",['myfunction(x) = x'],4,16.051235,((((chem6 + chem6) + chem6) + (chem6 + chem6)) + ((chem3 + chem6) + chem6)) + (chem6 + chem6),4604.493416
+Noise=0.5,"['-', '+']",['myfunction(x) = x'],4,16.03492884,((((((chem6 + ((chem3 + chem6) + chem6)) + chem6) + chem6) + chem6) + chem6) + chem6) + chem6,4604.493416
+Noise=0.75,"['-', '+']",['myfunction(x) = x'],4,16.23732487,(((chem6 + chem6) + ((chem6 + chem6) + (chem6 + chem6))) + ((chem3 + chem6) + chem6)) + chem6,4604.493416
+Noise=1,"['-', '+']",['myfunction(x) = x'],3,22.62617072,chem6 - (-40.89971 - (chem6 + chem6)),4604.493416
+Noise=1.25,"['-', '+']",['myfunction(x) = x'],4,16.19426428,chem6 + (chem6 + (((chem6 + chem6) + chem3) + (chem6 + ((chem6 + chem6) + (chem6 + chem6))))),4604.493416
+Noise=1.5,"['-', '+']",['myfunction(x) = x'],4,16.03175091,(((chem3 + chem6) + ((chem6 + chem6) + chem6)) + ((chem6 + chem6) + (chem6 + chem6))) + chem6,4604.493416
+Noise=1.75,"['-', '+']",['myfunction(x) = x'],4,15.99938593,((chem6 + chem6) + (((chem6 + chem6) + chem6) + (chem6 + ((chem6 + chem6) + chem6)))) + chem3,4604.493416
+Noise=2,"['-', '+']",['myfunction(x) = x'],4,16.15681251,((chem6 + chem3) + (((chem6 + (chem6 + chem6)) + chem6) + ((chem6 + chem6) + chem6))) + chem6,4604.493416
+No_noise_all_var,"['-', '+']",['myfunction(x) = x'],4,16.0594532,chem6 + ((((chem6 + (((chem6 + chem6) + (chem3 + chem6)) + chem6)) + chem6) + chem6) + chem6),4604.493416
+No_noise_rel_var,"['-', '+']",['myfunction(x) = x'],3,20.26792539,chem6 + (((chem6 + chem6) + (chem6 + chem6)) - -30.979107),4604.493416
+Noise=0.25,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0.217865605,(chem6 * (2.9993875 * chem2)) + (chem13 / chem10),4604.493416
+Noise=0.5,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0.418332475,(chem6 * (chem2 / 0.33314803)) + (chem13 / chem10),4604.493416
+Noise=0.75,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0.643176302,((chem2 / 0.33291894) * chem6) + (chem13 / chem10),4604.493416
+Noise=1,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0.954563443,((2.9965098 * chem6) * chem2) + (chem13 / chem10),4604.493416
+Noise=1.25,"['-', '+', '*', '/']",['myfunction(x) = x'],1,1.417794845,(chem13 / chem10) - ((chem6 * chem2) * -2.999176),4604.493416
+Noise=1.5,"['-', '+', '*', '/']",['myfunction(x) = x'],1,1.461423637,(chem13 / chem10) + (2.9934192 * (chem6 * chem2)),4604.493416
+Noise=1.75,"['-', '+', '*', '/']",['myfunction(x) = x'],1,1.494539015,(chem13 / chem10) + ((chem6 * 2.9826226) * chem2),4604.493416
+Noise=2,"['-', '+', '*', '/']",['myfunction(x) = x'],1,2.23679574,(chem13 / chem10) + ((chem2 / 0.3322187) * chem6),4604.493416
+No_noise_all_var,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0,((chem6 * chem2) * 3.0) + (chem13 / chem10),4604.493416
+No_noise_rel_var,"['-', '+', '*', '/']",['myfunction(x) = x'],1,0,((chem2 * chem6) * 3.0) + (chem13 / chem10),4604.493416
+Noise=0.25,"['-', '+', '*', '/']","['log', 'sqrt']",1,0.217865622,(chem13 / chem10) + ((chem2 * chem6) * 2.9993904),4604.493416
+Noise=0.5,"['-', '+', '*', '/']","['log', 'sqrt']",1,0.418332477,(chem6 * (3.0016696 * chem2)) + (chem13 / chem10),4604.493416
+Noise=0.75,"['-', '+', '*', '/']","['log', 'sqrt']",1,0.643176279,(chem13 / chem10) + (chem6 * (chem2 * 3.0037491)),4604.493416
+Noise=1,"['-', '+', '*', '/']","['log', 'sqrt']",1,0.95456345,((chem6 / 0.3337206) * chem2) + (chem13 / chem10),4604.493416
+Noise=1.25,"['-', '+', '*', '/']","['log', 'sqrt']",1,1.417794984,(chem13 / chem10) + ((chem2 * chem6) / 0.33342737),4604.493416
+Noise=1.5,"['-', '+', '*', '/']","['log', 'sqrt']",1,1.46142362,(chem13 / chem10) + ((chem2 * chem6) * 2.993406),4604.493416
+Noise=1.75,"['-', '+', '*', '/']","['log', 'sqrt']",1,1.494538864,((chem6 / 0.33528033) * chem2) + (chem13 / chem10),4604.493416
+Noise=2,"['-', '+', '*', '/']","['log', 'sqrt']",1,2.236795698,((chem2 * chem6) * 3.010085) + (chem13 / chem10),4604.493416
+No_noise_all_var,"['-', '+', '*', '/']","['log', 'sqrt']",1,0,(chem13 / chem10) + (chem2 * (3.0 * chem6)),4604.493416
+No_noise_rel_var,"['-', '+', '*', '/']","['log', 'sqrt']",1,0,(chem13 / chem10) + (chem6 * (3.0 * chem2)),4604.493416

@@ -1,0 +1,140 @@
+---
+title: "Plot_variable_importance"
+output:
+  pdf_document: default
+  html_document: default
+date: "2024-10-15"
+---
+# Libraries
+```{r}
+library(tidyverse)
+library(reticulate)
+library(tidytext)
+```
+
+# Load in data
+```{r}
+dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Full.csv')
+dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\variable_importance_PCA.csv')
+dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\pysr\\variable_importance_Elastic.csv')
+
+# Put in list
+dat_list <- list(dat_full, dat_pca, dat_elastic)
+```
+
+# Sum directions and plot
+```{r}
+# Names for the datasets
+dataset_names <- c("Full", "PCA", "Elastic")
+
+# Combine all data into a single DataFrame with an identifier for each dataset
+combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
+  dat <- dat_list[[i]]
+  
+  dat_top <- dat %>%
+    arrange(desc(abs(var_importance))) %>%
+    mutate(Association = ifelse(var_importance > 0, "Positive", "Negative"))
+  
+  # Subset only the top 15 for the first dataset
+  if (i == 1) {
+    dat_top <- dat_top[1:15, ]
+  }
+
+  # Add a column indicating the dataset name
+  dat_top$dataset <- dataset_names[i]
+  return(dat_top)
+}))
+
+# Clean up names for combined_dat
+combined_dat <- combined_dat %>%
+  mutate(chem = str_remove(chem, pattern = '_')) %>%
+  mutate(chem = str_remove(chem, pattern = 'var26')) %>%
+  mutate(chem = ifelse(chem == 'Benzoapyrene', 'Benzo[a]pyrene', chem)) %>%
+  mutate(chem = ifelse(chem == 'Dimethylnaphthalene', '2,6-Dimethylnaphthalene', chem)) %>%
+  mutate(chem = ifelse(chem == 'Benzaanthracene', 'Benz(a)anthracene', chem)) %>%
+  mutate(chem = ifelse(chem == 'Methoxymethylphenol', 'Methoxymethyl phenol', chem)) %>%
+  mutate(chem = ifelse(chem == 'var35Dimethoxyphenol', '3,5-Dimethoxyphenol', chem))
+
+
+# Set order
+combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', 'Elastic'))
+
+# Subset for presentation 
+combined_dat <- combined_dat %>%
+  filter(dataset != 'PCA')
+
+# Create the combined plot using facet_wrap and allowing each facet to have its own x-axis
+p <- ggplot(combined_dat, aes(x = reorder_within(chem, -var_importance, dataset), y = var_importance, fill = Association)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Chemical", y = "Directional importance") +
+  scale_fill_manual(values = c("Positive" = "grey", "Negative" = "black")) +
+  scale_x_reordered() +  # Add this line to clean up x-axis labels
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  facet_grid(. ~ dataset, scales = "free_x", space = "free") + 
+  labs(x = 'Chemical')
+
+
+# Print the combined plot
+print(p)
+
+# Save
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/pysr/variable_importance_all.png')
+ggsave(plot_filename, p, width = 7, height = 4)
+```
+
+# RF importance
+```{r}
+dat_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
+dat_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
+dat_elastic <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\Albumin_runs\\Models\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
+
+# Get top 15 from full
+dat_full <- dat_full %>%
+  arrange(-Importance) %>%
+  .[1:15,]
+
+# Put in list
+dat_list <- list(dat_full, dat_pca, dat_elastic)
+names(dat_list) <- c('Full', 'PCA', 'Elastic net')
+
+# Combine and add a column for the dataset name
+dat_all <- bind_rows(
+  lapply(names(dat_list), function(name) {
+    dat_list[[name]] %>%
+      mutate(Dataset = name)
+  })
+)
+
+# Set order
+dat_all$Dataset <- factor(dat_all$Dataset, levels = c('Full', 'PCA', 'Elastic net'))
+
+p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = Importance)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Chem", y = "Importance") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.position = "bottom"
+  ) +
+  facet_grid(. ~ Dataset, scales = "free_x", space = "free") +
+  scale_x_reordered() +  # Handles the reordered factors
+  scale_y_continuous(expand = c(0, 0)) +  # This removes the padding between bars and the x-axis
+  labs(x = 'Chemical')
+
+# Save
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/Albumin_runs/images/2_Chemical_measurements/rf/variable_importance_all.png')
+ggsave(plot_filename, p, width = 7, height = 4)
+```
+
