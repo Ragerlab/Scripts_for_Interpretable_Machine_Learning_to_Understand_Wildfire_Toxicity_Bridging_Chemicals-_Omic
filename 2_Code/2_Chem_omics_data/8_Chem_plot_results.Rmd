@@ -9,6 +9,7 @@ date: "2024-09-13"
 library(tidyverse)
 library(reticulate)
 library(Metrics)
+library(tidytext)
 repl_python()
 ```
 
@@ -18,7 +19,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("3_Data_intermediates/2_Chemical_measurements/Chem_train_y")
@@ -49,7 +50,7 @@ test_y <- py$test_y
   
 # Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
 test_combined <- data.frame(
-  Predicted = test_preds_list[[1]][14, 'Predictions'][[1]],
+  Predicted = test_preds_list[[1]][7, 'Predictions'][[1]],
   Actual = test_y
 )
 
@@ -581,9 +582,9 @@ ggsave(plot_filename, p, width = 4, height = 4)
 
 # RF importance
 ```{r}
-dat_full <- read.csv('..\\..\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
-dat_pca <- read.csv('..\\..\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
-dat_elastic <- read.csv('..\\..\\4_Model_results\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
+dat_full <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
+dat_pca <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
+dat_elastic <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
 
 # Get top 15 from full
 dat_full <- dat_full %>%
@@ -648,5 +649,79 @@ p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = 
 # Save
 plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/rf/variable_importance_all.png')
 ggsave(plot_filename, p, width = 4, height = 4)
+```
+
+# XGBoost importance
+```{r}
+dat_full <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\xgb_variable_importance_Full.csv')
+dat_pca <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\xgb_variable_importance_PCA.csv')
+dat_elastic <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\xgb_variable_importance_Elastic.csv')
+
+# Get top 15 from full
+dat_full <- dat_full %>%
+  arrange(-Importance) %>%
+  .[1:15,]
+
+# Put in list
+dat_list <- list(dat_full, dat_pca, dat_elastic)
+names(dat_list) <- c('Full', 'PCA', 'Elastic net')
+
+# Combine and add a column for the dataset name
+dat_all <- bind_rows(
+  lapply(names(dat_list), function(name) {
+    dat_list[[name]] %>%
+      mutate(Dataset = name)
+  })
+)
+
+# Set order
+dat_all$Dataset <- factor(dat_all$Dataset, levels = c('Full', 'PCA', 'Elastic net'))
+
+# Add classifications 
+colnames(class)[2] <- 'Feature'
+dat_all <- dat_all %>%
+  left_join(., class, by = 'Feature') %>%
+  filter(Dataset == 'Full')
+
+new_palette <- c(
+  "Inorganics" = "#f7a258",      # Soft orange
+  "Methoxyphenols" = "#8dd3c7",  # Light teal
+  "PAHs" = "#ff9dae",            # Soft pink
+  "Ions" = "#bebada",            # Pale purple
+  "n-Alkanes" = "#fb8072"        # Coral
+)
+p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = Importance, fill = Chemical.Category)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Chem", y = "Importance") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 8),
+    legend.position = "bottom"
+  ) +
+  # facet_grid(. ~ Dataset, scales = "free_x", space = "free") +
+  scale_x_reordered() +  # Handles the reordered factors
+  scale_y_continuous(expand = c(0, 0)) +  # This removes the padding between bars and the x-axis
+  labs(x = 'Chemical') + 
+  scale_fill_manual(values = new_palette) +
+  guides(fill = guide_legend(nrow = 1, title = "Chemical Class",
+                             title.position = "top",
+                             byrow = TRUE,
+                             keywidth = 0.5,
+                             keyheight = 0.5,
+                             override.aes = list(
+                               label = c("Chemical Class", "", "", "", "")
+                             )))
+
+
+# Save
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/xgb/variable_importance_all.png')
+ggsave(plot_filename, p, width = 4, height = 4)
+```
+
+
 ```
 

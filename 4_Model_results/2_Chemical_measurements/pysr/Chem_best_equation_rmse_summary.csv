@@ -1,0 +1,4 @@
+Key,Equation,Score(min),Loss,Complexity,Train RMSE,Test RMSE,HOF CSV
+Full,(((((P + -2.813168) / Triacontane) - -26.222229) - Naphthalene) * 3.2152731) - (Tricosane * Hexadecane),5.093115217584904e-05,15.961506,20.0,15.961507092259465,17.541642174558213,4_Model_results\2_Chemical_measurements\pysr\HOF_all_iterations\Full\hall_of_fame_iteration_500.csv
+Elastic,(((P - (-5.551894 + (Eugenol / K))) / 0.09355424) + -0.24669279) - (-0.24669279 / Retene),0.0005721286890065,16.300812,19.0,16.30081201680205,18.00402599939067,4_Model_results\2_Chemical_measurements\pysr\HOF_all_iterations\Elastic\hall_of_fame_iteration_500.csv
+PCA,83.586464 + (1.7961416 * (((PC_2 + PC_3) * 0.9379847) - PC_1)),0.0006059370844945,17.049192,14.0,17.049193280589368,18.72707820140772,4_Model_results\2_Chemical_measurements\pysr\HOF_all_iterations\PCA\hall_of_fame_iteration_500.csv

@@ -8,6 +8,7 @@ date: "2024-09-13"
 ```{r}
 library(tidyverse)
 library(reticulate)
+library(Metrics)
 repl_python()
 ```
 
@@ -17,7 +18,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("3_Data_intermediates/3_Omic_measurements/Omic_train_y")
@@ -516,6 +517,44 @@ p <- ggplot(dat_full, aes(x = reorder(Feature, -Importance), y = Importance)) +
   scale_y_continuous(expand = c(0, 0)) 
 # Save
 plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/rf/variable_importance_all.png')
+ggsave(plot_filename, p, width = 4, height = 4)
+```
+ 
+ 
+ # XGBoost importance
+```{r}
+dat <- read.csv('..\\..\\3_Data_intermediates\\3_Omic_measurements\\xgb_variable_importance_Elastic.csv')
+
+# Apply to biospyder IDs
+colnames(degs)[1] <- 'Feature'
+
+# Merge with data
+dat_clean <- left_join(dat, degs, by = 'Feature') %>%
+  select(-Feature) %>%
+  unique()
+colnames(dat_clean)[2] <- 'Feature'
+
+# Get top 15 from full
+dat_full <- dat_clean %>%
+  arrange(-Importance) %>%
+  .[1:15,]
+
+# Plot
+p <- ggplot(dat_full, aes(x = reorder(Feature, -Importance), y = Importance)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Gene", y = "Importance (MDI)") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(size = 8, angle = 45, hjust = 1, face = "italic"),
+    axis.title.x = element_text(size = 10, face = "bold"),
+    axis.title.y = element_text(size = 10, face = "bold"),
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 8),
+    legend.position = "bottom"
+  ) +
+  scale_y_continuous(expand = c(0, 0)) 
+# Save
+plot_filename <- paste0('C:/Users/Jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/3_Omic_measurements/xgb/variable_importance_all.png')
 ggsave(plot_filename, p, width = 4, height = 4)
 ```
  

@@ -1,0 +1,4 @@
+Key,Equation,Score(min),Loss,Complexity,Train RMSE,Test RMSE,HOF CSV
+Elastic,((-13.63195 * Eugenol) - -86.98865) + 11.2657585,0.0009560669335668,17.890104,8.0,17.89010526126637,18.53944900829076,4_Model_results\4_ChemOmics_measurements\pysr\HOF_all_iterations\Elastic\hall_of_fame_iteration_1500.csv
+PCA,(92.624466 + (PC_2 / 0.5572197)) + -9.035368,5.4108574995072894e-08,18.481358,8.0,18.48136275831142,20.266210451071412,4_Model_results\4_ChemOmics_measurements\pysr\HOF_all_iterations\PCA\hall_of_fame_iteration_1500.csv
+Full,(((Hsph_1_69147 + (Myc_30907 - Asb_14_29409)) * 14.302532) + Cyp_1_a_1_79654) + 1.0252123,0.0150013969499841,12.523782,15.0,12.523782737233686,21.098091912037756,4_Model_results\4_ChemOmics_measurements\pysr\HOF_all_iterations\Full\hall_of_fame_iteration_5000.csv
