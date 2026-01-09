@@ -33,14 +33,6 @@ datasets = [
         "train_input_dict": "3_Data_intermediates/3_Omic_measurements/train_input_dict.pkl",
         "test_input_dict": "3_Data_intermediates/3_Omic_measurements/test_input_dict.pkl",
         "iterations": 3000
-    },     {   
-        "prefix": "Combined",
-        "path": "4_ChemOmics_measurements",
-        "train_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_y",
-        "test_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_y", 
-        "train_input_dict": "3_Data_intermediates/4_ChemOmics_measurements/train_input_dict.pkl",
-        "test_input_dict": "3_Data_intermediates/4_ChemOmics_measurements/test_input_dict.pkl",
-        "iterations": 5000
     }
 ]
 

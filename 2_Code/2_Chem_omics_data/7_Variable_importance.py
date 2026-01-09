@@ -89,15 +89,6 @@ datasets = [
         "base_hof_directory": "4_Model_results/3_Omic_measurements/pysr/HOF_all_iterations",
         "results_directory": "4_Model_results/3_Omic_measurements/pysr",
         "images_directory": "5_Plots/3_Omic_measurements/pysr"
-    }, 
-    {
-        "prefix": "Comb",
-        "train_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x",
-        "train_x_pca": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_pca",
-        "train_x_elastic": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_elastic",
-        "base_hof_directory": "4_Model_results/4_ChemOmics_measurements/pysr/HOF_all_iterations",
-        "results_directory": "4_Model_results/4_ChemOmics_measurements/pysr",
-        "images_directory": "5_Plots/4_ChemOmics_measurements/pysr"
     }
 ]
 
@@ -204,7 +195,6 @@ for dataset in datasets:
 
             # Get the free symbols 
             chems.update(expr.free_symbols)
-
 
         # Convert the set to a list
         chems = list(chems)

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 INPUT_FILE = "1_Data_inputs/2_Chemical_measurements/ChemistrywTox_MouseMap_042821_mw.xlsx"
-UNICODE_SPACES_PATTERN = r"[\u00A0\u2007\u202F]"  # NBSP / figure space / narrow NBSP
+UNICODE_SPACES_PATTERN = r"[\u00A0\u2007\u202F]"  
 FALLBACK_EPS = 1e-30
 
 def _sanitize_to_numeric(s: pd.Series) -> pd.Series:
@@ -21,7 +21,6 @@ def _sanitize_to_numeric(s: pd.Series) -> pd.Series:
     )
 
 def convert_conc_to_mol_per_L(df: pd.DataFrame, value_cols: list[str]) -> pd.DataFrame:
-    # Convert (mass/volume) -> g/L
     unit_to_g_per_L = {"ng/ul": 1e-3, "ng/ml": 1e-6, "ug/ml": 1e-3}
 
     df = df.copy()
@@ -77,21 +76,6 @@ injury_df = injury_df.select_dtypes(include=["number"])
 # Epsilon log-transform predictors only (not Injury_Protein)
 predictor_cols = [c for c in injury_df.columns if c != "Injury_Protein"]
 injury_df = log_with_eps_per_col(injury_df, cols=predictor_cols, fallback_eps=FALLBACK_EPS)
-
-# Split columns into 4 groups for plotting
-columns_per_plot = max(1, len(injury_df.columns) // 4)
-column_groups = [injury_df.columns[i:i + columns_per_plot] for i in range(0, len(injury_df.columns), columns_per_plot)]
-
-for i, group in enumerate(column_groups, start=1):
-    plt.figure(figsize=(10, 6))
-    injury_df[group].boxplot()
-    plt.title(f'Distribution of Columns Group {i} in Injury DataFrame')
-    plt.xlabel('Columns')
-    plt.ylabel('Log(x + eps) Values')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig(f'5_Plots/2_Chemical_measurements/Data_distributions/Concentration_spread{i}.png')
-    plt.close()
 
 # Remove outlier
 injury_df = injury_df.drop('EucalyptusSmoldering_M28', axis=0, errors='ignore')

@@ -41,18 +41,6 @@ datasets = [
         "test_x_pca": "3_Data_intermediates/3_Omic_measurements/Omic_test_x_pca",
         "train_x_elastic": "3_Data_intermediates/3_Omic_measurements/Omic_train_x_elastic",
         "test_x_elastic": "3_Data_intermediates/3_Omic_measurements/Omic_test_x_elastic"
-    },
-    {
-        "prefix": "Combined",
-        "path": "4_ChemOmics_measurements",
-        "train_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x",
-        "train_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_y",
-        "test_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x",
-        "test_y": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_y",
-        "train_x_pca": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_pca",
-        "test_x_pca": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x_pca",
-        "train_x_elastic": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x_elastic",
-        "test_x_elastic": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x_elastic"
     }
 ]
 

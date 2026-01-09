@@ -1,4 +1,0 @@
-Key,Equation,Score(min),Loss,Complexity,Train RMSE,Test RMSE,HOF CSV
-Elastic,76.09441 + ((Cyp_1_a_1_79654 * Myc_30907) - (Mettl_14_68520 * Asb_14_29409)),0.0018701386569687,15.11308,13.0,15.11308070823738,15.290267664118115,4_Model_results\3_Omic_measurements\pysr\HOF_all_iterations\Elastic\hall_of_fame_iteration_3000.csv
-DEG,-31.810293 + (12.392883 * Mt_2_76492),0.0065015613564404,19.474358,6.0,19.474360895383413,20.536243471821507,4_Model_results\3_Omic_measurements\pysr\HOF_all_iterations\DEG\hall_of_fame_iteration_3000.csv
-PCA,-0.9899907 + ((((((-84.40701 + (PC_1 / 0.59988725)) / 0.2897322) / PC_4) - PC_2) / 3.6350338) - -83.79249),1.9983568275767824e-05,16.813478,20.0,16.809649472019675,47.75170750398791,4_Model_results\3_Omic_measurements\pysr\HOF_all_iterations\PCA\hall_of_fame_iteration_3000.csv

@@ -21,11 +21,6 @@ datasets = [
         "path": "3_Omic_measurements",
         "train_x": "3_Data_intermediates/3_Omic_measurements/Omic_train_x",
         "test_x": "3_Data_intermediates/3_Omic_measurements/Omic_test_x"
-    }, 
-    {   "prefix": "Comb",
-        "path": "4_ChemOmics_measurements",
-        "train_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_train_x",
-        "test_x": "3_Data_intermediates/4_ChemOmics_measurements/Comb_test_x",
     }
 ]
 

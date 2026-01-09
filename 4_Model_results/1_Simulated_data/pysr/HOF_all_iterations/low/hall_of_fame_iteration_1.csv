@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,56.8013,0.0,myfunction(var6),var6,PySRFunction(X=>var6)
+3,51.772587,0.09269841209814803,var6 + var6,var6 + var6,PySRFunction(X=>var6 + var6)
+5,46.78771,0.050620119546104875,(var6 + var6) + var6,var6 + var6 + var6,PySRFunction(X=>var6 + var6 + var6)
+7,41.862343,0.055616936929368053,(var6 + var6) + (var6 + var6),var6 + var6 + var6 + var6,PySRFunction(X=>var6 + var6 + var6 + var6)
+9,37.02024,0.06146094881676791,(var6 + (var6 + (var6 + var6))) + var6,var6 + var6 + var6 + var6 + var6,PySRFunction(X=>var6 + var6 + var6 + var6 + var6)
+11,32.298874,0.06821621058333012,((var6 + (var6 + var6)) + (var6 + var6)) + var6,var6 + var6 + var6 + var6 + var6 + var6,PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6)
+13,27.759909,0.07571975570230025,((var6 + var6) + ((var6 + var6) + var6)) + (var6 + var6),var6 + var6 + var6 + var6 + var6 + var6 + var6,PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 + var6)
+15,18.12029,0.21328027631673652,(((var6 + (var6 + (var6 + var6))) - (-21.030214 - var6)) + var6) + var6,var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - 21.030214),PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - 21.030214))
+17,17.172667,0.02685665649619129,(((var6 + var6) + (var6 + (var6 + (var6 + var6)))) - (-16.055687 - var6)) + var6,var6 + var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - 16.055687),PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - 16.055687))
+19,16.329144,0.025183752580963663,(((((var6 + var6) + var6) + var6) - ((-11.0807085 - (var6 + var6)) - var6)) + var6) + var6,var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - (var6 + var6) - 11.0807085),PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - (var6 + var6) - 11.0807085))
+20,16.240793,0.0054253231568202635,myfunction(((((var6 + (((var6 + var6) + var6) + (var6 + var6))) + var6) + var6) - -14.529939) + var13),var13 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 - 1*(-14.529939),PySRFunction(X=>var13 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 - 1*(-14.529939))
