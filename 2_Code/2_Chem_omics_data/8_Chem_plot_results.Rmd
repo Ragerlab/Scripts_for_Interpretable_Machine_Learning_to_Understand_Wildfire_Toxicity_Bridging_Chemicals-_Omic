@@ -19,7 +19,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("3_Data_intermediates/2_Chemical_measurements/Chem_train_y")
@@ -386,7 +386,7 @@ new_palette <- c(
   "Inorganics" = "#d67e00",      # Burnt orange (warmer and deeper than the original soft orange)
   "Methoxyphenols" = "#5a9f88",  # Deep sea green (a distinct but natural teal)
   "PAHs" = "#b7472a",            # Rosewood (a warmer pink, distinct from soft pink)
-  "Ions" = "#7f6aa8",            # Grape purple (more vibrant than pale purple)
+  # "Ions" = "#7f6aa8",            # Grape purple (more vibrant than pale purple)
   "n-Alkanes" = "#c96b7d"        # Brick red (an earthy, deeper coral variant)
 )
 
@@ -394,7 +394,7 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, data
   geom_bar(stat = "identity") +
   labs(y = "DECS") +  # Removed x-axis title
   scale_fill_manual(values = new_palette, 
-                    breaks = c("n-Alkanes", "Ions", "PAHs", "Inorganics", "Methoxyphenols")) + 
+                    breaks = c("n-Alkanes", "PAHs", "Inorganics", "Methoxyphenols")) + 
   scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
@@ -411,7 +411,7 @@ p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, data
                              keywidth = 0.5,
                              keyheight = 0.5,
                              override.aes = list(
-                               label = c("Chemical Class", "", "", "", "")
+                               label = c("Chemical Class", "", "", "")
                              )))
 
 
@@ -582,9 +582,9 @@ ggsave(plot_filename, p, width = 4, height = 4)
 
 # RF importance
 ```{r}
-dat_full <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf\\rf_var_importance_Full.csv')
-dat_pca <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf\\rf_var_importance_PCA.csv')
-dat_elastic <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf\\rf_var_importance_Elastic.csv')
+dat_full <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf_variable_importance_Full.csv')
+dat_pca <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf_variable_importance_PCA.csv')
+dat_elastic <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\rf_variable_importance_Elastic.csv')
 
 # Get top 15 from full
 dat_full <- dat_full %>%
@@ -718,7 +718,7 @@ p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = 
 
 
 # Save
-plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/xgb/variable_importance_all.png')
+plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/xgb/variable_importance_all.png')
 ggsave(plot_filename, p, width = 4, height = 4)
 ```
 
