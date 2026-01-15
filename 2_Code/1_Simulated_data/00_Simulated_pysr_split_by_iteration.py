@@ -5,9 +5,13 @@ import matplotlib.pyplot as plt
 import pickle
 from sklearn.metrics import root_mean_squared_error
 import re
+import os
+
+# Set working directory
+os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
-with open('Data_inputs/1_Simulated_data/sim_dict.pkl', 'rb') as f:
+with open('3_Data_intermediates/1_Simulated_data/sim_dict.pkl', 'rb') as f:
     sim_dict = pickle.load(f)    
 
 # Function to extract column names from a lambda_format equation
@@ -105,7 +109,10 @@ for i in range(len(operators.index)):
                 **default_pysr_params,
                 temp_equation_file=True, 
                 extra_sympy_mappings={'myfunction': lambda x: x},
-                warm_start= True
+                warm_start= True, 
+                random_state=17,
+                deterministic=True,
+                procs=0
             )
     
 
@@ -120,6 +127,13 @@ for i in range(len(operators.index)):
             
             # Extract equations
             equations = discovered_model.equations_
+
+            # Save Hall of Fame for each iteration
+            df_equations = pd.DataFrame(equations)
+            hof_dir = f'4_Model_results/1_Simulated_data/pysr/HOF_all_iterations/{operators.index[i]}/{key}'
+            os.makedirs(hof_dir, exist_ok=True)
+            df_equations.to_csv(f'{hof_dir}/hall_of_fame_iteration_{k + 1}.csv', index=False)
+
         
             # Evaluate RMSE for each equation
             for l in range(len(equations)):
@@ -151,7 +165,7 @@ for i in range(len(operators.index)):
                 }, ignore_index=True)
 
     # Save RMSE results to csv
-    file_name = f'Models/1_Simulated_data/pysr/Sensitivity/pysr_RMSE_sensitivity_{key}.csv'
+    file_name = f'4_Model_results/1_Simulated_data/pysr/Sensitivity/pysr_RMSE_sensitivity_{operators.index[i]}.csv'
     results_rmse.to_csv(file_name, index=False)
 
    

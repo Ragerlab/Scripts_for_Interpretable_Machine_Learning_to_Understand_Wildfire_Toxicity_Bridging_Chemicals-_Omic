@@ -1,0 +1,7 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,59.32605,0.0,sqrt(var3),sqrt(var3),PySRFunction(X=>sqrt(var3))
+3,23.108898,0.9428307631157749,var6 / 0.123331614,var6/0.123331614,PySRFunction(X=>var6/0.123331614)
+5,14.840283,0.22143621526310203,(var6 / 0.086028166) - var10,-var10 + var6/0.086028166,PySRFunction(X=>-var10 + var6/0.086028166)
+9,2.3452356,0.46123986042588677,(var13 - var10) + (var6 * (var2 / 0.32518983)),-var10 + var13 + var2*var6/0.32518983,PySRFunction(X=>-var10 + var13 + var2*var6/0.32518983)
+13,1.8348109,0.06136111037737508,(var13 - var10) + ((var6 - log(sqrt(var10))) * (var2 / 0.32518983)),-var10 + var13 + 3.07512691894454*var2*(var6 - log(sqrt(var10))),PySRFunction(X=>-var10 + var13 + 3.07512691894454*var2*(var6 - log(sqrt(var10))))
+14,1.4738827,0.2190412132005275,(var13 - sqrt(var2)) + ((var6 - log(sqrt(var10))) * (var2 / 0.32518983)),var13 - sqrt(var2) + 3.07512691894454*var2*(var6 - log(sqrt(var10))),PySRFunction(X=>var13 - sqrt(var2) + 3.07512691894454*var2*(var6 - log(sqrt(var10))))

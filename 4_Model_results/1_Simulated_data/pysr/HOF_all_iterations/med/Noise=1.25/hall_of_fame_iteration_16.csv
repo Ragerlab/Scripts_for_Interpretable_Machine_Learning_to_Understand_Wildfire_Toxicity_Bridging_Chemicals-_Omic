@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,26.803635,0.0,myfunction(59.939465),59.9394650000000,PySRFunction(X=>59.9394650000000)
+3,25.618881,0.04520789394792534,54.269413 + var13,var13 + 54.269413,PySRFunction(X=>var13 + 54.269413)
+4,18.294718,0.3367172343949215,myfunction(var2 / 0.060947526),var2/0.060947526,PySRFunction(X=>var2/0.060947526)
+6,3.49191,0.8280817599277368,myfunction((var6 * var2) / 0.31892532),var2*var6/0.31892532,PySRFunction(X=>var2*var6/0.31892532)
+8,2.7633822,0.11699675008501809,myfunction(var13 - ((var2 / -0.33669007) * var6)),var13 - var2*var6/(-0.33669007),PySRFunction(X=>var13 - var2*var6/(-0.33669007))
+9,2.3694396,0.15380189278852727,(((2.9838495 * var2) * var6) + var13) + 0.8136116,var13 + 2.9838495*var2*var6 + 0.8136116,PySRFunction(X=>var13 + 2.9838495*var2*var6 + 0.8136116)
+10,1.2357467,0.6509780687324663,myfunction(((var2 * 2.9838495) * var6) + (var13 / var10)),var2*2.9838495*var6 + var13/var10,PySRFunction(X=>var2*2.9838495*var6 + var13/var10)
+12,1.2138455,0.00894099172939808,myfunction((((var2 * 2.9838495) * var6) + (var13 / var10)) + 0.23171946),var2*2.9838495*var6 + 0.23171946 + var13/var10,PySRFunction(X=>var2*2.9838495*var6 + 0.23171946 + var13/var10)
+13,1.2037323,0.008366439327270606,myfunction(myfunction((var13 / var10) + ((2.9838495 * var2) * var6)) + var9),var9 + (2.9838495*var2*var6 + var13/var10),PySRFunction(X=>var9 + (2.9838495*var2*var6 + var13/var10))
+16,1.2035464,5.148275252868289e-05,myfunction(((((var2 * 2.9838495) * var6) + (-0.25236338 + var9)) + (var13 / var10)) + 0.23171946),var2*2.9838495*var6 + var9 - 0.25236338 + 0.23171946 + var13/var10,PySRFunction(X=>var2*2.9838495*var6 + var9 - 0.25236338 + 0.23171946 + var13/var10)
+19,1.1994767,0.001129051122010011,myfunction((((0.23017599 - (var6 * myfunction(var2))) * myfunction(myfunction(-2.983819))) + (var13 / var10)) + var9) + var10,var10 + (var9 + (0.23017599 - var2*var6)*(-2.983819) + var13/var10),PySRFunction(X=>var10 + (var9 + (0.23017599 - var2*var6)*(-2.983819) + var13/var10))

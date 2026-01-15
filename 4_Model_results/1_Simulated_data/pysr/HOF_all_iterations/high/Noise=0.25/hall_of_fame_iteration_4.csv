@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,60.135082,0.0,sqrt(var2),sqrt(var2),PySRFunction(X=>sqrt(var2))
+3,25.238995,0.8682031792295591,50.90321 + var6,var6 + 50.90321,PySRFunction(X=>var6 + 50.90321)
+5,6.0359797,0.7153260206925603,2.8882987 * (var6 * var2),2.8882987*var2*var6,PySRFunction(X=>2.8882987*var2*var6)
+7,2.1022115,0.5273741459469338,((var6 * var2) + var13) * 2.8882987,(var13 + var2*var6)*2.8882987,PySRFunction(X=>(var13 + var2*var6)*2.8882987)
+11,1.5045103,0.08363060566471565,-0.5719994 + (((var13 + (var2 * var6)) * 2.9910183) - var13),-var13 + (var13 + var2*var6)*2.9910183 - 0.5719994,PySRFunction(X=>-var13 + (var13 + var2*var6)*2.9910183 - 0.5719994)
+13,1.2531698,0.09139564084780502,((((var6 + var6) / 0.66658026) * var2) + (var13 / var10)) + -1.2165579,var2*(var6 + var6)/0.66658026 - 1.2165579 + var13/var10,PySRFunction(X=>var2*(var6 + var6)/0.66658026 - 1.2165579 + var13/var10)
+15,0.28209007,0.7456025216872592,((((var6 + var6) / 0.66658026) * var2) + ((var13 / var10) - -1.0456693)) + -1.2165579,var2*(var6 + var6)/0.66658026 - 1.2165579 - 1*(-1.0456693) + var13/var10,PySRFunction(X=>var2*(var6 + var6)/0.66658026 - 1.2165579 - 1*(-1.0456693) + var13/var10)
+17,0.20980689,0.14801944044055332,((sqrt(var10) + (((var2 + var2) + var2) * var6)) + (var13 / var10)) - sqrt(var10),3*var2*var6 + var13/var10,PySRFunction(X=>3*var2*var6 + var13/var10)
+18,0.20831771,0.007123169967460981,(((((var2 + var2) + var2) * var6) + 0.9919904) + (var13 / var10)) - sqrt(sqrt(sqrt(0.8064242))),3*var2*var6 + 0.0185251702236062 + var13/var10,PySRFunction(X=>3*var2*var6 + 0.0185251702236062 + var13/var10)
+19,0.20506747,0.01572531931537215,(((((var2 + var2) + var2) * var6) + 0.9919904) + (var13 / var10)) - sqrt(sqrt(log(sqrt(var3)))),3*var2*var6 - log(sqrt(var3))**(1/4) + 0.9919904 + var13/var10,PySRFunction(X=>3*var2*var6 - log(sqrt(var3))**(1/4) + 0.9919904 + var13/var10)
+20,0.203444,0.007948264203553863,(((((var2 + var2) + var2) * var6) + 0.9919904) + (var13 / var10)) - sqrt(sqrt(sqrt(log(log(var3))))),3*var2*var6 - log(log(var3))**(1/8) + 0.9919904 + var13/var10,PySRFunction(X=>3*var2*var6 - log(log(var3))**(1/8) + 0.9919904 + var13/var10)

@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,55.197025,0.0,var7,var7,PySRFunction(X=>var7)
+2,26.601398,0.7299452861055375,myfunction(55.851757),55.8517570000000,PySRFunction(X=>55.8517570000000)
+3,25.737463,0.033016136035781095,var13 - -54.326523,var13 - 1*(-54.326523),PySRFunction(X=>var13 - 1*(-54.326523))
+4,15.598068,0.5008005743297339,myfunction(var6 / 0.0945833),var6/0.0945833,PySRFunction(X=>var6/0.0945833)
+5,3.384778,1.5278587396749532,3.1416786 * (var6 * var2),3.1416786*var2*var6,PySRFunction(X=>3.1416786*var2*var6)
+8,2.0840878,0.16165235574507822,myfunction(var13 + ((var6 * var2) * 3.0555756)),var13 + var6*var2*3.0555756,PySRFunction(X=>var13 + var6*var2*3.0555756)
+9,2.006346,0.03801609630320757,(2.868321 * (var13 + (var2 * var6))) + var11,var11 + 2.868321*(var13 + var2*var6),PySRFunction(X=>var11 + 2.868321*(var13 + var2*var6))
+10,3.6414876e-06,13.21943343570309,myfunction(((var2 * var6) * 3.0) + (var13 / var10)),var2*var6*3.0 + var13/var10,PySRFunction(X=>var2*var6*3.0 + var13/var10)
+12,3.411969e-06,0.03255136773600625,myfunction((var13 / var10) + (2.5025284 * (var2 * (var6 * 1.1987876)))),2.5025284*var2*var6*1.1987876 + var13/var10,PySRFunction(X=>2.5025284*var2*var6*1.1987876 + var13/var10)
+18,3.3932583e-06,0.0009164889637238533,myfunction(myfunction(myfunction(var13 / var10) + myfunction(2.059933 * ((myfunction(var2) * myfunction(myfunction(1.4563581))) * var6)))),2.059933*var2*1.4563581*var6 + var13/var10,PySRFunction(X=>2.059933*var2*1.4563581*var6 + var13/var10)
+19,2.9456035e-06,0.1414768905166125,myfunction(((var13 / myfunction(var10)) + ((myfunction(var6) * var2) * 1.5001187)) + ((myfunction(var6) * var2) * 1.4998813)),var6*var2*1.4998813 + var6*var2*1.5001187 + var13/var10,PySRFunction(X=>var6*var2*1.4998813 + var6*var2*1.5001187 + var13/var10)
