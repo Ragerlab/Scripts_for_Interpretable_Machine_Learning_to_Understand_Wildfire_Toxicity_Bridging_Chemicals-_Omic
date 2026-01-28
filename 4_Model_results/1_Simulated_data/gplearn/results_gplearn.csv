@@ -18,7 +18,7 @@ Noise=1.5,"('add', 'sub', 'mul', 'div')",4,14.007634076343438,"mul(add(var7, var
 Noise=1.75,"('add', 'sub', 'mul', 'div')",4,14.18198825493128,"mul(add(var7, var2), mul(add(var7, var2), var6))",3988.5188760757446
 Noise=2,"('add', 'sub', 'mul', 'div')",4,14.02956737,"mul(add(var7, var2), mul(add(var7, var2), var6))",3988.5188760757446
 No_noise_all_var,"('add', 'sub', 'mul', 'div')",4,14.231716603664832,"mul(add(var7, var2), mul(add(var7, var2), var6))",3988.5188760757446
-No_noise_rel_var,"('add', 'sub', 'mul', 'div')",3,3.7556284468737298,"mul((3.2258064516129*var6, 0), mul((3.2258064516129*var6, 0), var2))",3988.5188760757446
+No_noise_rel_var,"('add', 'sub', 'mul', 'div')",2,3.7556284468737298,"mul((3.2258064516129*var6, 0), mul((3.2258064516129*var6, 0), var2))",3988.5188760757446
 Noise=0.25,"('add', 'sub', 'mul', 'div', 'sqrt', 'log')",4,14.222726458624791,"mul(add(var2, var7), mul(add(var2, var7), var6))",3988.5188760757446
 Noise=0.5,"('add', 'sub', 'mul', 'div', 'sqrt', 'log')",2,4.420665144,"mul(mul(var2, add(add(var6, var6), var6)), add(add(var6, var6), var6))",3988.5188760757446
 Noise=0.75,"('add', 'sub', 'mul', 'div', 'sqrt', 'log')",2,4.519363860759406,"mul(mul(var2, add(var6, add(var6, var6))), add(var6, add(var6, var6)))",3988.5188760757446

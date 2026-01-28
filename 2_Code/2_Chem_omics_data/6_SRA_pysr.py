@@ -201,7 +201,6 @@ for i in range(len(datasets)):
             "HOF equation": [x for x, _ in y_test_predictions],
             "Predictions": [pred.tolist() for _, pred in y_test_predictions]
         }).to_pickle(f'{output_data_path}/{dataset["prefix"]}_test_predictions_pysr_{key}')
-        # (Best-equation processing moved to separate script: compute_best_hof.py)
 
     # Save final results
     results_path = f'4_Model_results/{dataset["path"]}/pysr'

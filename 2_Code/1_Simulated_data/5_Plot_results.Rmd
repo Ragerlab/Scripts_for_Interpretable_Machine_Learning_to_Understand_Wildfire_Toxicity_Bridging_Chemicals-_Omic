@@ -10,6 +10,7 @@ library(pheatmap)
 library(tidyverse)
 library(gridExtra)
 library(ggpubr)
+library(stringr)
 ```
 
 # Read in data and format data
@@ -118,8 +119,8 @@ p <- pheatmap(as.matrix(acc_wide),
               cellwidth = 20, 
               cellheight = 20, 
               gaps_row = seq(3, length(row_order), by = 3),  # Thicker lines every 3 rows
-              main = 'Variation in Accuracy',
-              color = colorRampPalette(c("#000066","#0000FF", "#6666FF", "#CCCCFF"))(4), 
+              main = 'Variation in Accuracy Levels',
+              color = c("#5383BC", "#C7E2EE", "#FEE79B", "#E34F38"), 
               angle_col = 0) # Light red to red color scale
 ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\accuracy_heatmap.png', p, width = 4, height = 4)
 ```
@@ -182,4 +183,203 @@ dev.off()
 
 ```
 
+# Variable importance
+```{r}
+# ----------------------------
+# 1) Read all VI csvs
+# ----------------------------
+vi_dir <- "C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\pysr\\Variable_importance"
+
+vi_files <- list.files(
+  path = vi_dir,
+  pattern = "^variable_importance_.*\\.csv$",
+  full.names = TRUE
+)
+
+# read + attach identifiers parsed from filename
+# expected filename format: variable_importance_<complexity>_<dataset>.csv
+vi_all <- map_df(vi_files, function(fp) {
+
+  nm <- basename(fp) %>% str_remove("\\.csv$")
+
+  # split on "_" -> c("variable","importance","low","datasetKey...")
+  parts <- str_split(nm, "_", simplify = TRUE)
+
+  complexity <- parts[3]
+  dataset    <- paste(parts[4:ncol(parts)], collapse = "_")  # in case dataset has underscores
+
+  read_csv(fp, show_col_types = FALSE) %>%
+    mutate(
+      complexity = complexity,
+      dataset = dataset,
+      file = basename(fp)
+    )
+})
+
+# ----------------------------
+# 2) Normalize to [-1, 1] within each dataset×complexity file
+# ----------------------------
+vi_all_norm <- vi_all %>%
+  group_by(complexity, dataset) %>%
+  mutate(
+    var_importance = as.numeric(var_importance),
+    max_abs = max(abs(var_importance), na.rm = TRUE),
+    var_importance_norm = ifelse(is.finite(max_abs) & max_abs > 0,
+                                 var_importance / max_abs,
+                                 NA_real_),
+    Association = ifelse(var_importance_norm >= 0, "Positive", "Negative")
+  ) %>%
+  ungroup()
+
+# ----------------------------
+# 3) Choose what to plot
+#    Option A: top 15 per complexity×dataset
+# ----------------------------
+plot_dat <- vi_all_norm %>%
+  filter(!is.na(var_importance_norm)) %>%
+  group_by(complexity, dataset) %>%
+  slice_max(order_by = abs(var_importance_norm), n = 15, with_ties = FALSE) %>%
+  ungroup()
+
+# ----------------------------
+# 4) Plot (faceted)
+# ----------------------------
+p <- ggplot(plot_dat,
+            aes(x = reorder(chem, var_importance_norm),
+                y = var_importance_norm,
+                fill = Association)) +
+  geom_col() +
+  coord_flip() +
+  facet_grid(complexity ~ dataset, scales = "free_y") +
+  labs(x = NULL, y = "Normalized variable importance (−1 to 1)") +
+  # theme_classic() +
+  theme(
+    strip.text = element_text(size = 9, face = "bold"),
+    axis.text.y = element_text(size = 7),
+    legend.position = "bottom"
+  )
+
+print(p)
+
+# ----------------------------
+# Heatmap prep
+# ----------------------------
+
+# 1) Pick a consistent set of variables per dataset (top 15 across ANY complexity)
+heat_vars <- vi_all_norm %>%
+  filter(!is.na(var_importance_norm)) %>%
+  group_by(dataset, chem) %>%
+  summarise(max_abs = max(abs(var_importance_norm)), .groups = "drop") %>%
+  group_by(dataset) %>%
+  slice_max(order_by = max_abs, n = 15, with_ties = FALSE) %>%
+  select(dataset, chem)
+
+# 2) Filter to those vars, and "complete" so every dataset×complexity×chem tile exists
+heat_dat <- vi_all_norm %>%
+  semi_join(heat_vars, by = c("dataset", "chem")) %>%
+  select(dataset, complexity, chem, var_importance_norm) %>%
+  group_by(dataset, complexity, chem) %>%
+  summarise(var_importance_norm = mean(var_importance_norm, na.rm = TRUE), .groups = "drop") %>%
+  complete(dataset, complexity, chem) %>%
+  mutate(
+    complexity = factor(complexity, levels = c("high", "med", "low")),
+    chem_num = suppressWarnings(as.integer(str_extract(chem, "\\d+")))
+  ) %>%
+  group_by(dataset) %>%
+  mutate(
+    chem = factor(
+      chem,
+      levels = unique(chem[order(chem_num, chem, na.last = TRUE)])
+    )
+  ) %>%
+  ungroup()
+
+# ----------------------------
+# Heatmap plot
+# ----------------------------
+p_heat <- ggplot(heat_dat, aes(x = chem, y = complexity, fill = var_importance_norm)) +
+  geom_tile(color = "white", linewidth = 0.2) +
+  facet_wrap(~ dataset, scales = "free_x") +
+  scale_fill_gradient2(
+    limits = c(-1, 1),
+    midpoint = 0,
+    name = "Norm VI"
+  ) +
+  labs(x = NULL, y = NULL) +
+  theme_classic() +
+  theme(
+    strip.text = element_text(size = 9, face = "bold"),
+    axis.text.x = element_text(size = 7, angle = 45, hjust = 1),
+    axis.text.y = element_text(size = 9),
+    legend.position = "bottom"
+  )
+
+print(p_heat)
+
+# --- make dataset labels 1..10 (in whatever order they currently appear) ---
+ds_levels <- heat_dat %>% distinct(dataset) %>% pull(dataset)
+
+# ---- start from heat_dat (from earlier), or rebuild similarly ----
+heat_big <- heat_dat %>%
+  mutate(
+    # rename var -> X#
+    chem_chr = as.character(chem),
+    chem_num = suppressWarnings(as.integer(str_extract(chem_chr, "\\d+"))),
+    chem = ifelse(is.na(chem_num), chem_chr, paste0("X", chem_num)),
+
+    # High at top, Low at bottom
+    complexity = factor(complexity, levels = c("high", "med", "low"))
+  ) %>%
+  group_by(dataset, complexity, chem) %>%
+  summarise(var_importance_norm = mean(var_importance_norm, na.rm = TRUE), .groups = "drop")
+
+# map dataset names -> 1..10 (in your preferred order, if you have one)
+ds_levels <- heat_big %>% distinct(dataset) %>% pull(dataset)
+
+heat_big <- heat_big %>%
+  mutate(dataset_id = factor(match(dataset, ds_levels),
+                             levels = seq_along(ds_levels),
+                             labels = seq_along(ds_levels)))
+
+# ---- wide matrix with rows = (complexity blocks × variables), cols = dataset 1..10 ----
+heat_wide <- heat_big %>%
+  select(dataset_id, complexity, chem, var_importance_norm) %>%
+  pivot_wider(names_from = dataset_id, values_from = var_importance_norm) %>%
+  arrange(complexity, as.integer(str_extract(chem, "\\d+")))  # X1..Xk within each complexity
+
+mat <- heat_wide %>%
+  select(-complexity, -chem) %>%
+  as.matrix()
+
+# ✅ y-axis labels: ONLY X1, X2, ...
+rownames(mat) <- heat_wide$chem
+colnames(mat) <- as.character(1:ncol(mat))
+
+# ---- NAs -> 0 (keep if you want, but we'll color zeros grey below) ----
+mat[is.na(mat)] <- 0
+
+# ✅ gap lines between High/Med/Low blocks (compute from the complexity column directly)
+n_high <- sum(heat_wide$complexity == "high")
+n_med  <- sum(heat_wide$complexity == "med")
+gaps_row <- c(n_high, n_high + n_med)
+
+# ✅ make exact zeros light grey (convert zeros to NA for plotting)
+mat_plot <- mat
+mat_plot[mat_plot == 0] <- NA
+
+# ---- plot ----
+p <- pheatmap(
+  mat_plot,
+  cluster_rows = FALSE,
+  cluster_cols = FALSE,
+  border_color = "white",
+  cellwidth = 20,
+  cellheight = 12,
+  gaps_row = gaps_row,
+  main = "Variable DECS",
+  angle_col = 0,
+  na_col = "grey90"   # ✅ light grey for zeros (now NA)
+)
+ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\DECS_heatmap.png', p, width = 4, height = 8.5)
+```
 

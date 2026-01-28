@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,61.54362,0.0,0.31050622,0.310506220000000,PySRFunction(X=>0.310506220000000)
+2,26.558617,0.8403919392239012,myfunction(55.828728),55.8287280000000,PySRFunction(X=>55.8287280000000)
+3,25.905846,0.02488559494780084,52.346813 + var2,var2 + 52.346813,PySRFunction(X=>var2 + 52.346813)
+4,14.849795,0.5564825970819515,myfunction(var6 / 0.087142825),var6/0.087142825,PySRFunction(X=>var6/0.087142825)
+6,3.5989811,0.708667641407626,myfunction(var6 * (3.142209 * var2)),var6*3.142209*var2,PySRFunction(X=>var6*3.142209*var2)
+7,3.5984488,0.00014791391048371485,myfunction((var2 * 3.139059) * myfunction(var6)),var2*3.139059*var6,PySRFunction(X=>var2*3.139059*var6)
+8,2.5375106,0.34931934201480025,myfunction((var6 * (3.0084224 * var2)) + var13),var13 + var6*3.0084224*var2,PySRFunction(X=>var13 + var6*3.0084224*var2)
+9,2.4766557,0.024274379641944156,(var13 + ((2.9914613 * var2) * var6)) + 0.6921873,var13 + 2.9914613*var2*var6 + 0.6921873,PySRFunction(X=>var13 + 2.9914613*var2*var6 + 0.6921873)
+10,0.715923,1.2410918017611154,myfunction((var6 * (2.9973454 * var2)) + (var13 / var10)),var6*2.9973454*var2 + var13/var10,PySRFunction(X=>var6*2.9973454*var2 + var13/var10)
+12,0.69393766,0.015595244947693387,myfunction((var6 * (var2 * 2.98236)) + ((var13 - -0.23405181) / var10)),var6*var2*2.98236 + (var13 - 1*(-0.23405181))/var10,PySRFunction(X=>var6*var2*2.98236 + (var13 - 1*(-0.23405181))/var10)
+15,0.6804165,0.006559006238062063,myfunction((var13 / (var10 - 0.022924429)) - (myfunction(-0.15348053) - ((var2 * 2.9836698) * var6))),var13/(var10 - 1*0.022924429) - (-2.9836698*var2*var6 - 0.15348053),PySRFunction(X=>var13/(var10 - 1*0.022924429) - (-2.9836698*var2*var6 - 0.15348053))
+19,0.66493064,0.005755594051078438,myfunction(myfunction(0.8866602 * (var13 / ((0.08683563 * -0.69628596) + myfunction(var10)))) + (var6 * myfunction(2.9961827 * var2))),0.8866602*var13/(var10 + 0.08683563*(-0.69628596)) + (2.9961827*var2)*var6,PySRFunction(X=>0.8866602*var13/(var10 + 0.08683563*(-0.69628596)) + (2.9961827*var2)*var6)

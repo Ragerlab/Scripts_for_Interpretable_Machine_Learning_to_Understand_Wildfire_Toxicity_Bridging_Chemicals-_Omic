@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,54.745384,0.0,myfunction(var3),var3,PySRFunction(X=>var3)
+3,48.329803,0.12464464493449405,var3 + var7,var3 + var7,PySRFunction(X=>var3 + var7)
+4,47.7746,0.011554292194017593,myfunction(var3 + var3),var3 + var3,PySRFunction(X=>var3 + var3)
+5,23.800205,0.6967999234257737,(46.205208 + var6) + var6,var6 + var6 + 46.205208,PySRFunction(X=>var6 + var6 + 46.205208)
+8,23.290737,0.007212822069175836,myfunction(((var6 + var6) + var3) - -38.2575),var3 + var6 + var6 - 1*(-38.2575),PySRFunction(X=>var3 + var6 + var6 - 1*(-38.2575))
+11,20.796303,0.03776016578440707,((var6 + var6) + (var6 - (-28.308966 - var6))) + var3,var3 + var6 + var6 + var6 - (-var6 - 28.308966),PySRFunction(X=>var3 + var6 + var6 + var6 - (-var6 - 28.308966))
+12,20.18014,0.03007627806162221,myfunction(((var6 - (-31.28158 - var6)) + (var6 + var6)) + var6),var6 + var6 + var6 + var6 - (-var6 - 31.28158),PySRFunction(X=>var6 + var6 + var6 + var6 - (-var6 - 31.28158))
+16,18.083738,0.027421467770269534,myfunction(var6 + ((var6 - ((((-21.332458 - var6) - var6) - var6) - var6)) + var6)),var6 + var6 + var6 - (-var6 - var6 - var6 - var6 - 21.332458),PySRFunction(X=>var6 + var6 + var6 - (-var6 - var6 - var6 - var6 - 21.332458))
+17,17.872766,0.011734979633698947,(var6 + ((var6 + (((var6 + (var6 + var6)) + var6) + var6)) - -11.38376)) + var6,var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 - 1*(-11.38376),PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 - 1*(-11.38376))
+18,17.16656,0.04031479635852025,myfunction(var6 + ((var6 + (var6 + ((var6 + var6) - ((-16.358078 - var6) - var6)))) + var6)),var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - var6 - 16.358078),PySRFunction(X=>var6 + var6 + var6 + var6 + var6 + var6 - (-var6 - var6 - 16.358078))
+19,16.127584,0.062432207484540946,(var6 + var6) + (var6 + (var6 + (((var6 + var6) + (var6 + var6)) + (var6 + var3)))),var3 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6,PySRFunction(X=>var3 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6 + var6)

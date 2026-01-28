@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,62.120766,0.0,-0.23067537,-0.230675370000000,PySRFunction(X=>-0.230675370000000)
+2,26.702198,0.8443344450614679,myfunction(55.857925),55.8579250000000,PySRFunction(X=>55.8579250000000)
+3,25.839853,0.032827894071573785,var13 - -54.33166,var13 - 1*(-54.33166),PySRFunction(X=>var13 - 1*(-54.33166))
+4,18.588287,0.3293863388713335,myfunction(var2 / 0.062647134),var2/0.062647134,PySRFunction(X=>var2/0.062647134)
+6,3.3921566,0.8505328834277971,myfunction((3.1441596 * var2) * var6),3.1441596*var2*var6,PySRFunction(X=>3.1441596*var2*var6)
+8,2.2485154,0.2055978540505903,myfunction(var13 + (var2 * (3.0183952 * var6))),var13 + var2*3.0183952*var6,PySRFunction(X=>var13 + var2*3.0183952*var6)
+9,1.5635052,0.36333995243395156,((var2 * (var6 * 2.992553)) + var13) + var13,var13 + var13 + var2*var6*2.992553,PySRFunction(X=>var13 + var13 + var2*var6*2.992553)
+10,0.42878476,1.2937304346835894,myfunction((var13 / var10) + (var6 * (var2 * 3.0024626))),var6*var2*3.0024626 + var13/var10,PySRFunction(X=>var6*var2*3.0024626 + var13/var10)
+11,0.42408788,0.011014370173563721,((var13 / var10) + (var6 * (3.0121093 * var2))) - 0.14651829,var6*3.0121093*var2 - 1*0.14651829 + var13/var10,PySRFunction(X=>var6*3.0121093*var2 - 1*0.14651829 + var13/var10)
+12,0.41948447,0.010914192946877285,myfunction((((3.0121055 * var2) * var6) - 0.20874868) + (var13 / var10)),3.0121055*var2*var6 - 1*0.20874868 + var13/var10,PySRFunction(X=>3.0121055*var2*var6 - 1*0.20874868 + var13/var10)
+16,0.41914007,0.00020533623983938853,myfunction(myfunction((((3.0100138 * myfunction(var2)) * var6) - (0.29550537 / var5)) + (var13 / var10))),3.0100138*var2*var6 - 0.29550537/var5 + var13/var10,PySRFunction(X=>3.0100138*var2*var6 - 0.29550537/var5 + var13/var10)
+18,0.41221818,0.008326193856577905,myfunction(((myfunction(var13 / var10) + (var6 * myfunction(var2 * 3.0024626))) - (var10 / var5)) - -0.23705149),-var10/var5 + var6*(var2*3.0024626) - 1*(-0.23705149) + var13/var10,PySRFunction(X=>-var10/var5 + var6*(var2*3.0024626) - 1*(-0.23705149) + var13/var10)

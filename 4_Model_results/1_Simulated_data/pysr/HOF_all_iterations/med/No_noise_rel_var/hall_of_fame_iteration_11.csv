@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,61.99075,0.0,-0.14127953,-0.141279530000000,PySRFunction(X=>-0.141279530000000)
+2,26.601398,0.8460214095686479,myfunction(55.851654),55.8516540000000,PySRFunction(X=>55.8516540000000)
+4,16.400425,0.24182826083453574,myfunction(var6 / 0.098480545),var6/0.098480545,PySRFunction(X=>var6/0.098480545)
+5,11.525258,0.3527662743792372,(var2 * 2.581347) * var6,var2*2.581347*var6,PySRFunction(X=>var2*2.581347*var6)
+6,4.346325,0.9752103143028441,myfunction((var2 * 3.0030072) * var6),var2*3.0030072*var6,PySRFunction(X=>var2*3.0030072*var6)
+8,2.430045,0.2907104423734647,myfunction(((2.9920118 * var2) * var6) + var13),var13 + 2.9920118*var2*var6,PySRFunction(X=>var13 + 2.9920118*var2*var6)
+9,2.3638148,0.027633021018106826,myfunction(myfunction(var13) + (var2 * (var6 * 2.9988394))),var13 + var2*var6*2.9988394,PySRFunction(X=>var13 + var2*var6*2.9988394)
+10,1.4561175,0.48450310761357246,myfunction(1.9383683 * ((var2 * (1.5334418 * var6)) + var13)),1.9383683*(var13 + var2*1.5334418*var6),PySRFunction(X=>1.9383683*(var13 + var2*1.5334418*var6))
+11,0.05912614,3.2038557982398177,myfunction(myfunction(((var2 * 3.0030072) * var6) + (var13 / var10))),var2*3.0030072*var6 + var13/var10,PySRFunction(X=>var2*3.0030072*var6 + var13/var10)
+12,3.6113922e-06,9.70333505782219,myfunction((var13 / var10) + (((var6 + var6) + var6) * var2)),var2*(var6 + var6 + var6) + var13/var10,PySRFunction(X=>var2*(var6 + var6 + var6) + var13/var10)
+16,3.4753546e-06,0.009599207998480866,myfunction(((var6 + ((var6 + (var6 + var6)) * var2)) + (var13 / var10)) - var6),var2*(var6 + var6 + var6) - var6 + var6 + var13/var10,PySRFunction(X=>var2*(var6 + var6 + var6) - var6 + var6 + var13/var10)
+20,3.4438076e-06,0.0022796993110374914,myfunction(((((myfunction(var13) - var10) / var10) + myfunction(((var6 + var6) + var6) * var2)) - 0.416962) - -1.4169607),var2*(var6 + var6 + var6) - 1*0.416962 - 1*(-1.4169607) + (-var10 + var13)/var10,PySRFunction(X=>var2*(var6 + var6 + var6) - 1*0.416962 - 1*(-1.4169607) + (-var10 + var13)/var10)

@@ -19,7 +19,7 @@ import pickle
 import os
 
 # Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
 
 # Load in data
 train_y = pd.read_pickle("3_Data_intermediates/2_Chemical_measurements/Chem_train_y")
@@ -50,7 +50,7 @@ test_y <- py$test_y
   
 # Combine testing data into one DataFrame with 'Actual' and 'Predicted' columns
 test_combined <- data.frame(
-  Predicted = test_preds_list[[1]][7, 'Predictions'][[1]],
+  Predicted = test_preds_list[[3]][6, 'Predictions'][[1]], # Elastic predictions for 6th HOF equation
   Actual = test_y
 )
 
@@ -129,7 +129,7 @@ p <- ggplot(test_df, aes(x = Group, y = Dif, fill = Group)) +
 # Print the combined plot
 print(p)
 # Save
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Prediction_spread_all.png')
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Prediction_spread_all.png')
 # ggsave(plot_filename, p, width = 7, height = 4)
 
 p <- ggplot(test_df, aes(x = test_df$rownames, y = Actual, fill = Group)) +
@@ -153,7 +153,7 @@ p <- ggplot(test_df, aes(x = test_df$rownames, y = Actual, fill = Group)) +
   guides(fill = guide_legend(title = "Exposure Group", nrow = 2))  # Ensure the legend title appears
 
 
-plot_filename <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
+plot_filename <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Prediction_vs_actual_all.png')
 ggsave(plot_filename, p, width = 8, height = 4)
 
 # Set up the bar plot using facet_wrap for each input_name, using Individual_ID as the x-axis
@@ -172,7 +172,7 @@ p_bar_two <- ggplot(test_df, aes(x = test_df$rownames, y = Dif, fill = Group)) +
   scale_y_continuous(expand = c(0,0)) +
   scale_fill_manual(values = custom_colors)
 # Save the plot
-plot_filename_scatter <- paste0('C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Actual_vs_Predicted_difference.png')
+plot_filename_scatter <- paste0('C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/Actual_vs_Predicted_difference.png')
 # ggsave(plot_filename_scatter, p_bar_two, width = 7, height = 4)
 
 
@@ -200,9 +200,9 @@ p_scatter <- ggplot(test_df, aes(x = Actual, y = Predicted, color = Group)) +
 # Sensitivity analysis
 ```{r}
 # Load in data
-sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_Full.csv')
-sens_pca <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_PCA.csv')
-sens_elastic <- sens_full <- read.csv('C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_elastic.csv')
+sens_full <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_Full.csv')
+sens_pca <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_PCA.csv')
+sens_elastic <- sens_full <- read.csv('C:\\Users\\jrchapp3\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\2_Chemical_measurements\\pysr\\pysr_RMSE_sensitivity_elastic.csv')
 
 # Put in list
 dat_list <- list(sens_full, sens_pca, sens_elastic)
@@ -237,7 +237,7 @@ p <- ggplot(dat_all, aes(x = Iteration, y = log(RMSE), color = Complexity)) +
 
   
   # Save
-  plot_filename <- 'C:/Users/Jessie PC/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/sensitivity.png'
+  plot_filename <- 'C:/Users/jrchapp3/OneDrive - University of North Carolina at Chapel Hill/Symbolic_regression_github/NIH_Cloud_NOSI/5_Plots/2_Chemical_measurements/pysr/sensitivity.png'
   ggsave(plot_filename, p, width = 8, height = 4)
 
 
@@ -359,7 +359,7 @@ combined_dat <- do.call(rbind, lapply(1:length(dat_list), function(i) {
 
   
   # Subset only the top 15 for the first dataset
-  if (i == 1) {
+  if (i == 1 | i ==3) {
     dat_top <- dat_top[1:15, ]
   }
 
@@ -380,25 +380,25 @@ colnames(combined_dat)[6] <- 'Chemical Class'
 
 # Subset 
 combined_dat <- combined_dat %>%
-  filter(dataset == 'Full')
+  filter(dataset == 'Elastic')
 
 new_palette <- c(
-  "Inorganics" = "#d67e00",      # Burnt orange (warmer and deeper than the original soft orange)
-  "Methoxyphenols" = "#5a9f88",  # Deep sea green (a distinct but natural teal)
-  "PAHs" = "#b7472a",            # Rosewood (a warmer pink, distinct from soft pink)
-  # "Ions" = "#7f6aa8",            # Grape purple (more vibrant than pale purple)
-  "n-Alkanes" = "#c96b7d"        # Brick red (an earthy, deeper coral variant)
+  "Inorganics" = "#d67e00",      #
+  "Methoxyphenols" = "#5a9f88", 
+  "PAHs" = "#b7472a",            
+  "Ions" = "#7f6aa8"#,
+  # "n-Alkanes" = "#c96b7d"
 )
 
 p <- ggplot(combined_dat, aes(x = reorder_within(Chemical, -var_importance, dataset), y = var_importance, fill = `Chemical Class`)) +
   geom_bar(stat = "identity") +
   labs(y = "DECS") +  # Removed x-axis title
   scale_fill_manual(values = new_palette, 
-                    breaks = c("n-Alkanes", "PAHs", "Inorganics", "Methoxyphenols")) + 
+                    breaks = c("Inorganics", "PAHs", "Ions", "Methoxyphenols")) + 
   scale_x_reordered() +  # Add this line to clean up x-axis labels
   theme_classic() +
   theme(
-    axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
+    axis.text.x = element_text(size = 8, angle = 60, hjust = 1),
     axis.title.x = element_blank(),  # Remove x-axis title
     axis.title.y = element_text(size = 10, face = "bold"),
     legend.title = element_text(size = 10, face = "bold"),
@@ -453,7 +453,7 @@ combined_dat$dataset <- factor(combined_dat$dataset, levels = c('Full', 'PCA', '
 
 # # Subset for presentation 
 combined_dat <- combined_dat %>%
-  filter(dataset == 'Full') %>%
+  filter(dataset == 'Elastic') %>%
   group_by(Chemical.Category) %>%
   mutate(Class_imp = sum(var_importance)) %>%
   select(Chemical.Category, Class_imp) %>%
@@ -479,7 +479,6 @@ p <- ggplot(combined_dat, aes(x = reorder(Chemical.Category, -Class_imp), y = Cl
 
 # Importance distribution 
 ```{r}
-
 # Initialize an empty list to store the plots
 plots_list <- list()
 
@@ -542,7 +541,7 @@ for(i in 1:length(dat_all_list)){
 
 # Train-test RMSE
 ```{r}
-df <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\Chem_rmse_values_pysr_Full.csv')
+df <- read.csv('..\\..\\3_Data_intermediates\\2_Chemical_measurements\\Chem_rmse_values_pysr_Elastic.csv')
 
 # Reshape the data to long format
 df_long <- df %>%
@@ -565,7 +564,7 @@ p <- ggplot(df_long, aes(x = HOF.equation, y = RMSE, color = Type, group = Type)
     color = "Type"
   ) +
   theme(
-    axis.text.x = element_text(size = 8, angle = 0, hjust = 1),
+    axis.text.x = element_text(size = 8, angle = 0, hjust = 0.6),
     axis.title.x = element_text(size = 10, face = "bold"),
     axis.title.y = element_text(size = 10, face = "bold"),
     legend.title = element_blank(),
@@ -610,15 +609,18 @@ dat_all$Dataset <- factor(dat_all$Dataset, levels = c('Full', 'PCA', 'Elastic ne
 colnames(class)[2] <- 'Feature'
 dat_all <- dat_all %>%
   left_join(., class, by = 'Feature') %>%
-  filter(Dataset == 'Full')
+  filter(Dataset == 'Elastic net')  %>%
+  arrange(-Importance) %>%
+  .[1:15,]
 
 new_palette <- c(
-  "Inorganics" = "#f7a258",      # Soft orange
-  "Methoxyphenols" = "#8dd3c7",  # Light teal
-  "PAHs" = "#ff9dae",            # Soft pink
-  "Ions" = "#bebada",            # Pale purple
-  "n-Alkanes" = "#fb8072"        # Coral
+  "Inorganics" = "#d67e00",      #
+  "Methoxyphenols" = "#5a9f88", 
+  "PAHs" = "#b7472a",            
+  "Ions" = "#7f6aa8"#,
+  # "n-Alkanes" = "#c96b7d"
 )
+
 p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = Importance, fill = Chemical.Category)) +
   geom_bar(stat = "identity") +
   labs(x = "Chem", y = "Importance (MDI)") +
@@ -642,7 +644,7 @@ p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = 
                              keywidth = 0.5,
                              keyheight = 0.5,
                              override.aes = list(
-                               label = c("Chemical Class", "", "", "", "")
+                               label = c("Chemical Class", "", "", "")
                              )))
 
 
@@ -681,14 +683,17 @@ dat_all$Dataset <- factor(dat_all$Dataset, levels = c('Full', 'PCA', 'Elastic ne
 colnames(class)[2] <- 'Feature'
 dat_all <- dat_all %>%
   left_join(., class, by = 'Feature') %>%
-  filter(Dataset == 'Full')
+  filter(Dataset == 'Elastic net') %>%
+  arrange(-Importance) %>%
+  .[1:15,]
+
 
 new_palette <- c(
-  "Inorganics" = "#f7a258",      # Soft orange
-  "Methoxyphenols" = "#8dd3c7",  # Light teal
-  "PAHs" = "#ff9dae",            # Soft pink
-  "Ions" = "#bebada",            # Pale purple
-  "n-Alkanes" = "#fb8072"        # Coral
+  "Inorganics" = "#d67e00",      #
+  "Methoxyphenols" = "#5a9f88", 
+  "PAHs" = "#b7472a",            
+  "Ions" = "#7f6aa8"#,
+  # "n-Alkanes" = "#c96b7d"
 )
 p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = Importance, fill = Chemical.Category)) +
   geom_bar(stat = "identity") +
@@ -713,7 +718,7 @@ p <- ggplot(dat_all, aes(x = reorder_within(Feature, -Importance, Dataset), y = 
                              keywidth = 0.5,
                              keyheight = 0.5,
                              override.aes = list(
-                               label = c("Chemical Class", "", "", "", "")
+                               label = c("Chemical Class", "", "", "")
                              )))
 
 

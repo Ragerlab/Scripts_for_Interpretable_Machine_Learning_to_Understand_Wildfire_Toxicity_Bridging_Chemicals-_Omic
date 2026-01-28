@@ -1,0 +1,13 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+1,62.066708,0.0,-0.22537026,-0.225370260000000,PySRFunction(X=>-0.225370260000000)
+2,26.601398,0.8472459713276339,myfunction(55.851757),55.8517570000000,PySRFunction(X=>55.8517570000000)
+5,15.233668,0.18581859748047969,(var6 + var6) / 0.16479921,(var6 + var6)/0.16479921,PySRFunction(X=>(var6 + var6)/0.16479921)
+6,15.019731,0.014143241634601796,myfunction(var6 * (var6 + var2)),var6*(var2 + var6),PySRFunction(X=>var6*(var2 + var6))
+7,13.434606,0.11153082147042803,(var6 + var11) * (var6 + var2),(var11 + var6)*(var2 + var6),PySRFunction(X=>(var11 + var6)*(var2 + var6))
+8,11.883355,0.12269523377868281,myfunction((var2 * 2.581347) * (-0.04211813 + var6)),var2*2.581347*(var6 - 0.04211813),PySRFunction(X=>var2*2.581347*(var6 - 0.04211813))
+10,3.3289196,0.6362454372840091,myfunction(var13 + (var6 * ((3.1090643 * var2) - var10))),var13 + var6*(-var10 + 3.1090643*var2),PySRFunction(X=>var13 + var6*(-var10 + 3.1090643*var2))
+12,2.9539268,0.05975620153081978,myfunction((var13 - -0.434504) + (var6 * ((3.1090643 * var2) - var10))),var13 + var6*(-var10 + 3.1090643*var2) - 1*(-0.434504),PySRFunction(X=>var13 + var6*(-var10 + 3.1090643*var2) - 1*(-0.434504))
+13,1.7693667,0.5125137178916938,myfunction(myfunction(var2) + (var13 + (var6 * ((3.1090643 * var2) - var10)))),var13 + var2 + var6*(-var10 + 3.1090643*var2),PySRFunction(X=>var13 + var2 + var6*(-var10 + 3.1090643*var2))
+16,1.1358888,0.14773541925578323,myfunction(var13 + (var13 + (var2 * ((var6 - var10) + ((0.6292922 + var6) + var6))))),var13 + var13 + var2*(-var10 + var6 + var6 + var6 + 0.6292922),PySRFunction(X=>var13 + var13 + var2*(-var10 + var6 + var6 + var6 + 0.6292922))
+19,1.1358887,2.9345596874916855e-08,myfunction(var13 + (var13 + (((var6 - var10) + (myfunction(myfunction(var6 + 0.62920046)) + var6)) * myfunction(var2)))),var13 + var13 + var2*(-var10 + var6 + var6 + (var6 + 0.62920046)),PySRFunction(X=>var13 + var13 + var2*(-var10 + var6 + var6 + (var6 + 0.62920046)))
+20,1.0990653,0.03295524883821189,myfunction(var13 + ((var13 / 1.1463512) + ((((0.6292922 + var6) + var6) + (myfunction(var6) - var10)) * myfunction(var2)))),var13/1.1463512 + var13 + var2*(-var10 + var6 + var6 + var6 + 0.6292922),PySRFunction(X=>var13/1.1463512 + var13 + var2*(-var10 + var6 + var6 + var6 + 0.6292922))

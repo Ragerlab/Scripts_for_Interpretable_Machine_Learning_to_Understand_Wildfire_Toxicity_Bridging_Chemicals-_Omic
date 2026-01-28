@@ -1,0 +1,12 @@
+complexity,loss,score,equation,sympy_format,lambda_format
+2,26.803635,0.0,myfunction(59.939465),59.9394650000000,PySRFunction(X=>59.9394650000000)
+3,25.618881,0.04520789394792534,54.269413 + var13,var13 + 54.269413,PySRFunction(X=>var13 + 54.269413)
+4,18.294718,0.3367172343949215,myfunction(var2 / 0.060947526),var2/0.060947526,PySRFunction(X=>var2/0.060947526)
+6,3.49191,0.8280817599277368,myfunction((var6 * var2) / 0.31892532),var2*var6/0.31892532,PySRFunction(X=>var2*var6/0.31892532)
+8,2.7633822,0.11699675008501809,myfunction(var13 - ((var2 / -0.33669007) * var6)),var13 - var2*var6/(-0.33669007),PySRFunction(X=>var13 - var2*var6/(-0.33669007))
+9,2.6188889,0.053705220424807104,myfunction(((var2 * 2.9838495) * myfunction(var6)) + var13),var13 + var2*2.9838495*var6,PySRFunction(X=>var13 + var2*2.9838495*var6)
+10,1.2357467,0.7510747410961865,myfunction(((var2 * 2.9838495) * var6) + (var13 / var10)),var2*2.9838495*var6 + var13/var10,PySRFunction(X=>var2*2.9838495*var6 + var13/var10)
+12,1.2138455,0.00894099172939808,myfunction((((var2 * 2.9838495) * var6) + (var13 / var10)) + 0.23171946),var2*2.9838495*var6 + 0.23171946 + var13/var10,PySRFunction(X=>var2*2.9838495*var6 + 0.23171946 + var13/var10)
+13,1.20634,0.006202437012788685,(((var13 / var10) + var9) + ((2.9838495 * var2) * var6)) - 0.103225425,2.9838495*var2*var6 + var9 - 1*0.103225425 + var13/var10,PySRFunction(X=>2.9838495*var2*var6 + var9 - 1*0.103225425 + var13/var10)
+16,1.2035464,0.0007728168573560048,myfunction(((((var2 * 2.9838495) * var6) + (-0.25236338 + var9)) + (var13 / var10)) + 0.23171946),var2*2.9838495*var6 + var9 - 0.25236338 + 0.23171946 + var13/var10,PySRFunction(X=>var2*2.9838495*var6 + var9 - 0.25236338 + 0.23171946 + var13/var10)
+19,1.203487,1.6451786671536525e-05,((myfunction(var2 * ((2.9558978 + -0.08821682) + 0.12852411)) * var6) + ((myfunction(var13) / 1.0520073) / var10)) + var9,var6*(var2*(-0.08821682 + 0.12852411 + 2.9558978)) + var9 + var13/(1.0520073*var10),PySRFunction(X=>var6*(var2*(-0.08821682 + 0.12852411 + 2.9558978)) + var9 + var13/(1.0520073*var10))
