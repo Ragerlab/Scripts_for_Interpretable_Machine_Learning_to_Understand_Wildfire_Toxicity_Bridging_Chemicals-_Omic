@@ -98,6 +98,7 @@ def load_hof_all_iterations(operator_level, dataset_key):
         dfs.append(df)
 
     combined = pd.concat(dfs, ignore_index=True)
+    combined = combined[combined['loss'] < 17]
     combined["Dataset"] = dataset_key
     combined["Directory"] = operator_level
     return combined

@@ -136,7 +136,7 @@ for dataset in datasets:
         # Concatenate all DataFrames for this subdirectory
         combined_hof_df = pd.concat(hof_dfs, ignore_index=True)
 
-        # Filter based on RMSE (assuming 'loss' is the relevant column)
+        # Filter based on RMSE 
         combined_hof_df = combined_hof_df[combined_hof_df['loss'] < 19]
 
         # Adjust filter for omic data
