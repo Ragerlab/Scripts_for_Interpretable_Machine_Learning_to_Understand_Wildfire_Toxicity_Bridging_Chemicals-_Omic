@@ -1,3 +1,8 @@
 chem,var_importance,tot_instances,uniq_instances
+<<<<<<< HEAD
 var6,57.0,782,7
 var13,6.0,781,6
+=======
+var6,276.0,6265,59
+var13,12.999999999999996,1873,13
+>>>>>>> dc43e259b8bec7d5a480553cd54821c0bf72e68b
