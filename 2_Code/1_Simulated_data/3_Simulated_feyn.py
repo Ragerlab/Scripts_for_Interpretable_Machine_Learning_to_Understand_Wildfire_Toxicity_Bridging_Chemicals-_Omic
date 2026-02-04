@@ -21,7 +21,7 @@ with open('3_Data_intermediates/1_Simulated_data/sim_dict.pkl', 'rb') as f:
 ops = [
     ["log:1", "exp:1", "sqrt:1", "squared:1", "inverse:1", "linear:1", "tanh:1", "gaussian:1", "gaussian:2", "multiply:2"],
     ["log:1", "exp:1", "sqrt:1", "squared:1", "inverse:1", "linear:1", "tanh:1", "gaussian:1", "gaussian:2"],
-    ["squared:1", "inverse:1", "linear:1", "tanh:1", "gaussian:1", "gaussian:2"]
+    ["exp:1", "squared:1", "inverse:1", "linear:1", "tanh:1", "gaussian:1", "gaussian:2"]
 ]
 
 operators= pd.DataFrame({
