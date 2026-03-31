@@ -7,8 +7,9 @@ import time
 from sklearn.metrics import mean_squared_error
 import os
 
-# Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+# Set working directory to project root (two levels up from this script)
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+os.chdir(ROOT)
 
 # Set seed
 np.random.seed(17)

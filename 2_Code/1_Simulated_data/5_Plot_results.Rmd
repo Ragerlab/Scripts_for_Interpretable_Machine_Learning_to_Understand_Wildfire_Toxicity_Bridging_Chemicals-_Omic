@@ -15,12 +15,10 @@ library(stringr)
 
 # Read in data and format data
 ```{r}
-setwd("C://Users//Jessie PC//OneDrive - University of North Carolina at Chapel Hill//Symbolic_regression_github//NIH_Cloud_NOSI")
-
-# Read in results
-results_pysr <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\pysr\\results_pysr.csv')
-results_gplearn <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\gplearn\\results_gplearn.csv')
-results_feyn <- read.csv('..\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\feyn\\results_feyn.csv')
+# Read in results (paths relative to this Rmd file's directory)
+results_pysr <- read.csv('../../4_Model_results/1_Simulated_data/pysr/results_pysr.csv')
+results_gplearn <- read.csv('../../4_Model_results/1_Simulated_data/gplearn/results_gplearn.csv')
+results_feyn <- read.csv('../../4_Model_results/1_Simulated_data/feyn/results_feyn.csv')
 
 # Combine results into one data frame
 results_list <- list(results_gplearn, results_pysr, results_feyn)
@@ -90,6 +88,19 @@ p <- pheatmap(
 )
 
 ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\rmse_heatmap.png', p, width = 4, height = 4)
+
+# Calc RMSE
+low <- results_all %>%
+  filter(Operator_complexity == 'Low')
+mean(low$RMSE)
+
+med <- results_all %>%
+  filter(Operator_complexity == 'Medium')
+mean(med$RMSE)
+
+high <- results_all %>%
+  filter(Operator_complexity == 'High')
+mean(high$RMSE)
 ```
 
 # Create accuracy heatmap
@@ -127,7 +138,7 @@ ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\accuracy_heatmap.
 
 # Plot sensitivity 
 ```{r}
-sens <- read.csv('..\\..\\4_Model_results\\1_Simulated_data\\pysr\\Sensitivity\\pysr_RMSE_sensitivity.csv')
+sens <- read.csv('../../4_Model_results/1_Simulated_data/pysr/Sensitivity/pysr_RMSE_sensitivity.csv')
 
 # Format with correct labels
 sens$Input <- factor(sens$Input, levels = c(
@@ -188,7 +199,7 @@ dev.off()
 # ----------------------------
 # 1) Read all VI csvs
 # ----------------------------
-vi_dir <- "C:\\Users\\Jessie PC\\OneDrive - University of North Carolina at Chapel Hill\\Symbolic_regression_github\\NIH_Cloud_NOSI\\4_Model_results\\1_Simulated_data\\pysr\\Variable_importance"
+vi_dir <- "../../4_Model_results/1_Simulated_data/pysr/Variable_importance"
 
 vi_files <- list.files(
   path = vi_dir,
@@ -351,19 +362,19 @@ mat <- heat_wide %>%
   select(-complexity, -chem) %>%
   as.matrix()
 
-# ✅ y-axis labels: ONLY X1, X2, ...
+# y-axis labels: variable names (X1, X2, ...)
 rownames(mat) <- heat_wide$chem
 colnames(mat) <- as.character(1:ncol(mat))
 
-# ---- NAs -> 0 (keep if you want, but we'll color zeros grey below) ----
+# Replace NAs with 0 (zero-importance cells will be colored grey)
 mat[is.na(mat)] <- 0
 
-# ✅ gap lines between High/Med/Low blocks (compute from the complexity column directly)
+# Gap lines between High/Med/Low complexity blocks
 n_high <- sum(heat_wide$complexity == "high")
 n_med  <- sum(heat_wide$complexity == "med")
 gaps_row <- c(n_high, n_high + n_med)
 
-# ✅ make exact zeros light grey (convert zeros to NA for plotting)
+# Convert exact zeros to NA so they render as light grey tiles
 mat_plot <- mat
 mat_plot[mat_plot == 0] <- NA
 
@@ -378,7 +389,7 @@ p <- pheatmap(
   gaps_row = gaps_row,
   main = "Variable DECS",
   angle_col = 0,
-  na_col = "grey90"   # ✅ light grey for zeros (now NA)
+  na_col = "grey90"   # light grey for zero-importance cells
 )
 ggsave(file = '..\\..\\5_Plots\\1_Simulated_data\\All_results\\DECS_heatmap.png', p, width = 4, height = 8.5)
 ```

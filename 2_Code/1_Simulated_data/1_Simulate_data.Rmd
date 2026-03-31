@@ -151,16 +151,14 @@ sim_dict[['No_noise_rel_var']] = sim_dat_rel
 ```{python}
 import pandas as pd
 import pickle
+import os
 
 # Save the combined dictionary of simulated dataframes
+# Path is relative to the project root (two levels up from this Rmd file)
 sim_dict = r.sim_dict
-with open(r'C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\3_Data_intermediates\1_Simulated_data\sim_dict.pkl', 'wb') as f:
+output_path = os.path.join('..', '..', '3_Data_intermediates', '1_Simulated_data', 'sim_dict.pkl')
+with open(output_path, 'wb') as f:
     pickle.dump(sim_dict, f)
-
-# with open(r'C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI\Data_inputs\1_Simulated_data\sim_dict.pkl', 'rb') as f:
-#     sim_dict = pickle.load(f)    
-
-
 ```
 
 

@@ -1,0 +1,18 @@
+# R session artifacts
+.Rhistory
+.RData
+.Rproj.user/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# PySR temporary files
+hall_of_fame*.csv
+*.jl.bak
+
+# OS
+.DS_Store
+Thumbs.db

@@ -3,8 +3,9 @@ import numpy as np
 import os
 import re
 
-# Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+# Set working directory to project root (two levels up from this script)
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+os.chdir(ROOT)
 
 # Read in gene expression data
 dat_all = pd.read_csv("1_Data_inputs/3_Omic_measurements/022821_NormCounts_pslog2_RUV.csv")

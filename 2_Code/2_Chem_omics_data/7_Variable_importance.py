@@ -10,11 +10,11 @@ import math
 import warnings
 from func_timeout import func_timeout, FunctionTimedOut
 
-# Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+# Set working directory to project root (two levels up from this script)
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+os.chdir(ROOT)
 
-# Define all functions 
-# Define function to clean up names for pysr
+# Clean column names to be compatible with PySR's symbol requirements
 def clean_column_names(df):
     new_columns = []
     for col in df.columns:
@@ -56,7 +56,6 @@ def integrate_over_all_variables(partial_derivative, all_symbols, ranges):
                 # If an exception occurs in the integrand, return 0
                 return 0
 
-        # Perform integration without timeout
         with warnings.catch_warnings():
             # Convert IntegrationWarnings to exceptions
             warnings.simplefilter("error", IntegrationWarning)

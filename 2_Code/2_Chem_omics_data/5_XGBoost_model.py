@@ -10,8 +10,9 @@ import re
 # XGBoost
 from xgboost import XGBRegressor
 
-# Set working directory
-os.chdir(r"C:\Users\jrchapp3\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+# Set working directory to project root (two levels up from this script)
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+os.chdir(ROOT)
 
 # Set seed
 np.random.seed(17)

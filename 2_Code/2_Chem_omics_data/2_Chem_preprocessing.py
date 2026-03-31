@@ -4,8 +4,9 @@ import os
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-# Set working directory
-os.chdir(r"C:\Users\Jessie PC\OneDrive - University of North Carolina at Chapel Hill\Symbolic_regression_github\NIH_Cloud_NOSI")
+# Set working directory to project root (two levels up from this script)
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+os.chdir(ROOT)
 
 INPUT_FILE = "1_Data_inputs/2_Chemical_measurements/ChemistrywTox_MouseMap_042821_mw.xlsx"
 UNICODE_SPACES_PATTERN = r"[\u00A0\u2007\u202F]"  
